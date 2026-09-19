@@ -1,0 +1,170 @@
+@import "tailwindcss";
+
+/* ============================================================
+   DESIGN TOKENS
+   Tailwind v4 reads this block and generates utilities from it.
+   --color-paper becomes bg-paper / text-paper / border-paper.
+   Nothing in a component may use a raw hex value.
+   ============================================================ */
+@theme {
+  --color-paper: #eeefea;
+  --color-ink: #171b19;
+  --color-ink-2: #4e5551;
+  --color-ink-3: #7b827e;
+  --color-rule: #d8dad2;
+  --color-rule-firm: #c3c7bc;
+  --color-accent: #1f5245;
+  --color-accent-ink: #ffffff;
+  --color-accent-soft: rgba(31, 82, 69, 0.07);
+  --color-skeleton: rgba(23, 27, 25, 0.06);
+  --color-skeleton-hi: rgba(23, 27, 25, 0.02);
+
+  --font-display: "Archivo", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-read: "Newsreader", Georgia, "Times New Roman", serif;
+
+  --text-display: clamp(2.25rem, 7vw, 4.75rem);
+  --text-index: clamp(1.75rem, 5.2vw, 3.25rem);
+
+  --radius-sm: 3px;
+
+  --ease-brand: cubic-bezier(0.2, 0, 0, 1);
+  --ease-brand-soft: cubic-bezier(0.33, 1, 0.68, 1);
+}
+
+/* Dark mode flips the token values only. No component writes a dark: class,
+   so the two themes can never drift apart. */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-paper: #111412;
+    --color-ink: #e8eae5;
+    --color-ink-2: #a7aea8;
+    --color-ink-3: #79807b;
+    --color-rule: #2a302c;
+    --color-rule-firm: #3a423d;
+    --color-accent: #7fbfa8;
+    --color-accent-ink: #0e1512;
+    --color-accent-soft: rgba(127, 191, 168, 0.11);
+    --color-skeleton: rgba(232, 234, 229, 0.07);
+    --color-skeleton-hi: rgba(232, 234, 229, 0.02);
+  }
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 88px;
+  }
+
+  body {
+    background-color: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-display);
+    font-size: 1.0625rem;
+    line-height: 1.62;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+    border-radius: var(--radius-sm);
+  }
+
+  h1,
+  h2,
+  h3 {
+    letter-spacing: -0.02em;
+  }
+}
+
+/* ============================================================
+   The few things Tailwind cannot express cleanly.
+   ============================================================ */
+
+/* Accordion. Animating grid-template-rows is the only way to get a
+   real height transition without measuring the panel in JavaScript. */
+.panel {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 420ms var(--ease-brand);
+}
+.panel[data-open="true"] {
+  grid-template-rows: 1fr;
+}
+.panel > div {
+  overflow: hidden;
+  visibility: hidden;
+  transition: visibility 0s linear 420ms;
+}
+.panel[data-open="true"] > div {
+  visibility: visible;
+  transition-delay: 0s;
+}
+
+/* One entrance animation, reused. --i carries the stagger index. */
+@keyframes enter {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.enter {
+  animation: enter 420ms var(--ease-brand-soft) both;
+  animation-delay: calc(var(--i, 0) * 45ms);
+}
+
+@keyframes shimmer {
+  from {
+    background-position: 100% 0;
+  }
+  to {
+    background-position: 0 0;
+  }
+}
+.shimmer {
+  background: linear-gradient(
+    90deg,
+    var(--color-skeleton) 25%,
+    var(--color-skeleton-hi) 50%,
+    var(--color-skeleton) 75%
+  );
+  background-size: 400% 100%;
+  animation: shimmer 1.6s var(--ease-brand-soft) infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.spinner {
+  width: 14px;
+  height: 14px;
+  border: 2px solid currentColor;
+  border-top-color: transparent;
+  border-radius: 9999px;
+  animation: spin 620ms linear infinite;
+}
+
+dialog::backdrop {
+  background: rgba(10, 12, 11, 0.72);
+  backdrop-filter: blur(3px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 1ms !important;
+    animation-delay: 0ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 1ms !important;
+  }
+}
