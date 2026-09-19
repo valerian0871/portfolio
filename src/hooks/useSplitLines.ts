@@ -9,10 +9,15 @@ import { useLayoutEffect, useRef, useState } from 'react'
  * top into one line. It re-measures on resize, because the real line
  * breaks on a phone are not the real line breaks on a desktop window.
  *
- * While `lines` is null, the caller should render the raw measuring pass
- * (see TextReveal). That pass stays in normal document flow so the
- * measurement is accurate, but is visually hidden so nothing unmasked
- * ever flashes on screen, including during a resize remeasure.
+ * The measuring spans stay permanently in the DOM (see TextReveal, which
+ * positions them absolutely so they add no visible height), rather than
+ * being mounted only while `lines` is null. An earlier version toggled
+ * them out via setLines(null) and remeasured on the next animation
+ * frame, which raced React's own render: if the frame ran before React
+ * had actually put the spans back, the measurement found nothing, bailed
+ * out, and never tried again, leaving the text stuck invisible forever.
+ * Keeping the spans always present removes the race entirely, there is
+ * nothing to wait for.
  */
 export function useSplitLines(text: string) {
   const containerRef = useRef<HTMLDivElement>(null)
@@ -41,18 +46,15 @@ export function useSplitLines(text: string) {
       setLines(grouped.map((wordsInLine) => wordsInLine.join(' ')))
     }
 
-    // First measurement: the raw spans are already laid out by the time
-    // this runs (useLayoutEffect fires after DOM mutation, before paint),
-    // so there is nothing to see before this completes.
+    // First measurement: the spans are already laid out by the time this
+    // runs (useLayoutEffect fires after DOM mutation, before paint), so
+    // there is nothing to see before this completes.
     measure()
 
-    // Later measurements: a resize can change where lines break. Drop
-    // back to the raw (invisible) spans, then remeasure once the browser
-    // has actually reflowed at the new width.
-    const observer = new ResizeObserver(() => {
-      setLines(null)
-      requestAnimationFrame(measure)
-    })
+    // Later measurements: a resize can change where lines break. The
+    // spans never leave the DOM, so this can remeasure directly, with
+    // nothing to toggle and nothing to wait for.
+    const observer = new ResizeObserver(() => measure())
     observer.observe(container)
 
     return () => observer.disconnect()
