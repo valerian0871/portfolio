@@ -40,11 +40,11 @@ export function Contact() {
   return (
     <section id="contact" aria-labelledby="contact-title" className="scroll-mt-24 border-t border-rule py-24">
       <Container>
-        <h2 id="contact-title" className="mb-12 text-[2rem] leading-[1.18] font-semibold tracking-[-0.03em]">
+        <h2 className="scroll-reveal mb-12 text-[2rem] leading-[1.18] font-semibold tracking-[-0.03em]" id="contact-title">
           Contact
         </h2>
 
-        <p className="max-w-[54ch] font-read text-xl leading-[1.68] text-ink-2">
+        <p className="scroll-reveal max-w-[54ch] font-read text-xl leading-[1.68] text-ink-2">
           Available for frontend builds, brand and social design, document production,
           and automation work. Tell me what the problem is and I will tell you honestly
           whether I am the right person for it.

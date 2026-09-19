@@ -1,5 +1,6 @@
 import { Container } from './Container'
 import { PracticeIndex } from './PracticeIndex'
+import { TextReveal } from './TextReveal'
 import type { PracticeId } from '../types'
 
 interface HeroProps {
@@ -18,14 +19,12 @@ export function Hero({ onSelectPractice }: HeroProps) {
           Frontend developer working across five practices.
         </h1>
 
-        <p
-          className="enter mt-8 max-w-[58ch] font-read text-xl leading-[1.68] text-ink-2"
-          style={{ '--i': 3 } as React.CSSProperties}
-        >
-          I build interfaces in React and Node, then handle the design, writing and
-          automation those projects usually turn out to need. Most clients arrive with
-          one problem and leave having solved three.
-        </p>
+        <TextReveal
+          as="p"
+          trigger="mount"
+          className="mt-8 max-w-[58ch] font-read text-xl leading-[1.68] text-ink-2"
+          text="I build interfaces in React and Node, then handle the design, writing and automation those projects usually turn out to need. Most clients arrive with one problem and leave having solved three."
+        />
 
         <p
           className="enter mt-6 text-[0.9375rem] text-ink-3"
