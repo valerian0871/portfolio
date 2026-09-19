@@ -28,9 +28,13 @@ const lineVariants = {
  * staggered line by line.
  *
  * This needs real DOM measurement to know where lines break (see
- * useSplitLines), so there are two render passes. While `lines` is null,
- * the words render in normal flow but with visibility: hidden, so the
- * measurement is accurate and nothing unmasked is ever visible.
+ * useSplitLines). The measuring spans render absolutely positioned and
+ * `invisible`, permanently, so they take up zero visible height and are
+ * always available to remeasure on resize with nothing to wait for. The
+ * real, visible, animated lines render alongside them in normal flow
+ * once measurement completes, and determine the paragraph's actual
+ * height. `visibility: hidden` also removes the measuring pass from the
+ * accessibility tree, so nothing is ever announced twice.
  */
 export function TextReveal({ text, as = 'p', className = '', trigger = 'inView' }: TextRevealProps) {
   const { containerRef, lines } = useSplitLines(text)
@@ -48,19 +52,17 @@ export function TextReveal({ text, as = 'p', className = '', trigger = 'inView' 
   const ref = containerRef as Ref<HTMLParagraphElement | HTMLDivElement>
 
   return (
-    <Tag ref={ref} className={className}>
-      {lines === null && (
-        <span className="invisible">
-          {words.map((word, i) => (
-            <span key={i}>
-              <span data-word className="inline-block">
-                {word}
-              </span>
-              {i < words.length - 1 ? ' ' : null}
+    <Tag ref={ref} className={`relative ${className}`}>
+      <span aria-hidden="true" className="invisible absolute inset-0">
+        {words.map((word, i) => (
+          <span key={i}>
+            <span data-word className="inline-block">
+              {word}
             </span>
-          ))}
-        </span>
-      )}
+            {i < words.length - 1 ? ' ' : null}
+          </span>
+        ))}
+      </span>
 
       {lines !== null && reducedMotion && (
         // Reduced motion: the real content, already in place, no animation.
