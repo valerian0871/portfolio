@@ -9,10 +9,35 @@ interface PracticeIndexProps {
 /**
  * The one bold element on the page. Each row states a practice, shows how many
  * projects sit under it, and filters the work list when activated.
+ *
+ * The vertical line to the left is a literal reading-progress indicator: it
+ * draws downward as this list scrolls through the viewport, so its motion is
+ * tied to the content it sits beside rather than added as decoration. It is
+ * built with native CSS scroll-driven animation (see the .index-track and
+ * .index-spine-path rules in index.css) and does nothing at all in browsers
+ * that do not support that API yet; the line still shows, fully drawn, so
+ * nothing breaks, there is simply no motion.
  */
 export function PracticeIndex({ onSelect }: PracticeIndexProps) {
   return (
-    <nav aria-label="Practices" className="mt-24 border-t border-rule-firm">
+    <nav aria-label="Practices" className="index-track relative mt-24 border-t border-rule-firm">
+      <svg
+        aria-hidden="true"
+        preserveAspectRatio="none"
+        viewBox="0 0 2 100"
+        className="pointer-events-none absolute top-0 bottom-0 -left-6 hidden w-[2px] lg:block"
+      >
+        <path
+          className="index-spine-path"
+          d="M1 0 L1 100"
+          pathLength={100}
+          fill="none"
+          stroke="var(--color-accent)"
+          strokeWidth="2"
+          strokeLinecap="round"
+        />
+      </svg>
+
       {practices.map((practice) => {
         const count = countByPractice(practice.id)
         return (
