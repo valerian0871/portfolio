@@ -6,9 +6,6 @@ interface TextRevealProps {
   text: string
   as?: 'p' | 'div'
   className?: string
-  /** 'mount' plays as soon as lines are measured (for above-the-fold text,
-   *  e.g. the hero). 'inView' waits until the block scrolls into view
-   *  (for anything below the fold, e.g. About). */
   trigger?: 'mount' | 'inView'
 }
 
@@ -22,20 +19,6 @@ const lineVariants = {
   }),
 }
 
-/**
- * A line-by-line masked reveal: each line sits fully below an
- * overflow-hidden mask and slides up into place, like a curtain lifting,
- * staggered line by line.
- *
- * This needs real DOM measurement to know where lines break (see
- * useSplitLines). The measuring spans render absolutely positioned and
- * `invisible`, permanently, so they take up zero visible height and are
- * always available to remeasure on resize with nothing to wait for. The
- * real, visible, animated lines render alongside them in normal flow
- * once measurement completes, and determine the paragraph's actual
- * height. `visibility: hidden` also removes the measuring pass from the
- * accessibility tree, so nothing is ever announced twice.
- */
 export function TextReveal({ text, as = 'p', className = '', trigger = 'inView' }: TextRevealProps) {
   const { containerRef, lines } = useSplitLines(text)
   const reducedMotion = useReducedMotion()
@@ -43,12 +26,6 @@ export function TextReveal({ text, as = 'p', className = '', trigger = 'inView' 
 
   const words = text.split(' ')
 
-  // React's polymorphic-`as` pattern has a known TypeScript limitation: a
-  // ref typed for one element (HTMLDivElement, from the measurement hook)
-  // cannot be assigned to a JSX tag that might render as a different one
-  // ('p' or 'div') without a cast. This is that cast, narrowed to the two
-  // element types this component can actually render, not `any` or
-  // `never`, so a real type error elsewhere would still surface.
   const ref = containerRef as Ref<HTMLParagraphElement | HTMLDivElement>
 
   return (
@@ -65,7 +42,6 @@ export function TextReveal({ text, as = 'p', className = '', trigger = 'inView' 
       </span>
 
       {lines !== null && reducedMotion && (
-        // Reduced motion: the real content, already in place, no animation.
         <>
           {lines.map((line, i) => (
             <span key={i} className="block">

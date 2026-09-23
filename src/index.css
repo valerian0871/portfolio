@@ -1,11 +1,5 @@
 @import "tailwindcss";
 
-/* ============================================================
-   DESIGN TOKENS
-   Tailwind v4 reads this block and generates utilities from it.
-   --color-paper becomes bg-paper / text-paper / border-paper.
-   Nothing in a component may use a raw hex value.
-   ============================================================ */
 @theme {
   --color-paper: #eeefea;
   --color-ink: #171b19;
@@ -31,8 +25,6 @@
   --ease-brand-soft: cubic-bezier(0.33, 1, 0.68, 1);
 }
 
-/* Dark mode flips the token values only. No component writes a dark: class,
-   so the two themes can never drift apart. */
 @media (prefers-color-scheme: dark) {
   :root {
     --color-paper: #111412;
@@ -77,12 +69,6 @@
   }
 }
 
-/* ============================================================
-   The few things Tailwind cannot express cleanly.
-   ============================================================ */
-
-/* Accordion. Animating grid-template-rows is the only way to get a
-   real height transition without measuring the panel in JavaScript. */
 .panel {
   display: grid;
   grid-template-rows: 0fr;
@@ -101,7 +87,6 @@
   transition-delay: 0s;
 }
 
-/* One entrance animation, reused. --i carries the stagger index. */
 @keyframes enter {
   from {
     opacity: 0;
@@ -155,23 +140,6 @@ dialog::backdrop {
   backdrop-filter: blur(3px);
 }
 
-/* ============================================================
-   SCROLL-DRIVEN ANIMATION
-   Native CSS, tied to real content: a reading-progress line beside the
-   practice index, and a quiet reveal on the About and Contact sections.
-   No scroll listener, no IntersectionObserver, no animation library.
-
-   Gated behind @supports so browsers without this API (Firefox, at time
-   of writing) simply render the static end state: content fully visible,
-   the spine fully drawn. Nothing is hidden by default outside this block,
-   so there is no broken or half-run state to worry about.
-   ============================================================ */
-/* Registering this as a plain <number> stops the build's CSS minifier from
-   "helpfully" rewriting a bare 100 to 100px inside the keyframes below. A
-   px value would break the pathLength=100 trick, which depends on an
-   actual unitless number, not a real length. Confirmed by inspecting the
-   built CSS: without this, stroke-dashoffset:100 became stroke-dashoffset:
-   100px after the production build. */
 @property --spine-offset {
   syntax: "<number>";
   inherits: false;

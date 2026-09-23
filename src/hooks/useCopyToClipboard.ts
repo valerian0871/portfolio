@@ -2,11 +2,6 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 
 export type CopyStatus = 'idle' | 'copying' | 'copied' | 'error'
 
-/**
- * Wraps the clipboard API so a button can show a real loading state.
- * The clipboard call is genuinely asynchronous and genuinely fails on
- * insecure origins, so both states are real rather than simulated.
- */
 export function useCopyToClipboard(resetAfter = 2600) {
   const [status, setStatus] = useState<CopyStatus>('idle')
   const timer = useRef<number | undefined>(undefined)

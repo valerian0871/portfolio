@@ -15,7 +15,6 @@ export default function App() {
   const ready = useContentReady()
   const reduced = useReducedMotion()
 
-  /** Called from the hero index: filter, scroll, then move focus with the view. */
   const selectPractice = (id: PracticeId) => {
     setFilter(id)
     const node = workRef.current

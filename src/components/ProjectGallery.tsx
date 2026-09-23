@@ -6,8 +6,6 @@ interface ProjectGalleryProps {
   images: ProjectImage[]
 }
 
-/** One thumbnail. Holds its own load and error state so a missing file
- *  degrades to a quiet tile instead of a broken image icon. */
 function Thumbnail({
   image,
   onOpen,

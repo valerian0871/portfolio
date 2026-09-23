@@ -13,13 +13,9 @@ export interface Practice {
 }
 
 export interface ProjectImage {
-  /** Path from the site root, e.g. "/work/writeai/editor.jpg" */
   src: string
-  /** Describe what the image shows. Never leave this empty. */
   alt: string
-  /** Optional line shown under the image in the lightbox. */
   caption?: string
-  /** Real pixel dimensions. Required, so the browser reserves space and the page does not jump. */
   width: number
   height: number
 }

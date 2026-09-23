@@ -8,10 +8,6 @@ interface LightboxProps {
   onClose: () => void
 }
 
-/**
- * Built on the native <dialog> element, which gives a focus trap, a backdrop
- * and Escape-to-close without any of it being hand-rolled.
- */
 export function Lightbox({ images, index, onIndexChange, onClose }: LightboxProps) {
   const ref = useRef<HTMLDialogElement>(null)
   const image = images[index]

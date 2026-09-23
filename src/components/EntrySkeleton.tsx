@@ -1,4 +1,3 @@
-/** Stands in for the work list while webfonts resolve. */
 export function EntrySkeleton({ rows = 5 }: { rows?: number }) {
   return (
     <div aria-hidden="true" className="border-t border-rule-firm">

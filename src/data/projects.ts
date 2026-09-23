@@ -1,11 +1,5 @@
 import type { Project } from '../types'
 
-/**
- * One object per project. Order here is the order on the page.
- *
- * To add pictures to a project, drop the files into public/work/<slug>/ and
- * add an `images` array. See the "Adding pictures" part of the guide.
- */
 export const projects: Project[] = [
   {
     slug: 'cakes-n-pastries',
