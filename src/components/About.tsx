@@ -3,7 +3,6 @@ import { TextReveal } from './TextReveal'
 
 const facts: { key: string; value: string }[] = [
   { key: 'Location', value: 'Nigeria' },
-  { key: 'Current role', value: 'Frontend, Orchestyle product team' },
   { key: 'Frontend', value: 'React, TypeScript, Tailwind CSS, Next.js' },
   { key: 'Backend', value: 'Node.js, Express, FastAPI, Python' },
   { key: 'Documents', value: 'docx, ReportLab, PyMuPDF, raw OOXML' },

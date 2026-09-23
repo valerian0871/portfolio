@@ -30,7 +30,7 @@ export function Hero({ onSelectPractice }: HeroProps) {
           className="enter mt-6 text-[0.9375rem] text-ink-3"
           style={{ '--i': 5 } as React.CSSProperties}
         >
-          Based in Nigeria. Currently on the product team at Orchestyle.
+          Based in Nigeria.
         </p>
 
         <PracticeIndex onSelect={onSelectPractice} />
