@@ -8,26 +8,6 @@ import type { Project } from '../types'
  */
 export const projects: Project[] = [
   {
-    slug: 'writeai',
-    title: 'WriteAI',
-    practice: 'frontend',
-    kind: 'Independent product',
-    summary: 'An AI writing tool built as a full product rather than a demo.',
-    detail:
-      'Next.js front end with authentication, subscription billing and a shared component library. Built specifically to find where an AI product gets difficult: session state, usage limits and the payment edge cases that never appear in a tutorial.',
-    tools: ['Next.js', 'React', 'Supabase', 'Clerk', 'Stripe', 'shadcn/ui'],
-  },
-  {
-    slug: 'orchestyle',
-    title: 'Orchestyle',
-    practice: 'frontend',
-    kind: 'Ongoing role',
-    summary: 'Frontend work on a live product, inside an existing team.',
-    detail:
-      'Iterative interface improvements shipped against an established codebase and design direction, working to the team review process rather than around it.',
-    tools: ['React', 'JavaScript', 'Tailwind CSS'],
-  },
-  {
     slug: 'cakes-n-pastries',
     title: "Cakes 'N' Pastries",
     practice: 'frontend',
