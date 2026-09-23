@@ -21,10 +21,10 @@ export function About() {
         <div className="grid gap-12 lg:grid-cols-[minmax(0,1.35fr)_minmax(0,1fr)] lg:gap-24">
           <div className="max-w-[62ch] space-y-6 font-read text-xl leading-[1.68] text-ink-2">
             <TextReveal
-              text="I started in frontend and stayed there, but the work kept widening. A client who needs a React interface usually also needs the brand applied consistently, the documents set properly, and the weekly posting to stop being done by hand. Rather than hand those off, I learned to do them."
+              text="I’m a frontend developer who also works across graphic design, automation, and content. I build responsive websites and interfaces, create graphics with Canva for brands and social media, and use automation tools to make repetitive tasks easier and more efficient."
             />
             <TextReveal
-              text="That means the four practices listed here are not four careers. They are what one project tends to require once you follow it through to the end. The document work taught me typesetting; the automation work came out of watching teams retype the same order into three systems."
+              text="I also write content and copy for websites, social media, campaigns, and other digital platforms. I enjoy working on projects where I can combine technical skills with creativity, whether that means building a website, creating a visual, writing copy, or finding a better way to get things done."
             />
           </div>
 
