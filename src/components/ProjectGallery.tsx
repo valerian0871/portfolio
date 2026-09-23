@@ -20,7 +20,7 @@ function Thumbnail({
 
   if (failed) {
     return (
-      <div className="flex aspect-[4/3] items-center justify-center rounded-sm border border-rule bg-accent-soft p-4 text-center font-read text-[0.8125rem] text-ink-3">
+      <div className="flex min-h-[12rem] items-center justify-center rounded-sm border border-rule bg-accent-soft p-4 text-center font-read text-[0.8125rem] text-ink-3">
         {image.alt}
       </div>
     )
@@ -30,7 +30,7 @@ function Thumbnail({
     <button
       type="button"
       onClick={onOpen}
-      className="group relative block aspect-[4/3] overflow-hidden rounded-sm border border-rule transition-transform duration-200 ease-brand hover:-translate-y-0.5"
+      className="group relative block w-full overflow-hidden rounded-sm border border-rule bg-accent-soft transition-transform duration-200 ease-brand hover:-translate-y-0.5"
     >
       {!loaded && <div className="shimmer absolute inset-0" />}
       <img
@@ -42,7 +42,7 @@ function Thumbnail({
         decoding="async"
         onLoad={() => setLoaded(true)}
         onError={() => setFailed(true)}
-        className={`h-full w-full object-cover transition-opacity duration-200 ease-brand ${
+        className={`block h-auto w-full object-contain transition-opacity duration-200 ease-brand ${
           loaded ? 'opacity-100' : 'opacity-0'
         }`}
       />
