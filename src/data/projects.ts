@@ -263,26 +263,6 @@ export const projects: Project[] = [
     ],
   },
   {
-    slug: 'jesus-house',
-    title: 'Jesus House Intercessory Mission',
-    practice: 'graphics',
-    kind: 'Recurring deliverable',
-    summary: 'A monthly welcome flier, rebuilt to be repeatable.',
-    detail:
-      'Recreated an existing flier design as a process rather than a one-off file, so the photo, text, logo and contact block can be swapped each month without the layout drifting.',
-    tools: ['Layout design', 'Image generation'],
-  },
-  {
-    slug: 'the-amplified',
-    title: 'The Amplified',
-    practice: 'graphics',
-    kind: 'Brand application',
-    summary: 'A minimalist identity applied across a ministry administrative set.',
-    detail:
-      'Black and orange identity carried through a 31-branch pastoral visit schedule, official correspondence, a services log and the 2026 services calendar, so documents produced by different people still read as one organisation.',
-    tools: ['Brand system', 'Document design'],
-  },
-  {
     slug: 'nazirite',
     title: 'Birthing a Nazirite',
     practice: 'writing',
