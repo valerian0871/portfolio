@@ -135,6 +135,21 @@
   animation: spin 620ms linear infinite;
 }
 
+.gallery-scroll {
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
+  scrollbar-width: none;
+  touch-action: pan-x;
+}
+
+.gallery-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.gallery-scroll > li {
+  transform: translateZ(0);
+}
+
 dialog::backdrop {
   background: rgba(10, 12, 11, 0.72);
   backdrop-filter: blur(3px);
