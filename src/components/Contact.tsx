@@ -33,6 +33,7 @@ export function Contact() {
   const externals = [
     profile.linkedin ? { href: profile.linkedin, label: 'LinkedIn' } : null,
     profile.github ? { href: profile.github, label: 'GitHub' } : null,
+    { href: 'https://wa.me/2347011757204', label: 'WhatsApp' },
   ].filter((item): item is { href: string; label: string } => item !== null)
 
   const hasAnything = Boolean(profile.email) || externals.length > 0
