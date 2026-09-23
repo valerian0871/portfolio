@@ -54,6 +54,25 @@ export function ProjectGallery({ images }: ProjectGalleryProps) {
 
   if (images.length === 0) return null
 
+  if (images.length === 1) {
+    return (
+      <>
+        <div className="mt-6">
+          <Thumbnail image={images[0]} onOpen={() => setOpenAt(0)} />
+        </div>
+
+        {openAt !== null && (
+          <Lightbox
+            images={images}
+            index={openAt}
+            onIndexChange={setOpenAt}
+            onClose={() => setOpenAt(null)}
+          />
+        )}
+      </>
+    )
+  }
+
   return (
     <>
       <ul className="gallery-scroll mt-6 flex snap-x snap-mandatory items-center gap-3 overflow-x-auto scroll-smooth pb-2 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden sm:gap-4">
