@@ -21,9 +21,4 @@ export const practices: Practice[] = [
     label: 'AI automation',
     note: 'Workflows that remove the manual step entirely.',
   },
-  {
-    id: 'email',
-    label: 'Email marketing',
-    note: 'In development. Listed honestly, not claimed.',
-  },
 ]

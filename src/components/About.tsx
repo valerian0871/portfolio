@@ -25,10 +25,7 @@ export function About() {
               text="I started in frontend and stayed there, but the work kept widening. A client who needs a React interface usually also needs the brand applied consistently, the documents set properly, and the weekly posting to stop being done by hand. Rather than hand those off, I learned to do them."
             />
             <TextReveal
-              text="That means the five practices listed here are not five careers. They are what one project tends to require once you follow it through to the end. The document work taught me typesetting; the automation work came out of watching teams retype the same order into three systems."
-            />
-            <TextReveal
-              text="Email marketing is the newest of the five and the only one without shipped client work behind it yet. It is listed because I am building it, not because I am claiming it."
+              text="That means the four practices listed here are not four careers. They are what one project tends to require once you follow it through to the end. The document work taught me typesetting; the automation work came out of watching teams retype the same order into three systems."
             />
           </div>
 

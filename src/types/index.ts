@@ -3,7 +3,6 @@ export type PracticeId =
   | 'graphics'
   | 'writing'
   | 'automation'
-  | 'email'
 
 export type FilterId = PracticeId | 'all'
 

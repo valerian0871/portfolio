@@ -16,7 +16,7 @@ export function Hero({ onSelectPractice }: HeroProps) {
           className="enter max-w-[16ch] text-display leading-[1.06] font-semibold tracking-[-0.035em]"
           style={{ '--i': 1 } as React.CSSProperties}
         >
-          Frontend developer working across five practices.
+          Frontend developer working across four practices.
         </h1>
 
         <TextReveal

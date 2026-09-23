@@ -370,16 +370,6 @@ export const projects: Project[] = [
       'Cleaned and reconciled a membership contact list, then set up reporting so the team could read their own numbers without requesting an export each time.',
     tools: ['Data cleaning', 'Power BI'],
   },
-  {
-    slug: 'email-marketing',
-    title: 'Email marketing practice',
-    practice: 'email',
-    kind: 'In development',
-    summary: 'Being built now. No shipped client campaign yet.',
-    detail:
-      'Working through list segmentation, automation flows, subject line and body copy, and measurement that goes past open rates. This entry exists so the list is accurate, and it will be replaced by a real campaign with real numbers when there is one.',
-    tools: ['Segmentation', 'Automation flows', 'Copywriting'],
-  },
 ]
 
 export function countByPractice(practiceId: string): number {
