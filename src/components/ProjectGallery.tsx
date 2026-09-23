@@ -28,7 +28,7 @@ function Thumbnail({
     <button
       type="button"
       onClick={onOpen}
-      className="group relative block w-auto overflow-hidden rounded-sm bg-accent-soft transition-opacity duration-200 ease-brand hover:opacity-95"
+      className="group relative block w-full overflow-hidden rounded-sm bg-accent-soft transition-opacity duration-200 ease-brand hover:opacity-95"
     >
       {!loaded && <div className="shimmer absolute inset-0" />}
       <img
@@ -40,7 +40,7 @@ function Thumbnail({
         decoding="async"
         onLoad={() => setLoaded(true)}
         onError={() => setFailed(true)}
-        className={`block h-auto w-auto max-h-[72vh] transition-opacity duration-200 ease-brand ${
+        className={`block h-auto max-h-[72vh] w-full object-contain transition-opacity duration-200 ease-brand ${
           loaded ? 'opacity-100' : 'opacity-0'
         }`}
       />
@@ -77,7 +77,7 @@ export function ProjectGallery({ images }: ProjectGalleryProps) {
     <>
       <ul className="gallery-scroll mt-6 flex snap-x snap-mandatory items-center gap-3 overflow-x-auto scroll-smooth pb-2 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden sm:gap-4">
         {images.map((image, index) => (
-          <li key={image.src} className="w-auto shrink-0 snap-start">
+          <li key={image.src} className="w-[86vw] shrink-0 snap-start sm:w-auto sm:max-w-[48%] lg:max-w-[32%]">
             <Thumbnail image={image} onOpen={() => setOpenAt(index)} />
           </li>
         ))}
