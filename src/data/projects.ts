@@ -263,7 +263,7 @@ export const projects: Project[] = [
     kind: 'Book production',
     summary: 'A Christian parenting memoir typeset as a 6 by 9 trade paperback.',
     detail:
-      'Garamond body with Monotype Corsiva headings, gold ornamental dividers and designed chapter openers. The harder half was holding pagination steady across a full manuscript while the text was still being edited.',
+      'Designed the interior of this book, working on the typography, page layout, chapter headings, spacing, pagination, and overall structure. I also designed the cover for the second book, developing its visual direction and layout to fit the book’s subject and overall presentation.',
     tools: ['Node.js', 'docx', 'Python', 'SVG ornaments'],
   },
   {
