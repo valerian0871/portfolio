@@ -23,13 +23,6 @@ export function LoadingScreen({ ready }: LoadingScreenProps) {
         ready ? 'pointer-events-none opacity-0' : 'opacity-100'
       }`}
     >
-      {/*
-        Swap this src for wherever your actual icon file lives. A PNG
-        (like apple-touch-icon.png from Part 11's favicon set) is the
-        safer choice here over an SVG: an oversized SVG is exactly what
-        the Lighthouse audit flagged earlier as an 800KB+ file, and an
-        .ico doesn't render as crisply at this size in every browser.
-      */}
       <img
         src="/apple-touch-icon.png"
         alt=""
