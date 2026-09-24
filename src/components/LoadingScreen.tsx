@@ -28,7 +28,7 @@ export function LoadingScreen({ ready }: LoadingScreenProps) {
         alt=""
         width={64}
         height={64}
-        className="size-16 animate-pulse rounded-sm shadow-lg"
+        className="size-16 animate-pulse rounded-full shadow-lg"
       />
     </div>
   )
