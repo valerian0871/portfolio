@@ -1,4 +1,5 @@
 import { useId, useState } from 'react'
+import { Lightbox } from '../Lightbox'
 import type { Project } from '../../types'
 
 interface WritingEntryProps {
@@ -8,8 +9,11 @@ interface WritingEntryProps {
 
 export function WritingEntry({ project, index }: WritingEntryProps) {
   const [open, setOpen] = useState(false)
+  const [lightboxAt, setLightboxAt] = useState<number | null>(null)
   const panelId = useId()
   const headId = useId()
+
+  const images = project.images ?? []
 
   return (
     <article
@@ -23,6 +27,12 @@ export function WritingEntry({ project, index }: WritingEntryProps) {
             <span className="font-medium text-accent">Content & Copywriting</span>
             <span>·</span>
             <span className="font-serif italic">{project.kind}</span>
+            {images.length > 0 && (
+              <>
+                <span>·</span>
+                <span className="text-accent font-medium">Includes cover & interior design</span>
+              </>
+            )}
           </div>
 
           <h3 className="mt-2 font-display text-2xl font-semibold tracking-[-0.025em] text-ink">
@@ -32,6 +42,33 @@ export function WritingEntry({ project, index }: WritingEntryProps) {
           <blockquote className="mt-4 border-l-2 border-accent/40 pl-4 font-read text-xl italic leading-[1.6] text-ink">
             “{project.summary}”
           </blockquote>
+
+          {/* Visual Proof for Book Production (Cover & Chapter Ornament) */}
+          {images.length > 0 && (
+            <div className="mt-6 flex flex-wrap items-end gap-3.5">
+              {images.map((img, imgIndex) => (
+                <button
+                  key={img.src}
+                  type="button"
+                  onClick={() => setLightboxAt(imgIndex)}
+                  className="group relative overflow-hidden rounded-sm border border-rule-firm bg-paper transition-transform duration-150 ease-brand hover:-translate-y-0.5 focus-visible:outline-accent cursor-pointer shadow-xs"
+                >
+                  <img
+                    src={img.src}
+                    alt={img.alt}
+                    width={img.width}
+                    height={img.height}
+                    loading="lazy"
+                    decoding="async"
+                    className="max-h-36 w-auto object-contain transition-transform duration-200 group-hover:scale-[1.02]"
+                  />
+                  <span className="absolute bottom-1.5 right-1.5 inline-flex items-center gap-1 rounded-xs bg-paper/90 px-1.5 py-0.5 text-[0.625rem] font-medium text-ink backdrop-blur-xs border border-rule">
+                    {imgIndex === 0 ? 'Cover' : 'Chapter'}
+                  </span>
+                </button>
+              ))}
+            </div>
+          )}
 
           <div className="mt-5">
             <button
@@ -109,6 +146,15 @@ export function WritingEntry({ project, index }: WritingEntryProps) {
           </div>
         </div>
       </div>
+
+      {lightboxAt !== null && images.length > 0 && (
+        <Lightbox
+          images={images}
+          index={lightboxAt}
+          onIndexChange={setLightboxAt}
+          onClose={() => setLightboxAt(null)}
+        />
+      )}
     </article>
   )
 }

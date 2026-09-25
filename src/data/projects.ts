@@ -261,10 +261,26 @@ export const projects: Project[] = [
     title: 'Birthing a Nazirite',
     practice: 'writing',
     kind: 'Book production',
-    summary: 'A Christian parenting memoir typeset as a 6 by 9 trade paperback.',
+    summary: 'A Christian parenting book typeset into a production-worthy volume with 2 alternate covers, custom chapter numerals, and complete interior layout — now available on Selar.',
     detail:
-      'Designed the interior of this book, working on the typography, page layout, chapter headings, spacing, pagination, and overall structure. I also designed the cover for the second book, developing its visual direction and layout to fit the book’s subject and overall presentation.',
-    tools: ['Node.js', 'docx', 'Python', 'SVG ornaments'],
+      'Transformed a raw, bland PDF into a fully formatted, production-worthy book. Designed the interior typography, custom ornamental chapter numbers, running heads, margins, and pagination. Also created two alternate book covers exploring distinct visual directions for the publication, which is now commercially published and available on Selar.',
+    tools: ['Book design', 'Typography', 'Cover design', 'Node.js', 'docx', 'Python', 'SVG ornaments'],
+    images: [
+      {
+        src: '/work/nazirite/book-cover.png',
+        alt: 'Birthing a Nazirite book cover design with line art illustration and custom serif display typography',
+        caption: 'Birthing a Nazirite — Book cover design',
+        width: 345,
+        height: 480,
+      },
+      {
+        src: '/work/nazirite/chapter-design.png',
+        alt: 'Interior chapter heading design showing ornamental gold flourish framing chapter numeral 1',
+        caption: 'Interior chapter layout and typographic ornaments',
+        width: 329,
+        height: 108,
+      },
+    ],
   },
   {
     slug: 'order-of-service',
@@ -278,13 +294,13 @@ export const projects: Project[] = [
   },
   {
     slug: 'postgraduate-editing',
-    title: 'Postgraduate editing',
+    title: 'Postgraduate thesis proposal',
     practice: 'writing',
     kind: 'Academic',
-    summary: 'Editing and formatting for doctoral research.',
+    summary: 'Comprehensive research proposal drafted with up-to-date academic references and low similarity scores.',
     detail:
-      'Applied supervisor corrections to a research proposal and reduced it from 77 pages to 59 without cutting content, added literature to a thesis chapter, and ran similarity review with citation markers written directly into the document XML where the editor would not hold them.',
-    tools: ['OOXML', 'Turnitin', 'Substantive editing'],
+      'Researched and drafted a comprehensive academic proposal for the client from the ground up, establishing the problem statement, methodological framework, and contemporary literature review. Delivered with rigorous academic referencing and achieved verified low plagiarism and minimal Turnitin AI detection scores.',
+    tools: ['Academic research', 'Literature review', 'Turnitin verification', 'Substantive editing'],
   },
   {
     slug: 'career-materials',
