@@ -8,7 +8,7 @@ interface LoadingScreenProps {
 
 const NAME = 'Prosper Kayode'
 
-export function LoadingScreen({ ready, minDisplay = 3400 }: LoadingScreenProps) {
+export function LoadingScreen({ ready, minDisplay = 2400 }: LoadingScreenProps) {
   const [mounted, setMounted] = useState(true)
   const [minElapsed, setMinElapsed] = useState(false)
   const reducedMotion = useReducedMotion()
