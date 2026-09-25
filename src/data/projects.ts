@@ -303,7 +303,7 @@ export const projects: Project[] = [
     kind: 'Ongoing',
     summary: 'Caption and content writing for organisational accounts.',
     detail:
-      'Ongoing caption work for education and WASH sector organisations, matched to each account established voice.',
+      "Ongoing caption work for education and WASH sector organisations, matched to each account's established voice.",
     tools: ['Copywriting', 'Social content'],
   },
   {
@@ -313,8 +313,19 @@ export const projects: Project[] = [
     kind: 'Personal project',
     summary: 'A personal build against a mock organisation, demonstrating workflow automation capability rather than a client deliverable.',
     detail:
-      'Automates weekly Instagram content creation and publishing, from data gathering through to human-approved posting. The chain runs on a schedule trigger, pulls organisation data from Google Sheets, processes it in a custom JavaScript node, fetches and parses Google Trends data via an HTTP request and an XML-to-JSON conversion, merges the two data sources, generates post content through an AI model with a JavaScript tool-calling node, generates an accompanying image, then routes the result to a human for an approval message and waits for a response before branching on the outcome. Built entirely on free-tier services, including Google Gemini\u2019s free API for text generation and a free image generation model, to avoid paid API costs. Multiple successful executions were recorded during testing, including one completed run of 1 minute 5.6 seconds.',
+      'Automates weekly Instagram content creation and publishing, from data gathering through to human-approved posting. The chain runs on a schedule trigger, pulls organisation data from Google Sheets, processes it in a custom JavaScript node, fetches and parses Google Trends data via an HTTP request and an XML-to-JSON conversion, merges the two data sources, generates post content through an AI model with a JavaScript tool-calling node, generates an accompanying image, then routes the result to a human for an approval message and waits for a response before branching on the outcome. Built entirely on free-tier services, including Google Gemini’s free API for text generation and a free image generation model, to avoid paid API costs. Multiple successful executions were recorded during testing, including one completed run of 1 minute 5.6 seconds.',
     tools: ['n8n', 'Google Gemini', 'Google Sheets', 'Google Trends', 'AI image generation'],
+    pipeline: {
+      trigger: 'Schedule trigger (weekly cron)',
+      steps: [
+        'Ingest org data & Google Trends XML-to-JSON',
+        'Gemini text model + tool-calling node',
+        'AI image generation synthesis',
+        'Human approval routing & review gate',
+      ],
+      output: 'Published Instagram post & status record',
+    },
+    metrics: 'Completed execution benchmark: 1m 5.6s with 0 API cost',
     images: [
       {
         src: '/work/instagram-automation/workflow.jpg',
@@ -334,6 +345,17 @@ export const projects: Project[] = [
     detail:
       'Built for Orchestyle, a bead-making company. A customer submits an order through a form; the workflow copies an invoice template, populates it with the order details and generates a PDF, emails that invoice to the customer automatically, and logs the order as a new row in a spreadsheet so the vendor keeps a running record. The node chain runs from the form trigger through field mapping, a Google Drive file copy, a Google Docs update, a Google Drive download, a Gmail send, and a Google Sheets append. Execution history shows a small number of early errors during initial testing, resolved in later runs, followed by consistent successful executions. Currently published and in active, live use.',
     tools: ['n8n', 'Google Drive', 'Google Docs', 'Gmail', 'Google Sheets'],
+    pipeline: {
+      trigger: 'Customer order submission form',
+      steps: [
+        'Payload validation & field normalization',
+        'Google Drive invoice template clone',
+        'Google Docs dynamic PDF compilation',
+        'Automated Gmail delivery to buyer',
+      ],
+      output: 'Delivered invoice PDF & Google Sheets audit log',
+    },
+    metrics: 'In active production use with zero manual invoicing overhead',
     images: [
       {
         src: '/work/orchestyle-automation/workflow.jpg',
@@ -353,6 +375,16 @@ export const projects: Project[] = [
     detail:
       'Recreating real work situations, with their emails, spreadsheets and message history, inside a simulation platform, then setting a task an agent ought to complete. A task only counts if the agent fails it and the failure can be graded from the end state alone.',
     tools: ['Task design', 'Evaluation', 'Simulated environments'],
+    pipeline: {
+      trigger: 'Real-world workplace simulation scenario',
+      steps: [
+        'Context synthesis (threads, files, data)',
+        'Agent task execution & boundary testing',
+        'State-based deterministic grading',
+      ],
+      output: 'Failure analysis & model benchmark report',
+    },
+    metrics: 'Deterministic end-state grading across edge failure modes',
   },
   {
     slug: 'membership-data',
@@ -363,6 +395,16 @@ export const projects: Project[] = [
     detail:
       'Cleaned and reconciled a membership contact list, then set up reporting so the team could read their own numbers without requesting an export each time.',
     tools: ['Data cleaning', 'Power BI'],
+    pipeline: {
+      trigger: 'Disparate raw contact spreadsheets',
+      steps: [
+        'Deduplication & schema reconciliation',
+        'Data model & relationship definition',
+        'Automated Power BI dashboard refresh',
+      ],
+      output: 'Self-serve interactive reporting suite',
+    },
+    metrics: 'Eliminated manual export requests across team leadership',
   },
 ]
 

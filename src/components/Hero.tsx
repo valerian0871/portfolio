@@ -9,7 +9,7 @@ interface HeroProps {
 
 export function Hero({ onSelectPractice }: HeroProps) {
   return (
-    <section aria-labelledby="hero-title" className="pt-24 pb-16">
+    <section aria-labelledby="hero-title" className="py-24">
       <Container>
         <h1
           id="hero-title"

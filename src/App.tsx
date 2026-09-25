@@ -6,8 +6,8 @@ import { About } from './components/About'
 import { Contact } from './components/Contact'
 import { Footer } from './components/Footer'
 import { LoadingScreen } from './components/LoadingScreen'
+import { useReducedMotion } from 'motion/react'
 import { useContentReady } from './hooks/useContentReady'
-import { useReducedMotion } from './hooks/useReducedMotion'
 import type { FilterId, PracticeId } from './types'
 
 export default function App() {

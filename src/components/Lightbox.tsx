@@ -49,16 +49,16 @@ export function Lightbox({ images, index, onIndexChange, onClose }: LightboxProp
     <dialog
       ref={ref}
       aria-label={`${image.alt}. Image ${index + 1} of ${images.length}`}
-      className="m-auto max-h-[90dvh] w-[min(1100px,92vw)] rounded-sm bg-paper p-0 text-ink backdrop:bg-black/70"
+      className="m-auto max-h-[90dvh] w-[min(1120px,94vw)] rounded-sm border border-rule-firm bg-paper p-0 text-ink shadow-2xl"
     >
-      <div className="flex items-start justify-between gap-6 border-b border-rule px-6 py-4">
+      <div className="flex items-center justify-between gap-6 border-b border-rule px-6 py-4">
         <p className="font-read text-[0.9375rem] text-ink-2">
           {image.caption ?? image.alt}
         </p>
         <button
           type="button"
           onClick={() => ref.current?.close()}
-          className="shrink-0 rounded-sm border border-rule-firm px-3 py-1 text-[0.8125rem] font-medium text-ink-2 transition-colors duration-150 ease-brand hover:border-accent hover:text-ink"
+          className="shrink-0 rounded-sm border border-rule-firm px-4 py-1.5 text-[0.875rem] font-medium text-ink-2 transition-colors duration-150 ease-brand hover:border-accent hover:text-ink focus-visible:outline-accent"
         >
           Close
         </button>

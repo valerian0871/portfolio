@@ -18,8 +18,16 @@
 
   --text-display: clamp(2.25rem, 7vw, 4.75rem);
   --text-index: clamp(1.75rem, 5.2vw, 3.25rem);
+  --text-heading-1: clamp(1.875rem, 4vw, 2.25rem);
+  --text-heading-2: clamp(1.25rem, 2.5vw, 1.5rem);
+  --text-lead: 1.25rem;
+  --text-body: 1.0625rem;
+  --text-meta: 0.9375rem;
+  --text-sub: 0.8125rem;
 
   --radius-sm: 3px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
 
   --ease-brand: cubic-bezier(0.2, 0, 0, 1);
   --ease-brand-soft: cubic-bezier(0.33, 1, 0.68, 1);
@@ -152,7 +160,7 @@
 
 dialog::backdrop {
   background: rgba(10, 12, 11, 0.72);
-  backdrop-filter: blur(3px);
+  backdrop-filter: blur(6px);
 }
 
 @property --spine-offset {

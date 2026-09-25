@@ -25,6 +25,12 @@ export interface ProjectLink {
   label: string
 }
 
+export interface ProjectPipeline {
+  trigger: string
+  steps: string[]
+  output: string
+}
+
 export interface Project {
   slug: string
   title: string
@@ -35,6 +41,8 @@ export interface Project {
   tools: string[]
   link?: ProjectLink
   images?: ProjectImage[]
+  pipeline?: ProjectPipeline
+  metrics?: string
 }
 
 export interface Profile {

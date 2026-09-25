@@ -8,7 +8,7 @@ interface PracticeIndexProps {
 
 export function PracticeIndex({ onSelect }: PracticeIndexProps) {
   return (
-    <nav aria-label="Practices" className="index-track relative mt-24 border-t border-rule-firm">
+    <nav aria-label="Practices" className="index-track relative mt-16 border-t border-rule-firm">
       <svg
         aria-hidden="true"
         preserveAspectRatio="none"

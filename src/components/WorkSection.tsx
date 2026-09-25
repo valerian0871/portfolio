@@ -1,16 +1,34 @@
 import { forwardRef } from 'react'
+import { AnimatePresence, motion, useReducedMotion } from 'motion/react'
 import { Container } from './Container'
 import { FilterBar } from './FilterBar'
 import { EntrySkeleton } from './EntrySkeleton'
-import { ProjectEntry } from './ProjectEntry'
+import { FrontendCard } from './disciplines/FrontendCard'
+import { GraphicsCard } from './disciplines/GraphicsCard'
+import { WritingEntry } from './disciplines/WritingEntry'
+import { AutomationPipeline } from './disciplines/AutomationPipeline'
 import { projects } from '../data/projects'
-import { useReducedMotion } from '../hooks/useReducedMotion'
-import type { FilterId } from '../types'
+import type { FilterId, Project } from '../types'
 
 interface WorkSectionProps {
   filter: FilterId
   onFilterChange: (value: FilterId) => void
   ready: boolean
+}
+
+function renderDisciplineItem(project: Project, index: number) {
+  switch (project.practice) {
+    case 'frontend':
+      return <FrontendCard key={project.slug} project={project} index={index} />
+    case 'graphics':
+      return <GraphicsCard key={project.slug} project={project} index={index} />
+    case 'writing':
+      return <WritingEntry key={project.slug} project={project} index={index} />
+    case 'automation':
+      return <AutomationPipeline key={project.slug} project={project} index={index} />
+    default:
+      return null
+  }
 }
 
 export const WorkSection = forwardRef<HTMLElement, WorkSectionProps>(
@@ -37,10 +55,15 @@ export const WorkSection = forwardRef<HTMLElement, WorkSectionProps>(
       >
         <Container>
           <div className="mb-12 flex flex-wrap items-baseline justify-between gap-4">
-            <h2 id="work-title" className="text-[2rem] leading-[1.18] font-semibold tracking-[-0.03em]">
-              Work
-            </h2>
-            <p role="status" className="text-[0.9375rem] tabular-nums text-ink-3">
+            <div>
+              <h2 id="work-title" className="text-[2rem] leading-[1.18] font-semibold tracking-[-0.03em]">
+                Selected Work
+              </h2>
+              <p className="mt-2 text-[0.9375rem] text-ink-3">
+                Tailored proof across frontend builds, visual systems, editorial writing, and workflow pipelines.
+              </p>
+            </div>
+            <p role="status" className="text-[0.875rem] tabular-nums text-ink-3">
               {ready ? label : 'Loading projects'}
             </p>
           </div>
@@ -54,15 +77,18 @@ export const WorkSection = forwardRef<HTMLElement, WorkSectionProps>(
           )}
 
           {ready && visible.length > 0 && (
-            <div className="border-t border-rule-firm">
-              {visible.map((project, index) => (
-                <ProjectEntry
-                  key={project.slug}
-                  project={project}
-                  index={reduced ? 0 : index}
-                />
-              ))}
-            </div>
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={filter}
+                initial={reduced ? false : { opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={reduced ? undefined : { opacity: 0, y: -8 }}
+                transition={{ duration: reduced ? 0 : 0.22, ease: [0.2, 0, 0, 1] }}
+                className="border-t border-rule-firm"
+              >
+                {visible.map((project, index) => renderDisciplineItem(project, index))}
+              </motion.div>
+            </AnimatePresence>
           )}
         </Container>
       </section>
