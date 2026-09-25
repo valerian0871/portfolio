@@ -24,12 +24,12 @@ export function FrontendCard({ project, index }: FrontendCardProps) {
       <div className="grid gap-6 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)] lg:gap-10 lg:items-start">
         {/* Visual Proof / Preview */}
         {mainImage ? (
-          <div className="group relative overflow-hidden rounded-sm border border-rule bg-accent-soft">
+          <div className="group relative w-full overflow-hidden rounded-sm border border-rule-firm bg-accent-soft shadow-xs">
             {!loaded && <div className="shimmer absolute inset-0" />}
             <button
               type="button"
               onClick={() => setLightboxOpen(true)}
-              className="block w-full focus-visible:outline-accent"
+              className="block w-full focus-visible:outline-accent cursor-pointer"
             >
               <img
                 src={mainImage.src}
@@ -39,7 +39,7 @@ export function FrontendCard({ project, index }: FrontendCardProps) {
                 loading="lazy"
                 decoding="async"
                 onLoad={() => setLoaded(true)}
-                className={`block aspect-[16/10] w-full object-cover transition-[transform,opacity] duration-300 ease-brand group-hover:scale-[1.02] ${
+                className={`block w-full h-auto aspect-[1350/633] object-cover object-top transition-[transform,opacity] duration-300 ease-brand group-hover:scale-[1.01] ${
                   loaded ? 'opacity-100' : 'opacity-0'
                 }`}
               />
@@ -52,7 +52,7 @@ export function FrontendCard({ project, index }: FrontendCardProps) {
             </button>
           </div>
         ) : (
-          <div className="flex aspect-[16/10] flex-col justify-between rounded-sm border border-rule-firm bg-accent-soft p-6">
+          <div className="flex aspect-[1350/633] w-full flex-col justify-between rounded-sm border border-rule-firm bg-accent-soft p-5">
             <div className="flex items-center justify-between text-xs text-ink-3">
               <span className="font-mono">SOURCE & ARCHITECTURE</span>
               <span className="rounded-sm border border-rule px-2 py-0.5">{project.kind}</span>

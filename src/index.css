@@ -1,5 +1,13 @@
 @import "tailwindcss";
 
+@font-face {
+  font-family: 'Runethia';
+  src: url('/fonts/Runethia.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
+
 @theme {
   --color-paper: #eeefea;
   --color-ink: #171b19;
@@ -15,7 +23,8 @@
 
   --font-display: "Archivo", "Helvetica Neue", Helvetica, Arial, sans-serif;
   --font-read: "Newsreader", Georgia, "Times New Roman", serif;
-  --font-elegant: "Cormorant Garamond", "Newsreader", Georgia, serif;
+  --font-elegant: "Runethia", "Cormorant Garamond", cursive, serif;
+  --font-runethia: "Runethia", cursive, sans-serif;
 
   --text-display: clamp(2.25rem, 7vw, 4.75rem);
   --text-index: clamp(1.75rem, 5.2vw, 3.25rem);
