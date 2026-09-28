@@ -1,7 +1,7 @@
 import type { Profile } from '../types'
 
 export const profile: Profile = {
-  name: 'Prosper',
+  name: 'Prosper Kayode',
   role: 'Frontend developer',
   location: 'Nigeria',
   email: 'kayodeprosper0987@gmail.com',

@@ -18,8 +18,9 @@ export function Header() {
       }`}
     >
       <Container className="flex min-h-16 items-center justify-between gap-6">
-        <a href="#top" className="font-semibold tracking-tight hover:text-accent">
-          {profile.name}
+        <a href="#top" className="group inline-flex items-center gap-2.5 font-semibold tracking-tight text-ink transition-colors hover:text-accent">
+          <span className="size-2 rounded-full bg-emerald-500 shadow-xs group-hover:scale-110 transition-transform" />
+          <span>{profile.name}</span>
         </a>
         <nav aria-label="Sections" className="flex gap-1">
           {links.map((link) => (

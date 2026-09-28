@@ -113,7 +113,7 @@ export function AutomationPipeline({ project, index }: AutomationPipelineProps) 
             <button
               type="button"
               onClick={() => setLightboxOpen(true)}
-              className="block w-full text-left focus-visible:outline-accent"
+              className="block w-full text-left focus-visible:outline-accent cursor-pointer"
             >
               <img
                 src={workflowImage.src}

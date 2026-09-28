@@ -33,7 +33,7 @@ function GraphicThumbnail({
     <button
       type="button"
       onClick={onOpen}
-      className="group relative block w-full overflow-hidden rounded-sm border border-rule bg-accent-soft text-left focus-visible:outline-accent"
+      className="group relative block w-full overflow-hidden rounded-sm border border-rule bg-accent-soft text-left focus-visible:outline-accent cursor-pointer"
     >
       {!loaded && <div className="shimmer absolute inset-0" />}
       <img

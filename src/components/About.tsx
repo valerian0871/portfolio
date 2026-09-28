@@ -32,10 +32,10 @@ export function About() {
             {facts.map((fact) => (
               <div
                 key={fact.key}
-                className="grid grid-cols-[minmax(0,8rem)_minmax(0,1fr)] gap-4 border-b border-rule py-4 text-[0.9375rem]"
+                className="grid grid-cols-[minmax(0,7.5rem)_minmax(0,1fr)] gap-4 border-b border-rule py-3.5 text-[0.9375rem] transition-colors hover:bg-accent-soft/20 px-2 rounded-xs"
               >
-                <dt className="text-ink-3">{fact.key}</dt>
-                <dd className="text-ink">{fact.value}</dd>
+                <dt className="font-medium text-ink-3">{fact.key}</dt>
+                <dd className="text-ink font-mono text-[0.875rem] sm:text-[0.9375rem]">{fact.value}</dd>
               </div>
             ))}
           </dl>

@@ -27,16 +27,16 @@ export function FilterBar({ value, onChange }: FilterBarProps) {
             type="button"
             aria-pressed={active}
             onClick={() => onChange(option.id)}
-            className={`inline-flex items-center gap-2 rounded-sm border px-4 py-2 text-[0.875rem] font-medium transition-all duration-150 ease-brand focus-visible:outline-accent ${
+            className={`cursor-pointer inline-flex items-center gap-2 rounded-sm border px-3.5 py-2 text-[0.875rem] font-medium transition-all duration-150 ease-brand focus-visible:outline-accent ${
               active
-                ? 'border-accent bg-accent text-accent-ink shadow-xs'
-                : 'border-rule-firm text-ink-2 hover:border-accent hover:text-ink'
+                ? 'border-accent bg-accent text-accent-ink shadow-xs -translate-y-0.5'
+                : 'border-rule-firm bg-paper/60 text-ink-2 hover:border-accent hover:text-ink hover:bg-accent-soft/30'
             }`}
           >
             <span>{option.label}</span>
             <span
-              className={`rounded-xs px-1.5 py-0.2 text-[0.75rem] tabular-nums font-mono ${
-                active ? 'bg-white/20 text-accent-ink' : 'bg-accent-soft text-ink-3'
+              className={`rounded-full px-2 py-0.5 text-[0.6875rem] tabular-nums font-mono font-medium ${
+                active ? 'bg-white/20 text-accent-ink' : 'bg-accent-soft text-ink-3 border border-rule/60'
               }`}
             >
               {option.count}

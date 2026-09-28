@@ -54,15 +54,19 @@ export const WorkSection = forwardRef<HTMLElement, WorkSectionProps>(
         className="scroll-mt-24 border-t border-rule py-24 outline-none"
       >
         <Container>
-          <div className="mb-12 flex flex-wrap items-baseline justify-between gap-4">
+          <div className="mb-12 flex flex-wrap items-end justify-between gap-4">
             <div>
               <h2 id="work-title" className="text-[2rem] leading-[1.18] font-semibold tracking-[-0.03em]">
                 Selected Work
               </h2>
-                 </div>
-            <p role="status" className="text-[0.875rem] tabular-nums text-ink-3">
-              {ready ? label : 'Loading projects'}
-            </p>
+              <p className="mt-1.5 font-read text-[1.0625rem] text-ink-3">
+                Production builds, visual systems, editorial works, and autonomous pipelines.
+              </p>
+            </div>
+            <div role="status" className="inline-flex items-center gap-2 rounded-full border border-rule-firm bg-accent-soft/20 px-3.5 py-1 text-xs font-mono tabular-nums text-ink-2 shadow-xs">
+              <span className="size-1.5 rounded-full bg-accent animate-pulse" />
+              <span>{ready ? label : 'Loading projects'}</span>
+            </div>
           </div>
 
           <FilterBar value={filter} onChange={onFilterChange} />
