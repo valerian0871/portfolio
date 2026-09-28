@@ -59,10 +59,7 @@ export const WorkSection = forwardRef<HTMLElement, WorkSectionProps>(
               <h2 id="work-title" className="text-[2rem] leading-[1.18] font-semibold tracking-[-0.03em]">
                 Selected Work
               </h2>
-              <p className="mt-2 text-[0.9375rem] text-ink-3">
-                Tailored proof across frontend builds, visual systems, editorial writing, and workflow pipelines.
-              </p>
-            </div>
+                 </div>
             <p role="status" className="text-[0.875rem] tabular-nums text-ink-3">
               {ready ? label : 'Loading projects'}
             </p>
