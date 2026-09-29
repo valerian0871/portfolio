@@ -51,14 +51,14 @@ export function Lightbox({ images, index, onIndexChange, onClose }: LightboxProp
       aria-label={`${image.alt}. Image ${index + 1} of ${images.length}`}
       className="m-auto max-h-[90dvh] w-[min(1120px,94vw)] rounded-sm border border-rule-firm bg-paper p-0 text-ink shadow-2xl"
     >
-      <div className="flex items-center justify-between gap-6 border-b border-rule px-6 py-4">
-        <p className="font-read text-[0.9375rem] text-ink-2">
+      <div className="flex items-center justify-between gap-3 sm:gap-6 border-b border-rule px-3.5 sm:px-6 py-2.5 sm:py-4">
+        <p className="font-read text-[0.875rem] sm:text-[0.9375rem] text-ink-2 truncate pr-2">
           {image.caption ?? image.alt}
         </p>
         <button
           type="button"
           onClick={() => ref.current?.close()}
-          className="shrink-0 rounded-sm border border-rule-firm px-4 py-1.5 text-[0.875rem] font-medium text-ink-2 transition-colors duration-150 ease-brand hover:border-accent hover:text-ink focus-visible:outline-accent"
+          className="shrink-0 rounded-sm border border-rule-firm px-3 sm:px-4 py-1 sm:py-1.5 text-[0.8125rem] sm:text-[0.875rem] font-medium text-ink-2 transition-colors duration-150 ease-brand hover:border-accent hover:text-ink focus-visible:outline-accent cursor-pointer"
         >
           Close
         </button>
@@ -69,25 +69,25 @@ export function Lightbox({ images, index, onIndexChange, onClose }: LightboxProp
         alt={image.alt}
         width={image.width}
         height={image.height}
-        className="max-h-[70dvh] w-full bg-accent-soft object-contain"
+        className="max-h-[65dvh] sm:max-h-[70dvh] w-full bg-accent-soft object-contain"
       />
 
       {images.length > 1 && (
-        <div className="flex items-center justify-between gap-6 border-t border-rule px-6 py-4">
+        <div className="flex items-center justify-between gap-3 sm:gap-6 border-t border-rule px-3.5 sm:px-6 py-2.5 sm:py-4">
           <button
             type="button"
             onClick={() => step(-1)}
-            className="rounded-sm border border-rule-firm px-4 py-2 text-[0.9375rem] font-medium transition-colors duration-150 ease-brand hover:border-accent"
+            className="rounded-sm border border-rule-firm px-3 sm:px-4 py-1.5 sm:py-2 text-[0.8125rem] sm:text-[0.9375rem] font-medium transition-colors duration-150 ease-brand hover:border-accent cursor-pointer"
           >
             Previous
           </button>
-          <p aria-live="polite" className="text-[0.8125rem] tabular-nums text-ink-3">
+          <p aria-live="polite" className="text-[0.75rem] sm:text-[0.8125rem] tabular-nums text-ink-3">
             {index + 1} of {images.length}
           </p>
           <button
             type="button"
             onClick={() => step(1)}
-            className="rounded-sm border border-rule-firm px-4 py-2 text-[0.9375rem] font-medium transition-colors duration-150 ease-brand hover:border-accent"
+            className="rounded-sm border border-rule-firm px-3 sm:px-4 py-1.5 sm:py-2 text-[0.8125rem] sm:text-[0.9375rem] font-medium transition-colors duration-150 ease-brand hover:border-accent cursor-pointer"
           >
             Next
           </button>

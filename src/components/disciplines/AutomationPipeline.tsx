@@ -19,10 +19,10 @@ export function AutomationPipeline({ project, index }: AutomationPipelineProps) 
 
   return (
     <article
-      className="enter border-b border-rule py-8"
+      className="enter border-b border-rule py-8 sm:py-10"
       style={{ '--i': index } as React.CSSProperties}
     >
-      <div className="flex flex-wrap items-center justify-between gap-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4">
         <div>
           <div className="flex flex-wrap items-center gap-2 text-[0.8125rem] text-ink-3">
             <span className="font-medium text-accent">AI Automation</span>
@@ -35,7 +35,7 @@ export function AutomationPipeline({ project, index }: AutomationPipelineProps) 
         </div>
 
         {project.metrics && (
-          <span className="inline-flex items-center gap-1.5 rounded-sm bg-accent-soft px-3 py-1 text-xs font-medium text-accent border border-accent/20">
+          <span className="inline-flex items-center gap-1.5 self-start sm:self-auto rounded-sm bg-accent-soft px-3 py-1 text-xs font-medium text-accent border border-accent/20">
             <span className="size-1.5 rounded-full bg-accent animate-pulse" />
             {project.metrics}
           </span>
@@ -48,8 +48,8 @@ export function AutomationPipeline({ project, index }: AutomationPipelineProps) 
 
       {/* The Process/Pipeline Schema */}
       {pipeline && (
-        <div className="mt-6 rounded-sm border border-rule-firm bg-accent-soft/30 p-4 sm:p-5">
-          <div className="mb-3 flex items-center justify-between text-[0.75rem] font-semibold uppercase tracking-wider text-ink-3">
+        <div className="mt-6 rounded-sm border border-rule-firm bg-accent-soft/30 p-3.5 sm:p-5">
+          <div className="mb-3 flex flex-wrap items-center justify-between gap-1.5 text-[0.75rem] font-semibold uppercase tracking-wider text-ink-3">
             <span>Execution Pipeline Architecture</span>
             <span className="font-mono text-[0.6875rem] text-accent">End-to-End Workflow</span>
           </div>

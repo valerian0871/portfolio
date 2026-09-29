@@ -9,7 +9,7 @@ interface HeroProps {
 
 export function Hero({ onSelectPractice }: HeroProps) {
   return (
-    <section aria-labelledby="hero-title" className="py-24">
+    <section aria-labelledby="hero-title" className="py-12 sm:py-20 lg:py-24">
       <Container>
         <h1
           id="hero-title"
@@ -22,7 +22,7 @@ export function Hero({ onSelectPractice }: HeroProps) {
         <TextReveal
           as="p"
           trigger="mount"
-          className="mt-8 max-w-[58ch] font-read text-xl leading-[1.68] text-ink-2"
+          className="mt-6 sm:mt-8 max-w-[58ch] font-read text-lg sm:text-xl leading-[1.62] sm:leading-[1.68] text-ink-2"
           text="I build interfaces in React and Node, then handle the design, writing and automation those projects usually turn out to need. Most clients arrive with one problem and leave having solved three."
         />
 

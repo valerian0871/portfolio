@@ -17,7 +17,7 @@ export function WritingEntry({ project, index }: WritingEntryProps) {
 
   return (
     <article
-      className="enter border-b border-rule py-8"
+      className="enter border-b border-rule py-8 sm:py-10"
       style={{ '--i': index } as React.CSSProperties}
     >
       <div className="grid gap-6 lg:grid-cols-[minmax(0,1.3fr)_minmax(0,1fr)] lg:gap-12">
@@ -39,7 +39,7 @@ export function WritingEntry({ project, index }: WritingEntryProps) {
             {project.title}
           </h3>
 
-          <blockquote className="mt-4 border-l-2 border-accent/40 pl-4 font-read text-xl italic leading-[1.6] text-ink">
+          <blockquote className="mt-4 border-l-2 border-accent/40 pl-3.5 sm:pl-4 font-read text-lg sm:text-xl italic leading-[1.6] text-ink">
             “{project.summary}”
           </blockquote>
 

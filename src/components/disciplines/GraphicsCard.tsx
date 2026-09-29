@@ -54,6 +54,10 @@ function GraphicThumbnail({
         <span className="truncate pr-2">{image.caption ?? 'View design'}</span>
         <span className="shrink-0 rounded-sm bg-black/40 px-1.5 py-0.5">{index + 1}/{total}</span>
       </div>
+      {/* Mobile visible indicator badge */}
+      <span className="sm:hidden absolute bottom-1.5 right-1.5 rounded-xs bg-black/60 px-1.5 py-0.5 font-mono text-[0.625rem] text-white backdrop-blur-xs">
+        {index + 1}/{total}
+      </span>
     </button>
   )
 }
@@ -71,7 +75,7 @@ export function GraphicsCard({ project, index }: GraphicsCardProps) {
       className="enter border-b border-rule py-8"
       style={{ '--i': index } as React.CSSProperties}
     >
-      <div className="flex flex-wrap items-center justify-between gap-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <div className="flex flex-wrap items-center gap-2 text-[0.8125rem] text-ink-3">
             <span className="font-medium text-accent">Graphics Design</span>
@@ -94,7 +98,7 @@ export function GraphicsCard({ project, index }: GraphicsCardProps) {
             href={project.link.href}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-1.5 rounded-sm border border-rule-firm px-4 py-2 text-[0.875rem] font-medium text-ink transition-transform duration-150 ease-brand hover:-translate-y-0.5 hover:border-accent hover:text-accent focus-visible:outline-accent"
+            className="inline-flex items-center justify-center gap-1.5 rounded-sm border border-rule-firm px-4 py-2 text-[0.875rem] font-medium text-ink transition-all duration-150 ease-brand hover:-translate-y-0.5 hover:border-accent hover:text-accent focus-visible:outline-accent w-full sm:w-auto"
           >
             <span>{project.link.label}</span>
             <svg viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">

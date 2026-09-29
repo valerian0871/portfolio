@@ -44,7 +44,7 @@ export function LoadingScreen({ ready, minDisplay = 3200 }: LoadingScreenProps) 
       <div className="relative flex flex-col items-center text-center px-6 py-8 select-none max-w-[90vw]">
         {/* Stylized Runethia Calligraphy Name */}
         <h1
-          className="font-[family-name:var(--font-runethia)] text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-normal leading-[1.2] text-ink pb-2"
+          className="font-[family-name:var(--font-runethia)] text-[clamp(2.25rem,10vw,8rem)] font-normal leading-[1.15] text-ink pb-2 whitespace-nowrap"
           aria-label={NAME}
         >
           {characters.map((char, index) => (
