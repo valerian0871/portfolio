@@ -1,6 +1,7 @@
 import { Container } from './Container'
 import { PracticeIndex } from './PracticeIndex'
 import { TextReveal } from './TextReveal'
+import { Section3DBackground } from './canvas/Section3DBackground'
 import type { PracticeId } from '../types'
 
 interface HeroProps {
@@ -9,8 +10,20 @@ interface HeroProps {
 
 export function Hero({ onSelectPractice }: HeroProps) {
   return (
-    <section aria-labelledby="hero-title" className="py-12 sm:py-20 lg:py-24">
-      <Container>
+    <section aria-labelledby="hero-title" className="relative overflow-hidden py-14 sm:py-20 lg:py-28">
+      {/* 3D Geometric Torus Lattice Background */}
+      <Section3DBackground variant="hero-lattice" opacity={0.55} />
+
+      <Container className="relative z-10">
+        {/* Availability status badge */}
+        <div
+          className="enter mb-6 inline-flex items-center gap-2 rounded-full border border-rule-firm bg-paper/85 px-3.5 py-1 text-xs font-mono text-ink-2 shadow-xs backdrop-blur-sm"
+          style={{ '--i': 0 } as React.CSSProperties}
+        >
+          <span className="size-2 rounded-full bg-emerald-500 animate-pulse" />
+          <span>Available for frontend & engineering contracts</span>
+        </div>
+
         <h1
           id="hero-title"
           className="enter max-w-[16ch] text-display leading-[1.06] font-semibold tracking-[-0.035em]"
@@ -26,12 +39,14 @@ export function Hero({ onSelectPractice }: HeroProps) {
           text="I build interfaces in React and Node, then handle the design, writing and automation those projects usually turn out to need. Most clients arrive with one problem and leave having solved three."
         />
 
-        <p
-          className="enter mt-6 text-[0.9375rem] text-ink-3"
+        <div
+          className="enter mt-6 flex items-center gap-3 text-[0.875rem] font-mono text-ink-3"
           style={{ '--i': 5 } as React.CSSProperties}
         >
-          Based in Nigeria.
-        </p>
+          <span>Based in Nigeria</span>
+          <span>·</span>
+          <span>Open to global remote roles</span>
+        </div>
 
         <PracticeIndex onSelect={onSelectPractice} />
       </Container>

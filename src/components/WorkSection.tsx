@@ -7,6 +7,7 @@ import { FrontendCard } from './disciplines/FrontendCard'
 import { GraphicsCard } from './disciplines/GraphicsCard'
 import { WritingEntry } from './disciplines/WritingEntry'
 import { AutomationPipeline } from './disciplines/AutomationPipeline'
+import { Section3DBackground } from './canvas/Section3DBackground'
 import { projects } from '../data/projects'
 import type { FilterId, Project } from '../types'
 
@@ -51,9 +52,12 @@ export const WorkSection = forwardRef<HTMLElement, WorkSectionProps>(
         ref={ref}
         tabIndex={-1}
         aria-labelledby="work-title"
-        className="scroll-mt-24 border-t border-rule py-14 sm:py-20 lg:py-24 outline-none"
+        className="relative overflow-hidden scroll-mt-24 border-t border-rule py-14 sm:py-20 lg:py-28 outline-none"
       >
-        <Container>
+        {/* 3D Undulating Topography Grid Background */}
+        <Section3DBackground variant="work-topography" opacity={0.38} />
+
+        <Container className="relative z-10">
           <div className="mb-8 sm:mb-12 flex flex-wrap items-end justify-between gap-4">
             <div>
               <h2 id="work-title" className="text-2xl sm:text-[2rem] leading-[1.18] font-semibold tracking-[-0.03em]">
@@ -63,7 +67,7 @@ export const WorkSection = forwardRef<HTMLElement, WorkSectionProps>(
                 Production builds, visual systems, editorial works, and autonomous pipelines.
               </p>
             </div>
-            <div role="status" className="inline-flex items-center gap-2 rounded-full border border-rule-firm bg-accent-soft/20 px-3 py-0.5 sm:px-3.5 sm:py-1 text-xs font-mono tabular-nums text-ink-2 shadow-xs">
+            <div role="status" className="inline-flex items-center gap-2 rounded-full border border-rule-firm bg-paper/85 px-3 py-0.5 sm:px-3.5 sm:py-1 text-xs font-mono tabular-nums text-ink-2 shadow-xs backdrop-blur-sm">
               <span className="size-1.5 rounded-full bg-accent animate-pulse" />
               <span>{ready ? label : 'Loading projects'}</span>
             </div>

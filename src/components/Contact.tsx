@@ -1,5 +1,6 @@
-import type { ReactNode } from 'react'
+import { useState, type ReactNode } from 'react'
 import { Container } from './Container'
+import { Section3DBackground } from './canvas/Section3DBackground'
 import { profile } from '../data/profile'
 
 interface ContactItem {
@@ -10,6 +11,15 @@ interface ContactItem {
 }
 
 export function Contact() {
+  const [copied, setCopied] = useState(false)
+
+  const handleCopyEmail = () => {
+    if (!profile.email) return
+    navigator.clipboard.writeText(profile.email)
+    setCopied(true)
+    setTimeout(() => setCopied(false), 2000)
+  }
+
   const rawContacts: (ContactItem | null)[] = [
     profile.email
       ? {
@@ -63,20 +73,47 @@ export function Contact() {
   const contacts = rawContacts.filter((item): item is ContactItem => item !== null)
 
   return (
-    <section id="contact" aria-labelledby="contact-title" className="scroll-mt-24 border-t border-rule py-14 sm:py-20 lg:py-24">
-      <Container>
-        <h2 className="scroll-reveal mb-8 sm:mb-12 text-2xl sm:text-[2rem] leading-[1.18] font-semibold tracking-[-0.03em]" id="contact-title">
-          Contact
-        </h2>
+    <section id="contact" aria-labelledby="contact-title" className="relative overflow-hidden scroll-mt-24 border-t border-rule py-14 sm:py-20 lg:py-28">
+      {/* 3D Orbital Rings & Signal Pulse Background */}
+      <Section3DBackground variant="contact-rings" opacity={0.45} />
 
-        <p className="scroll-reveal max-w-[54ch] font-read text-lg sm:text-xl leading-[1.62] sm:leading-[1.68] text-ink-2">
-          Available for frontend builds, brand and social design, document production,
-          and automation work. Tell me what the problem is and I will tell you honestly
-          whether I am the right person for it.
-        </p>
+      <Container className="relative z-10">
+        <div className="flex flex-wrap items-center justify-between gap-4 mb-8 sm:mb-12">
+          <div>
+            <h2 className="scroll-reveal text-2xl sm:text-[2rem] leading-[1.18] font-semibold tracking-[-0.03em]" id="contact-title">
+              Contact & Inquiries
+            </h2>
+            <p className="mt-1 font-mono text-xs text-ink-3">Direct channels · Available for commissions</p>
+          </div>
+
+          <div className="inline-flex items-center gap-2 rounded-full border border-rule-firm bg-paper/85 px-3 py-1 text-xs font-mono text-ink-2 shadow-xs backdrop-blur-sm">
+            <span className="size-1.5 rounded-full bg-emerald-500 animate-pulse" />
+            <span>Replies within 24 hours</span>
+          </div>
+        </div>
+
+        <div className="max-w-[58ch]">
+          <p className="scroll-reveal font-read text-lg sm:text-xl leading-[1.62] sm:leading-[1.68] text-ink-2">
+            Available for frontend builds, brand and social design, document production,
+            and automation work. Tell me what the problem is and I will tell you honestly
+            whether I am the right person for it.
+          </p>
+
+          {profile.email && (
+            <div className="mt-6 flex flex-wrap items-center gap-3">
+              <button
+                type="button"
+                onClick={handleCopyEmail}
+                className="group inline-flex items-center gap-2 rounded-sm border border-accent/40 bg-accent-soft/30 px-3.5 py-2 font-mono text-xs font-medium text-accent hover:border-accent hover:bg-accent-soft/50 transition-all cursor-pointer shadow-xs"
+              >
+                <span>{copied ? '✓ Copied to clipboard' : `Copy: ${profile.email}`}</span>
+              </button>
+            </div>
+          )}
+        </div>
 
         {contacts.length > 0 ? (
-          <div className="mt-6 sm:mt-8 grid grid-cols-2 sm:flex sm:flex-wrap items-center gap-2.5 sm:gap-3">
+          <div className="mt-8 sm:mt-10 grid grid-cols-2 sm:flex sm:flex-wrap items-center gap-2.5 sm:gap-3">
             {contacts.map((item) => (
               <a
                 key={item.href}
@@ -84,7 +121,7 @@ export function Contact() {
                 {...(item.isExternal ? { target: '_blank', rel: 'me noopener noreferrer' } : {})}
                 aria-label={item.label}
                 title={item.label}
-                className="group inline-flex items-center justify-center sm:justify-start gap-2 sm:gap-2.5 rounded-sm border border-rule-firm bg-paper px-3 sm:px-4 py-2.5 text-[0.8125rem] sm:text-[0.875rem] font-medium text-ink transition-all duration-200 ease-brand hover:-translate-y-0.5 hover:border-accent hover:text-accent hover:shadow-xs focus-visible:outline-accent"
+                className="group inline-flex items-center justify-center sm:justify-start gap-2 sm:gap-2.5 rounded-sm border border-rule-firm bg-paper/90 backdrop-blur-xs px-3.5 sm:px-4 py-2.5 text-[0.8125rem] sm:text-[0.875rem] font-medium text-ink transition-all duration-200 ease-brand hover:-translate-y-0.5 hover:border-accent hover:text-accent hover:shadow-xs focus-visible:outline-accent"
               >
                 <span className="text-ink-2 transition-colors group-hover:text-accent">{item.icon}</span>
                 <span>{item.label}</span>
