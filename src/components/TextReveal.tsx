@@ -6,7 +6,8 @@ interface HeadingRevealProps {
   text: string
   as?: 'h1' | 'h2' | 'h3' | 'h4' | 'p' | 'div'
   className?: string
-  trigger?: 'mount' | 'inView'
+  trigger?: 'mount' | 'inView' | 'ready'
+  ready?: boolean
   delay?: number
 }
 
@@ -33,6 +34,7 @@ export function HeadingReveal({
   as = 'h2',
   className = '',
   trigger = 'inView',
+  ready = false,
   delay = 0,
 }: HeadingRevealProps) {
   const { containerRef, lines } = useSplitLines(text)
@@ -95,7 +97,9 @@ export function HeadingReveal({
         <motion.span
           aria-hidden="true"
           initial="hidden"
-          {...(trigger === 'mount'
+          {...(trigger === 'ready'
+            ? { animate: ready ? 'visible' : 'hidden' }
+            : trigger === 'mount'
             ? { animate: 'visible' }
             : { whileInView: 'visible', viewport: { once: true, amount: 0.2 } })}
           className="block"

@@ -4,9 +4,10 @@ import { content } from '../data/content'
 
 interface HeroProps {
   onCtaClick?: () => void
+  ready?: boolean
 }
 
-export function Hero({ onCtaClick }: HeroProps) {
+export function Hero({ onCtaClick, ready = true }: HeroProps) {
   return (
     <section
       id="top"
@@ -28,7 +29,8 @@ export function Hero({ onCtaClick }: HeroProps) {
             <HeadingReveal
               text={content.hero.headline}
               as="h1"
-              trigger="mount"
+              trigger="ready"
+              ready={ready}
               className="text-[clamp(44px,7.2vw,112px)] font-heading font-medium tracking-[-0.035em] leading-[1.1] text-text"
             />
           </div>

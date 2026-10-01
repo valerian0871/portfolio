@@ -21,6 +21,14 @@ export default function App() {
     return '/'
   })
 
+  // Synchronize Hero headline reveal with LoadingScreen exit
+  const [heroReady, setHeroReady] = useState(() => {
+    if (typeof window === 'undefined') return true
+    const forceLoader = window.location.search.includes('loader')
+    const hasSeenLoader = !forceLoader && sessionStorage.getItem('portfolio_loader_seen') === 'true'
+    return hasSeenLoader
+  })
+
   // Initialize Lenis smooth scroll for desktop pointer devices
   useLenis()
 
@@ -78,7 +86,7 @@ export default function App() {
       </a>
 
       {/* Screen Loader (runs once per session, skipped on reduced motion) */}
-      <LoadingScreen />
+      <LoadingScreen onHeroReady={() => setHeroReady(true)} />
 
       {/* Fixed Header */}
       <Header currentRoute={route} onNavigate={navigateTo} />
@@ -98,8 +106,14 @@ export default function App() {
         )}
 
         {route === '/' && (
-          <div className="page-enter">
-            <Hero onCtaClick={() => navigateTo('#work')} />
+          <div
+            style={{
+              transition: 'transform 900ms cubic-bezier(0.76, 0, 0.24, 1)',
+              transform: heroReady ? 'translateY(0) scale(1)' : 'translateY(48px) scale(1.02)',
+            }}
+            className="page-enter"
+          >
+            <Hero onCtaClick={() => navigateTo('#work')} ready={heroReady} />
             <WorkSection />
             <ServicesSection />
             <AboutSection onReadMore={() => navigateTo('/about')} />

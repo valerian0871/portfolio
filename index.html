@@ -35,7 +35,6 @@
     <meta name="twitter:image" content="https://prosperkayode.vercel.app/apple-touch-icon.png" />
 
     <!-- Favicons -->
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192x192.png" />
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
@@ -67,7 +66,7 @@
     </script>
     <script>
       try {
-        if (sessionStorage.getItem('portfolio_loader_seen') === 'true') {
+        if (!window.location.search.includes('loader') && sessionStorage.getItem('portfolio_loader_seen') === 'true') {
           document.documentElement.classList.add('loader-seen');
         }
       } catch (e) {}
