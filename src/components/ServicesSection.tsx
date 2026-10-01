@@ -110,30 +110,32 @@ export function ServicesSection() {
                     </span>
                   </button>
 
-                  {/* Expandable sub-items container */}
+                  {/* Expandable sub-items container using grid-template-rows for smooth composite animation */}
                   <div
                     id={`service-panel-${service.id}`}
                     style={{
-                      transition: 'max-height 300ms cubic-bezier(0.23, 1, 0.32, 1), opacity 300ms ease',
-                      maxHeight: isExpanded ? '400px' : '0px',
+                      display: 'grid',
+                      gridTemplateRows: isExpanded ? '1fr' : '0fr',
+                      transition: 'grid-template-rows 300ms cubic-bezier(0.23, 1, 0.32, 1), opacity 300ms ease',
                       opacity: isExpanded ? 1 : 0,
                     }}
-                    className="overflow-hidden"
                   >
-                    <p className="mt-3 text-[14px] text-[#6B6A65] leading-[1.5]">
-                      {service.description}
-                    </p>
-                    <ul className="mt-4 space-y-2 pb-2">
-                      {service.subItems.map((item) => (
-                        <li
-                          key={item}
-                          className="text-[14px] text-[#6B6A65] flex items-center gap-2.5"
-                        >
-                          <span className="w-1 h-1 rounded-full bg-[#111111]/40 shrink-0" />
-                          <span>{item}</span>
-                        </li>
-                      ))}
-                    </ul>
+                    <div className="overflow-hidden min-h-0">
+                      <p className="mt-3 text-[14px] text-[#6B6A65] leading-[1.5]">
+                        {service.description}
+                      </p>
+                      <ul className="mt-4 space-y-2 pb-2">
+                        {service.subItems.map((item) => (
+                          <li
+                            key={item}
+                            className="text-[14px] text-[#6B6A65] flex items-center gap-2.5"
+                          >
+                            <span className="w-1 h-1 rounded-full bg-[#111111]/40 shrink-0" />
+                            <span>{item}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
                   </div>
                 </div>
               </div>
