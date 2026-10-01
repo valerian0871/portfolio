@@ -3,6 +3,7 @@ import { Container } from '../components/Container'
 import { HeadingReveal } from '../components/TextReveal'
 import { content, type DisciplineId, type Project } from '../data/content'
 import { Lightbox } from '../components/Lightbox'
+import { LiveSitePreview } from '../components/LiveSitePreview'
 
 interface WorkPageProps {
   onBack?: () => void
@@ -166,28 +167,40 @@ export function WorkPage({ onBack }: WorkPageProps) {
               {/* Right Column: Imagery if available */}
               <div className="col-span-12 md:col-span-6">
                 {project.images && project.images.length > 0 ? (
-                  <button
-                    type="button"
-                    onClick={() => handleOpenLightbox(project)}
-                    className="group block w-full text-left overflow-hidden rounded-[4px] bg-[#F0EFEA] border border-[#E2E1DB] cursor-pointer"
-                  >
-                    <div className="relative aspect-[16/10] overflow-hidden">
-                      <img
-                        src={project.images[0].src}
-                        alt={project.images[0].alt}
-                        loading="lazy"
-                        className="w-full h-full object-cover transition-transform duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] group-hover:scale-[1.03]"
-                      />
-                    </div>
-                    {project.images.length > 1 && (
-                      <div className="px-4 py-2 bg-[#FAFAF8] border-t border-[#E2E1DB] text-[12px] text-[#6B6A65] flex items-center justify-between">
-                        <span>Click to view {project.images.length} images</span>
-                        <span>↗</span>
+                  project.discipline === 'frontend' ? (
+                    <LiveSitePreview
+                      src={project.images[0].src}
+                      alt={project.images[0].alt}
+                      url={project.link?.href}
+                      title={project.title}
+                      onOpenLightbox={() => handleOpenLightbox(project)}
+                    />
+                  ) : (
+                    <button
+                      type="button"
+                      onClick={() => handleOpenLightbox(project)}
+                      className="group block w-full text-left overflow-hidden rounded-[6px] bg-[#F0EFEA] border border-[#E2E1DB] cursor-pointer"
+                    >
+                      <div className={`relative w-full overflow-hidden flex items-center justify-center p-3 ${
+                        project.discipline === 'automation' ? 'aspect-[16/10]' : 'aspect-[4/5] sm:aspect-[16/11]'
+                      }`}>
+                        <img
+                          src={project.images[0].src}
+                          alt={project.images[0].alt}
+                          loading="lazy"
+                          className="max-w-full max-h-full object-contain transition-transform duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] group-hover:scale-[1.02]"
+                        />
                       </div>
-                    )}
-                  </button>
+                      {project.images.length > 1 && (
+                        <div className="px-4 py-2.5 bg-[#FAFAF8] border-t border-[#E2E1DB] text-[12px] text-[#6B6A65] flex items-center justify-between">
+                          <span className="font-mono">Collection of {project.images.length} visual assets</span>
+                          <span className="text-[13px]">↗</span>
+                        </div>
+                      )}
+                    </button>
+                  )
                 ) : (
-                  <div className="h-full min-h-[180px] flex items-center justify-center rounded-[4px] bg-[#F0EFEA] border border-[#E2E1DB] p-6 text-center text-[13px] text-[#6B6A65]">
+                  <div className="h-full min-h-[180px] flex items-center justify-center rounded-[6px] bg-[#F0EFEA] border border-[#E2E1DB] p-6 text-center text-[13px] text-[#6B6A65]">
                     Technical project · No visual assets attached
                   </div>
                 )}
