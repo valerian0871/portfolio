@@ -53,8 +53,8 @@ export function LoadingScreen({ onHeroReady }: LoadingScreenProps) {
     })
 
     const startTime = performance.now()
-    const minDuration = 1200 // Minimum duration so sequence reads
-    const maxDuration = 1800 // Hard maximum duration
+    const minDuration = 2800 // Minimum duration so sequence reads
+    const maxDuration = 3600 // Hard maximum duration
 
     let isRealReady = false
     if (document.fonts && document.fonts.ready) {
