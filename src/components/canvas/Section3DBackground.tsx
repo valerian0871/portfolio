@@ -121,8 +121,6 @@ export function Section3DBackground({
         const cy = height * 0.5
         const scale = Math.min(width, height) * 0.28
 
-        const rotX = t * 0.25 + mouseY * 0.35
-        const rotY = t * 0.4 + mouseX * 0.45
         const rotX = t * 0.16 + mouseY * 0.22
         const rotY = t * 0.26 + mouseX * 0.28
 
@@ -159,8 +157,6 @@ export function Section3DBackground({
           ctx.lineTo(cross.x, cross.y)
           ctx.moveTo(next.x, next.y)
         }
-        ctx.strokeStyle = `rgba(${colors.accentRgb}, 0.16)`
-        ctx.lineWidth = 1.2
         ctx.strokeStyle = `rgba(${colors.accentRgb}, 0.11)`
         ctx.lineWidth = 0.85
         ctx.stroke()
@@ -168,10 +164,8 @@ export function Section3DBackground({
         // Draw nodes with depth-based brightness
         for (let i = 0; i < projected.length; i += 2) {
           const pt = projected[i]
-          const alpha = Math.max(0.1, Math.min(0.7, (pt.z - 0.7) * 0.9))
           const alpha = Math.max(0.06, Math.min(0.45, (pt.z - 0.7) * 0.6))
           ctx.beginPath()
-          ctx.arc(pt.x, pt.y, Math.max(1, 2.5 * pt.z), 0, Math.PI * 2)
           ctx.arc(pt.x, pt.y, Math.max(1, 1.8 * pt.z), 0, Math.PI * 2)
           ctx.fillStyle = `rgba(${colors.accentRgb}, ${alpha})`
           ctx.fill()
@@ -194,8 +188,6 @@ export function Section3DBackground({
         const cellW = width / (cols - 1)
         const gridPoints: { x: number; y: number; alpha: number }[][] = []
 
-        const tiltX = 0.95 + mouseY * 0.08
-        const tiltY = mouseX * 0.12
         const tiltX = 0.95 + mouseY * 0.05
         const tiltY = mouseX * 0.08
 
@@ -206,11 +198,8 @@ export function Section3DBackground({
             const x0 = (c - cols / 2) * cellW * 1.3
             const z0 = (r - rows / 2) * 55
 
-            // Harmonic wave elevation
             // Harmonic wave elevation (slower, subtle amplitude)
             const wave =
-              Math.sin(c * 0.35 + t * 0.8) * Math.cos(r * 0.45 + t * 0.6) * 35 +
-              Math.sin((c + r) * 0.25 - t * 0.5) * 20
               Math.sin(c * 0.28 + t * 0.4) * Math.cos(r * 0.36 + t * 0.3) * 18 +
               Math.sin((c + r) * 0.2 - t * 0.25) * 12
 
@@ -222,7 +211,6 @@ export function Section3DBackground({
 
             const px = cx + xRot * depth
             const py = cy + yRot * depth * 0.85
-            const alpha = Math.max(0.04, Math.min(0.35, depth * 0.35))
             const alpha = Math.max(0.02, Math.min(0.25, depth * 0.25))
 
             gridPoints[r][c] = { x: px, y: py, alpha }
@@ -237,10 +225,8 @@ export function Section3DBackground({
             if (c === 0) ctx.moveTo(pt.x, pt.y)
             else ctx.lineTo(pt.x, pt.y)
           }
-          const rowAlpha = (r / rows) * 0.25 + 0.05
           const rowAlpha = (r / rows) * 0.14 + 0.03
           ctx.strokeStyle = `rgba(${colors.accentRgb}, ${rowAlpha})`
-          ctx.lineWidth = 1
           ctx.lineWidth = 0.75
           ctx.stroke()
         }
@@ -253,8 +239,6 @@ export function Section3DBackground({
             if (r === 0) ctx.moveTo(pt.x, pt.y)
             else ctx.lineTo(pt.x, pt.y)
           }
-          ctx.strokeStyle = `rgba(${colors.accentRgb}, 0.08)`
-          ctx.lineWidth = 0.8
           ctx.strokeStyle = `rgba(${colors.accentRgb}, 0.05)`
           ctx.lineWidth = 0.65
           ctx.stroke()
@@ -337,18 +321,14 @@ export function Section3DBackground({
             ctx.moveTo(proj[i].x, proj[i].y)
             ctx.lineTo(proj[j].x, proj[j].y)
           })
-          ctx.strokeStyle = `rgba(${colors.accentRgb}, 0.18)`
-          ctx.lineWidth = 1.1
           ctx.strokeStyle = `rgba(${colors.accentRgb}, 0.11)`
           ctx.lineWidth = 0.85
           ctx.stroke()
 
           // Draw vertices
           proj.forEach((p) => {
-            const alpha = (p.z + 1) * 0.25 + 0.1
             const alpha = (p.z + 1) * 0.16 + 0.06
             ctx.beginPath()
-            ctx.arc(p.x, p.y, 2, 0, Math.PI * 2)
             ctx.arc(p.x, p.y, 1.5, 0, Math.PI * 2)
             ctx.fillStyle = `rgba(${colors.accentRgb}, ${alpha})`
             ctx.fill()
@@ -369,8 +349,6 @@ export function Section3DBackground({
         const cy = height * 0.5
         const maxRadius = Math.min(width, height) * 0.42
 
-        const tiltX = 1.1 + mouseY * 0.15
-        const tiltY = t * 0.15 + mouseX * 0.2
         const tiltX = 1.1 + mouseY * 0.12
         const tiltY = t * 0.08 + mouseX * 0.15
 
@@ -380,8 +358,6 @@ export function Section3DBackground({
           const ringPoints: { x: number; y: number; z: number }[] = []
           const segments = 64
 
-          const ringRotX = tiltX + Math.sin(t * 0.3 + i * 0.5) * 0.15
-          const ringRotY = tiltY + (i % 2 === 0 ? 1 : -1) * t * 0.2
           const ringRotX = tiltX + Math.sin(t * 0.2 + i * 0.4) * 0.1
           const ringRotY = tiltY + (i % 2 === 0 ? 1 : -1) * t * 0.12
 
@@ -389,7 +365,6 @@ export function Section3DBackground({
             const theta = (s / segments) * Math.PI * 2
             const x0 = Math.cos(theta) * baseRadius
             const y0 = Math.sin(theta) * baseRadius
-            const z0 = Math.sin(theta * 3 + t + i) * (8 + i * 3)
             const z0 = Math.sin(theta * 3 + t + i) * (6 + i * 2.5)
 
             // 3D rotation
@@ -413,21 +388,16 @@ export function Section3DBackground({
             if (s === 0) ctx.moveTo(ringPoints[s].x, ringPoints[s].y)
             else ctx.lineTo(ringPoints[s].x, ringPoints[s].y)
           }
-          const alpha = 0.08 + (1 - rNorm) * 0.18
           const alpha = 0.04 + (1 - rNorm) * 0.11
           ctx.strokeStyle = `rgba(${colors.accentRgb}, ${alpha})`
-          ctx.lineWidth = 1 + (1 - rNorm) * 0.8
           ctx.lineWidth = 0.8
           ctx.stroke()
 
           // Draw an orbiting signal bead on each ring
-          const beadIndex = Math.floor(((t * (0.8 + (ringCount - i) * 0.2)) % (Math.PI * 2) / (Math.PI * 2)) * segments)
           const beadIndex = Math.floor(((t * (0.6 + (ringCount - i) * 0.15)) % (Math.PI * 2) / (Math.PI * 2)) * segments)
           const bead = ringPoints[beadIndex % ringPoints.length]
           if (bead) {
             ctx.beginPath()
-            ctx.arc(bead.x, bead.y, 2.5, 0, Math.PI * 2)
-            ctx.fillStyle = `rgba(${colors.accentRgb}, 0.8)`
             ctx.arc(bead.x, bead.y, 2, 0, Math.PI * 2)
             ctx.fillStyle = `rgba(${colors.accentRgb}, 0.6)`
             ctx.fill()

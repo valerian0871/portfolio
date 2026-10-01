@@ -12,7 +12,7 @@ export function Footer() {
         <button
           type="button"
           onClick={scrollToTop}
-          className="inline-flex items-center gap-1.5 font-medium text-ink-2 hover:text-accent transition-colors cursor-pointer self-end sm:self-auto"
+          className="btn-press inline-flex items-center gap-1.5 font-medium text-ink-2 hover:text-accent cursor-pointer self-end sm:self-auto"
         >
           <span>Back to top</span>
           <svg viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">

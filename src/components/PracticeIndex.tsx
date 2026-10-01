@@ -33,7 +33,6 @@ export function PracticeIndex({ onSelect }: PracticeIndexProps) {
             <button
               type="button"
               onClick={() => onSelect(practice.id)}
-              className="group flex w-full flex-col sm:flex-row sm:items-baseline justify-between gap-2.5 sm:gap-6 rounded-sm py-4 sm:py-6 text-left transition-all duration-200 ease-brand hover:ps-3 hover:text-accent focus-visible:ps-3 focus-visible:text-accent cursor-pointer"
               className="btn-press group flex w-full flex-col sm:flex-row sm:items-baseline justify-between gap-2.5 sm:gap-6 rounded-sm py-4 sm:py-6 text-left hover:ps-2.5 hover:text-accent focus-visible:ps-2.5 focus-visible:text-accent cursor-pointer"
             >
               <span>

@@ -27,7 +27,6 @@ export function FilterBar({ value, onChange }: FilterBarProps) {
             type="button"
             aria-pressed={active}
             onClick={() => onChange(option.id)}
-            className={`cursor-pointer inline-flex items-center gap-1.5 sm:gap-2 rounded-sm border px-3 sm:px-3.5 py-1.5 sm:py-2 text-[0.8125rem] sm:text-[0.875rem] font-medium transition-all duration-150 ease-brand focus-visible:outline-accent ${
             className={`btn-press cursor-pointer inline-flex items-center gap-1.5 sm:gap-2 rounded-sm border px-3 sm:px-3.5 py-1.5 sm:py-2 text-[0.8125rem] sm:text-[0.875rem] font-medium focus-visible:outline-accent ${
               active
                 ? 'border-accent bg-accent text-accent-ink shadow-xs -translate-y-0.5'

@@ -33,7 +33,6 @@ function GraphicThumbnail({
     <button
       type="button"
       onClick={onOpen}
-      className="group relative block w-full overflow-hidden rounded-sm border border-rule bg-accent-soft text-left focus-visible:outline-accent cursor-pointer"
       className="btn-press group relative block w-full overflow-hidden rounded-sm border border-rule bg-accent-soft text-left focus-visible:outline-accent cursor-pointer"
     >
       {!loaded && <div className="shimmer absolute inset-0" />}
@@ -99,8 +98,7 @@ export function GraphicsCard({ project, index }: GraphicsCardProps) {
             href={project.link.href}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center justify-center gap-1.5 rounded-sm border border-rule-firm px-4 py-2 text-[0.875rem] font-medium text-ink transition-all duration-150 ease-brand hover:-translate-y-0.5 hover:border-accent hover:text-accent focus-visible:outline-accent w-full sm:w-auto"
-            className="btn-press inline-flex items-center justify-center gap-1.5 rounded-sm border border-rule-firm px-4 py-2 text-[0.875rem] font-medium text-ink hover:-translate-y-0.5 hover:border-accent hover:text-accent focus-visible:outline-accent w-full sm:w-auto cursor-pointer"
+            className="btn-press inline-flex items-center justify-center gap-1.5 rounded-sm border border-rule-firm px-4 py-2 text-[0.875rem] font-medium text-ink hover:border-accent hover:text-accent focus-visible:outline-accent w-full sm:w-auto cursor-pointer"
           >
             <span>{project.link.label}</span>
             <svg viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">

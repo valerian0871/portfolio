@@ -58,7 +58,7 @@ export function Lightbox({ images, index, onIndexChange, onClose }: LightboxProp
         <button
           type="button"
           onClick={() => ref.current?.close()}
-          className="shrink-0 rounded-sm border border-rule-firm px-3 sm:px-4 py-1 sm:py-1.5 text-[0.8125rem] sm:text-[0.875rem] font-medium text-ink-2 transition-colors duration-150 ease-brand hover:border-accent hover:text-ink focus-visible:outline-accent cursor-pointer"
+          className="btn-press shrink-0 rounded-sm border border-rule-firm px-3 sm:px-4 py-1 sm:py-1.5 text-[0.8125rem] sm:text-[0.875rem] font-medium text-ink-2 hover:border-accent hover:text-ink focus-visible:outline-accent cursor-pointer"
         >
           Close
         </button>
@@ -77,7 +77,7 @@ export function Lightbox({ images, index, onIndexChange, onClose }: LightboxProp
           <button
             type="button"
             onClick={() => step(-1)}
-            className="rounded-sm border border-rule-firm px-3 sm:px-4 py-1.5 sm:py-2 text-[0.8125rem] sm:text-[0.9375rem] font-medium transition-colors duration-150 ease-brand hover:border-accent cursor-pointer"
+            className="btn-press rounded-sm border border-rule-firm px-3 sm:px-4 py-1.5 sm:py-2 text-[0.8125rem] sm:text-[0.9375rem] font-medium hover:border-accent cursor-pointer"
           >
             Previous
           </button>
@@ -87,7 +87,7 @@ export function Lightbox({ images, index, onIndexChange, onClose }: LightboxProp
           <button
             type="button"
             onClick={() => step(1)}
-            className="rounded-sm border border-rule-firm px-3 sm:px-4 py-1.5 sm:py-2 text-[0.8125rem] sm:text-[0.9375rem] font-medium transition-colors duration-150 ease-brand hover:border-accent cursor-pointer"
+            className="btn-press rounded-sm border border-rule-firm px-3 sm:px-4 py-1.5 sm:py-2 text-[0.8125rem] sm:text-[0.9375rem] font-medium hover:border-accent cursor-pointer"
           >
             Next
           </button>
