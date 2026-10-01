@@ -1,63 +1,71 @@
 <!doctype html>
-<html lang="en-GB">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title>Prosper Kayode</title>
+    <title>Prosper Kayode — Frontend Developer & Multi-Disciplinary Builder</title>
     <meta
       name="description"
-      content="Prosper is a frontend developer in Nigeria working across four practices: frontend development, graphics design, content and copywriting, and AI automation."
+      content="Minimalist, editorial, high-craft portfolio of Prosper Kayode covering frontend development, graphics design, content writing, AI automation, and email marketing."
     />
 
-    <meta name="theme-color" content="#EEEFEA" media="(prefers-color-scheme: light)" />
-    <meta name="theme-color" content="#111412" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#FAFAF8" />
+    <meta name="color-scheme" content="light" />
     <meta name="google-site-verification" content="mcW-IWJcnN3VHeCTvPR7ladR6v4wMHQVmPA5nLdJVJE" />
+
+    <!-- Open Graph -->
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="Prosper Kayode — Frontend Developer & Multi-disciplinary Builder" />
+    <meta property="og:title" content="Prosper Kayode — Frontend Developer & Multi-Disciplinary Builder" />
     <meta
       property="og:description"
-      content="Frontend developer and designer working across frontend interfaces, visual design systems, content, and AI automation."
+      content="Minimalist, editorial portfolio covering frontend development, visual systems, content writing, and AI automation."
     />
     <meta property="og:url" content="https://prosperkayode.vercel.app/" />
     <meta property="og:image" content="https://prosperkayode.vercel.app/apple-touch-icon.png" />
+
+    <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Prosper Kayode — Frontend Developer & Multi-disciplinary Builder" />
+    <meta name="twitter:title" content="Prosper Kayode — Frontend Developer & Multi-Disciplinary Builder" />
     <meta
       name="twitter:description"
-      content="Frontend developer and designer working across frontend interfaces, visual design systems, content, and AI automation."
+      content="Minimalist, editorial portfolio covering frontend development, visual systems, content writing, and AI automation."
     />
     <meta name="twitter:image" content="https://prosperkayode.vercel.app/apple-touch-icon.png" />
 
+    <!-- Favicons -->
     <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192x192.png" />
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
     <link rel="icon" href="/favicon.ico" sizes="any" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
 
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@1,400;1,500;1,600;1,700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap"
-      rel="stylesheet"
-    />
-
+    <!-- Self-hosted font preloads -->
+    <link rel="preload" href="/fonts/InterTight-Medium.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/Inter.woff2" as="font" type="font/woff2" crossorigin />
 
     <script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "Person",
-  "name": "Prosper Kayode",
-  "jobTitle": "Frontend developer",
-  "url": "https://prosperkayode.vercel.app/",
-  "address": {
-    "@type": "PostalAddress",
-    "addressCountry": "NG"
-  }
-}
-</script>
+      {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Prosper Kayode",
+        "jobTitle": "Frontend Developer",
+        "url": "https://prosperkayode.vercel.app/",
+        "address": {
+          "@type": "PostalAddress",
+          "addressCountry": "NG"
+        },
+        "knowsAbout": [
+          "Frontend Development",
+          "Graphics Design",
+          "Content Writing",
+          "AI Automation",
+          "Email Marketing"
+        ]
+      }
+    </script>
   </head>
-  <body>
+  <body class="bg-[#FAFAF8] text-[#111111] antialiased selection:bg-[#111111] selection:text-[#FAFAF8]">
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>

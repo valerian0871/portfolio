@@ -1,79 +1,107 @@
 import { useEffect, useState } from 'react'
-import { useReducedMotion } from 'motion/react'
+import { content } from '../data/content'
 
 interface LoadingScreenProps {
-  ready: boolean
-  minDisplay?: number
+  onHeroReady?: () => void
 }
 
-const NAME = 'Prosper Kayode'
-
-export function LoadingScreen({ ready, minDisplay = 3200 }: LoadingScreenProps) {
-  const [mounted, setMounted] = useState(true)
-  const [minElapsed, setMinElapsed] = useState(false)
-  const reducedMotion = useReducedMotion()
-
-  useEffect(() => {
-    const timeout = window.setTimeout(() => setMinElapsed(true), minDisplay)
-    return () => window.clearTimeout(timeout)
-  }, [minDisplay])
-
-  const canLeave = ready && minElapsed
+export function LoadingScreen({ onHeroReady }: LoadingScreenProps) {
+  const [visible, setVisible] = useState(() => {
+    if (typeof window === 'undefined') return false
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    const hasSeenLoader = sessionStorage.getItem('portfolio_loader_seen') === 'true'
+    return !hasSeenLoader && !prefersReducedMotion
+  })
+  const [exiting, setExiting] = useState(false)
+  const [progress, setProgress] = useState(0)
 
   useEffect(() => {
-    if (!canLeave) return
-    const timeout = window.setTimeout(() => setMounted(false), 1200)
-    return () => window.clearTimeout(timeout)
-  }, [canLeave])
+    if (!visible) {
+      if (onHeroReady) onHeroReady()
+      return
+    }
 
-  if (!mounted) return null
+    sessionStorage.setItem('portfolio_loader_seen', 'true')
 
-  const characters = Array.from(NAME)
+    const startTime = performance.now()
+    const minDuration = 900
+    const maxDuration = 1800
+
+    let isRealReady = false
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(() => {
+        isRealReady = true
+      })
+    } else {
+      isRealReady = true
+    }
+
+    // Safety timeout to guarantee exit even if something stalls
+    const safetyTimeout = window.setTimeout(() => {
+      isRealReady = true
+    }, maxDuration)
+
+    // Progress counter animation
+    const interval = window.setInterval(() => {
+      const elapsed = performance.now() - startTime
+      const progressRatio = Math.min(elapsed / (isRealReady ? minDuration : maxDuration), 1)
+      const currentPct = Math.min(Math.floor(progressRatio * 100), 100)
+      setProgress(currentPct)
+
+      if (elapsed >= minDuration && (isRealReady || elapsed >= maxDuration)) {
+        setProgress(100)
+        clearInterval(interval)
+        clearTimeout(safetyTimeout)
+
+        // Start exit
+        setExiting(true)
+
+        // Hero text reveal starts 200ms before the 800ms exit completes (i.e. at 600ms)
+        const heroTimer = window.setTimeout(() => {
+          if (onHeroReady) onHeroReady()
+        }, 600)
+
+        // Fully unmount after 800ms exit completes
+        const unmountTimer = window.setTimeout(() => {
+          setVisible(false)
+        }, 850)
+
+        return () => {
+          clearTimeout(heroTimer)
+          clearTimeout(unmountTimer)
+        }
+      }
+    }, 16)
+
+    return () => {
+      clearInterval(interval)
+      clearTimeout(safetyTimeout)
+    }
+  }, [visible, onHeroReady])
+
+  if (!visible) return null
 
   return (
     <div
       role="status"
       aria-live="polite"
-      aria-label="Prosper Kayode — Portfolio loading"
-      className={`fixed inset-0 z-[100] flex flex-col items-center justify-center bg-paper text-ink transition-[opacity,transform] duration-[1200ms] ease-[cubic-bezier(0.16,1,0.3,1)] ${
-        canLeave
-          ? 'pointer-events-none opacity-0 scale-[1.02]'
-          : 'opacity-100 scale-100'
-      }`}
+      aria-label="Loading portfolio"
+      style={{
+        transition: 'transform 800ms cubic-bezier(0.76, 0, 0.24, 1)',
+        transform: exiting ? 'translateY(-100%)' : 'translateY(0)',
+      }}
+      className="fixed inset-0 z-[9999] flex flex-col justify-end bg-[#111111] text-[#FAFAF8] p-6 sm:p-10 pointer-events-none select-none"
     >
-      <div className="relative flex flex-col items-center text-center px-6 py-8 select-none max-w-[90vw]">
-        {/* Stylized Runethia Calligraphy Name */}
-        <h1
-          className="font-[family-name:var(--font-runethia)] text-[clamp(2.25rem,10vw,8rem)] font-normal leading-[1.15] text-ink pb-2 whitespace-nowrap"
-          aria-label={NAME}
-        >
-          {characters.map((char, index) => (
-            <span
-              key={index}
-              className={reducedMotion ? 'inline-block' : 'loading-char'}
-              style={{ '--char-i': index } as React.CSSProperties}
-            >
-              {char === ' ' ? '\u00A0' : char}
-            </span>
-          ))}
-        </h1>
+      <div className="flex w-full items-baseline justify-between">
+        {/* Wordmark at bottom left in label style */}
+        <span className="text-[12px] uppercase font-medium tracking-[0.08em] text-[#FAFAF8]/90">
+          {content.profile.name}
+        </span>
 
-        {/* Elegant Hairline Accent */}
-        <div
-          className={`h-[1px] w-28 sm:w-44 bg-accent/35 mt-2 ${
-            reducedMotion ? 'opacity-100 scale-x-100' : 'loading-rule'
-          }`}
-          aria-hidden="true"
-        />
-
-        {/* Refined Metadata Subtitle */}
-        <p
-          className={`mt-4 text-[0.6875rem] sm:text-[0.75rem] uppercase font-mono text-ink-3 tracking-[0.2em] ${
-            reducedMotion ? 'opacity-100' : 'loading-sub'
-          }`}
-        >
-          Frontend &amp; Creative Engineering
-        </p>
+        {/* Percentage counter at bottom right in tabular figures */}
+        <span className="text-[14px] sm:text-[16px] font-mono tabular-nums text-[#FAFAF8]/90">
+          {progress.toString().padStart(2, '0')}%
+        </span>
       </div>
     </div>
   )

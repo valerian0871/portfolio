@@ -1,46 +1,109 @@
-import { useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Header } from './components/Header'
 import { Hero } from './components/Hero'
 import { WorkSection } from './components/WorkSection'
-import { About } from './components/About'
-import { Contact } from './components/Contact'
+import { ServicesSection } from './components/ServicesSection'
+import { AboutSection } from './components/AboutSection'
+import { ContactSection } from './components/ContactSection'
 import { Footer } from './components/Footer'
 import { LoadingScreen } from './components/LoadingScreen'
-import { useReducedMotion } from 'motion/react'
-import { useContentReady } from './hooks/useContentReady'
-import type { FilterId, PracticeId } from './types'
+import { WorkPage } from './pages/WorkPage'
+import { AboutPage } from './pages/AboutPage'
+import { ContactPage } from './pages/ContactPage'
+import { useLenis } from './hooks/useLenis'
 
 export default function App() {
-  const [filter, setFilter] = useState<FilterId>('all')
-  const workRef = useRef<HTMLElement>(null)
-  const ready = useContentReady()
-  const reduced = useReducedMotion()
+  const [route, setRoute] = useState<string>(() => {
+    if (typeof window !== 'undefined') {
+      const path = window.location.pathname.replace(/\/$/, '') || '/'
+      return path
+    }
+    return '/'
+  })
 
-  const selectPractice = (id: PracticeId) => {
-    setFilter(id)
-    const node = workRef.current
-    if (!node) return
-    node.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', block: 'start' })
-    node.focus({ preventScroll: true })
+  // Initialize Lenis smooth scroll for desktop pointer devices
+  useLenis()
+
+  // Handle browser back / forward navigation
+  useEffect(() => {
+    const handlePopState = () => {
+      const path = window.location.pathname.replace(/\/$/, '') || '/'
+      setRoute(path)
+    }
+
+    window.addEventListener('popstate', handlePopState)
+    return () => window.removeEventListener('popstate', handlePopState)
+  }, [])
+
+  const navigateTo = (pathOrHash: string) => {
+    if (pathOrHash.startsWith('#')) {
+      // Internal section anchor
+      if (route !== '/') {
+        window.history.pushState({}, '', `/${pathOrHash}`)
+        setRoute('/')
+        setTimeout(() => {
+          const el = document.querySelector(pathOrHash)
+          if (el) el.scrollIntoView({ behavior: 'smooth' })
+        }, 100)
+      } else {
+        window.location.hash = pathOrHash
+        const el = document.querySelector(pathOrHash)
+        if (el) el.scrollIntoView({ behavior: 'smooth' })
+      }
+      return
+    }
+
+    const cleanPath = pathOrHash.replace(/\/$/, '') || '/'
+    if (cleanPath === route) return
+
+    window.history.pushState({}, '', cleanPath)
+    setRoute(cleanPath)
+    window.scrollTo({ top: 0, behavior: 'instant' })
   }
 
   return (
     <>
-      <LoadingScreen ready={ready} />
-
-      <a href="#main" className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-100 focus:rounded-sm focus:bg-accent focus:px-4 focus:py-2 focus:text-accent-ink">
-        Skip to content
+      {/* Accessible skip link */}
+      <a
+        href="#main"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[10000] focus:rounded-full focus:bg-[#111111] focus:px-6 focus:py-3 focus:text-[#FAFAF8] focus:text-[14px] focus:font-medium focus:outline-2 focus:outline-offset-2 focus:outline-[#111111]"
+      >
+        Skip to main content
       </a>
 
-      <Header />
+      {/* Screen Loader (runs once per session, skipped on reduced motion) */}
+      <LoadingScreen />
+
+      {/* Fixed Header */}
+      <Header currentRoute={route} onNavigate={navigateTo} />
+
+      {/* Main Content Area */}
       <main id="main">
-        <div id="top" />
-        <Hero onSelectPractice={selectPractice} />
-        <WorkSection ref={workRef} filter={filter} onFilterChange={setFilter} ready={ready} />
-        <About />
-        <Contact />
+        {route === '/work' && (
+          <WorkPage onBack={() => navigateTo('/')} />
+        )}
+
+        {route === '/about' && (
+          <AboutPage onBack={() => navigateTo('/')} />
+        )}
+
+        {route === '/contact' && (
+          <ContactPage onBack={() => navigateTo('/')} />
+        )}
+
+        {route === '/' && (
+          <div className="page-enter">
+            <Hero onCtaClick={() => navigateTo('#work')} />
+            <WorkSection />
+            <ServicesSection />
+            <AboutSection onReadMore={() => navigateTo('/about')} />
+            <ContactSection />
+          </div>
+        )}
       </main>
-      <Footer />
+
+      {/* Footer */}
+      <Footer onNavigate={navigateTo} />
     </>
   )
 }

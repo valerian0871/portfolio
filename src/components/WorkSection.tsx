@@ -1,103 +1,139 @@
-import { forwardRef } from 'react'
-import { AnimatePresence, motion, useReducedMotion } from 'motion/react'
+import { useState } from 'react'
 import { Container } from './Container'
-import { FilterBar } from './FilterBar'
-import { EntrySkeleton } from './EntrySkeleton'
-import { FrontendCard } from './disciplines/FrontendCard'
-import { GraphicsCard } from './disciplines/GraphicsCard'
-import { WritingEntry } from './disciplines/WritingEntry'
-import { AutomationPipeline } from './disciplines/AutomationPipeline'
-import { Section3DBackground } from './canvas/Section3DBackground'
-import { projects } from '../data/projects'
-import type { FilterId, Project } from '../types'
+import { HeadingReveal } from './TextReveal'
+import { content, type Project } from '../data/content'
+import { Lightbox } from './Lightbox'
 
 interface WorkSectionProps {
-  filter: FilterId
-  onFilterChange: (value: FilterId) => void
-  ready: boolean
+  onSelectProject?: (project: Project) => void
 }
 
-function renderDisciplineItem(project: Project, index: number) {
-  switch (project.practice) {
-    case 'frontend':
-      return <FrontendCard key={project.slug} project={project} index={index} />
-    case 'graphics':
-      return <GraphicsCard key={project.slug} project={project} index={index} />
-    case 'writing':
-      return <WritingEntry key={project.slug} project={project} index={index} />
-    case 'automation':
-      return <AutomationPipeline key={project.slug} project={project} index={index} />
-    default:
-      return null
+export function WorkSection({ onSelectProject }: WorkSectionProps) {
+  const [activeProject, setActiveProject] = useState<Project | null>(null)
+  const [lightboxOpen, setLightboxOpen] = useState(false)
+  const [lightboxIndex, setLightboxIndex] = useState(0)
+
+  // Filter only projects that have valid images for the image-led grid
+  const displayProjects = content.projects.filter((p) => p.images && p.images.length > 0)
+
+  const handleOpenProject = (project: Project) => {
+    setActiveProject(project)
+    setLightboxIndex(0)
+    setLightboxOpen(true)
+    if (onSelectProject) onSelectProject(project)
   }
+
+  return (
+    <section
+      id="work"
+      className="py-[64px] md:py-[96px] lg:py-[128px] border-b border-[#E2E1DB]"
+    >
+      <Container>
+        {/* Section Header */}
+        <div className="mb-12 md:mb-16 lg:mb-24 flex flex-col md:flex-row md:items-baseline justify-between gap-4">
+          <div>
+            <span className="text-[12px] uppercase font-medium tracking-[0.08em] text-[#6B6A65] block mb-3">
+              Selected Work
+            </span>
+            <HeadingReveal
+              text="Case studies & visual systems"
+              as="h2"
+              className="text-[clamp(32px,4.2vw,64px)] font-heading font-medium tracking-[-0.035em] leading-[1.08] text-[#111111]"
+            />
+          </div>
+          <span className="text-[14px] text-[#6B6A65] tabular-nums">
+            {displayProjects.length} Projects
+          </span>
+        </div>
+
+        {/* Two-column card grid, right column offset 96px downward on desktop */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 lg:gap-x-12 gap-y-12 md:gap-y-16">
+          {displayProjects.map((project, index) => {
+            const isRightColumn = index % 2 === 1
+            const coverImage = project.images[0]
+
+            return (
+              <div
+                key={project.slug}
+                className={`flex flex-col ${isRightColumn ? 'md:mt-[96px]' : ''}`}
+              >
+                <WorkCard
+                  project={project}
+                  coverImage={coverImage}
+                  onClick={() => handleOpenProject(project)}
+                />
+              </div>
+            )
+          })}
+        </div>
+      </Container>
+
+      {/* Lightbox / detail inspection */}
+      {lightboxOpen && activeProject && activeProject.images.length > 0 && (
+        <Lightbox
+          images={activeProject.images}
+          initialIndex={lightboxIndex}
+          onClose={() => setLightboxOpen(false)}
+        />
+      )}
+    </section>
+  )
 }
 
-export const WorkSection = forwardRef<HTMLElement, WorkSectionProps>(
-  function WorkSection({ filter, onFilterChange, ready }, ref) {
-    const reduced = useReducedMotion()
+interface WorkCardProps {
+  project: Project
+  coverImage: { src: string; alt: string; caption: string }
+  onClick: () => void
+}
 
-    const visible =
-      filter === 'all'
-        ? projects
-        : projects.filter((project) => project.practice === filter)
+function WorkCard({ project, coverImage, onClick }: WorkCardProps) {
+  const [loaded, setLoaded] = useState(false)
 
-    const label =
-      filter === 'all'
-        ? `Showing all ${projects.length} projects`
-        : `Showing ${visible.length} of ${projects.length} projects`
-
-    return (
-      <section
-        id="work"
-        ref={ref}
-        tabIndex={-1}
-        aria-labelledby="work-title"
-        className="relative overflow-hidden scroll-mt-24 border-t border-rule py-14 sm:py-20 lg:py-28 outline-none"
+  return (
+    <article className="group cursor-pointer block select-none">
+      <button
+        type="button"
+        onClick={onClick}
+        className="w-full text-left focus-visible:outline-2 focus-visible:outline-[#111111] cursor-pointer"
+        aria-label={`View project details for ${project.title}`}
       >
-        {/* 3D Undulating Topography Grid Background */}
-        <Section3DBackground variant="work-topography" opacity={0.38} />
-        <Section3DBackground variant="work-topography" opacity={0.24} />
+        {/* Image Container: Aspect 4 by 5, 4px radius, flat #F0EFEA placeholder */}
+        <div className="relative w-full aspect-[4/5] rounded-[4px] overflow-hidden bg-[#F0EFEA]">
+          {/* Main Image with hover scale to 1.03 over 500ms on fine pointer devices */}
+          <img
+            src={coverImage.src}
+            alt={coverImage.alt}
+            loading="lazy"
+            decoding="async"
+            onLoad={() => setLoaded(true)}
+            style={{
+              transition: 'transform 500ms cubic-bezier(0.23, 1, 0.32, 1), opacity 500ms ease',
+              opacity: loaded ? 1 : 0,
+            }}
+            className="w-full h-full object-cover rounded-[4px] will-change-transform group-hover:scale-[1.03]"
+          />
+        </div>
 
-        <Container className="relative z-10">
-          <div className="mb-8 sm:mb-12 flex flex-wrap items-end justify-between gap-4">
-            <div>
-              <h2 id="work-title" className="text-2xl sm:text-[2rem] leading-[1.18] font-semibold tracking-[-0.03em]">
-                Selected Work
-              </h2>
-              <p className="mt-1 sm:mt-1.5 font-read text-[0.9375rem] sm:text-[1.0625rem] text-ink-3">
-                Production builds, visual systems, editorial works, and autonomous pipelines.
-              </p>
-            </div>
-            <div role="status" className="inline-flex items-center gap-2 rounded-full border border-rule-firm bg-paper/85 px-3 py-0.5 sm:px-3.5 sm:py-1 text-xs font-mono tabular-nums text-ink-2 shadow-xs backdrop-blur-sm">
-              <span className="size-1.5 rounded-full bg-accent animate-pulse" />
-              <span>{ready ? label : 'Loading projects'}</span>
-            </div>
-          </div>
+        {/* Caption below: Title left, Discipline right */}
+        <div className="mt-4 flex items-baseline justify-between gap-4">
+          <h3
+            style={{
+              transition: 'transform 250ms cubic-bezier(0.23, 1, 0.32, 1)',
+            }}
+            className="text-[16px] md:text-[18px] font-heading font-medium tracking-tight text-[#111111] group-hover:translate-x-[4px]"
+          >
+            {project.title}
+          </h3>
+          <span className="text-[13px] text-[#6B6A65] uppercase tracking-[0.05em] shrink-0 font-medium">
+            {project.disciplineLabel}
+          </span>
+        </div>
 
-          <FilterBar value={filter} onChange={onFilterChange} />
-
-          {!ready && <EntrySkeleton />}
-
-          {ready && visible.length === 0 && (
-            <p className="py-16 font-read text-ink-2">Nothing under this practice yet.</p>
-          )}
-
-          {ready && visible.length > 0 && (
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={filter}
-                initial={reduced ? false : { opacity: 0, y: 8 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={reduced ? undefined : { opacity: 0, y: -8 }}
-                transition={{ duration: reduced ? 0 : 0.22, ease: [0.2, 0, 0, 1] }}
-                className="border-t border-rule-firm"
-              >
-                {visible.map((project, index) => renderDisciplineItem(project, index))}
-              </motion.div>
-            </AnimatePresence>
-          )}
-        </Container>
-      </section>
-    )
-  },
-)
+        {/* Short summary line */}
+        <p className="mt-1 text-[14px] text-[#6B6A65] line-clamp-2 leading-[1.5]">
+          {project.summary}
+        </p>
+      </button>
+    </article>
+  )
+}

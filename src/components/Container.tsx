@@ -3,11 +3,15 @@ import type { ReactNode } from 'react'
 interface ContainerProps {
   children: ReactNode
   className?: string
+  id?: string
 }
 
-export function Container({ children, className = '' }: ContainerProps) {
+export function Container({ children, className = '', id }: ContainerProps) {
   return (
-    <div className={`mx-auto w-full max-w-[1120px] px-4 sm:px-6 md:px-8 lg:px-12 ${className}`}>
+    <div
+      id={id}
+      className={`mx-auto w-full max-w-[1440px] px-5 sm:px-6 lg:px-10 ${className}`}
+    >
       {children}
     </div>
   )
