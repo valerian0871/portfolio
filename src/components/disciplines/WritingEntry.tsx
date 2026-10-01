@@ -52,6 +52,7 @@ export function WritingEntry({ project, index }: WritingEntryProps) {
                   type="button"
                   onClick={() => setLightboxAt(imgIndex)}
                   className="group relative overflow-hidden rounded-sm border border-rule-firm bg-paper transition-transform duration-150 ease-brand hover:-translate-y-0.5 focus-visible:outline-accent cursor-pointer shadow-xs"
+                  className="btn-press group relative overflow-hidden rounded-sm border border-rule-firm bg-paper hover:-translate-y-0.5 focus-visible:outline-accent cursor-pointer shadow-xs"
                 >
                   <img
                     src={img.src}

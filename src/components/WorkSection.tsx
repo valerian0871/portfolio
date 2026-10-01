@@ -56,6 +56,7 @@ export const WorkSection = forwardRef<HTMLElement, WorkSectionProps>(
       >
         {/* 3D Undulating Topography Grid Background */}
         <Section3DBackground variant="work-topography" opacity={0.38} />
+        <Section3DBackground variant="work-topography" opacity={0.24} />
 
         <Container className="relative z-10">
           <div className="mb-8 sm:mb-12 flex flex-wrap items-end justify-between gap-4">

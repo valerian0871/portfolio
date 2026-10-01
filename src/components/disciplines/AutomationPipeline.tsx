@@ -114,6 +114,7 @@ export function AutomationPipeline({ project, index }: AutomationPipelineProps) 
               type="button"
               onClick={() => setLightboxOpen(true)}
               className="block w-full text-left focus-visible:outline-accent cursor-pointer"
+              className="btn-press block w-full text-left focus-visible:outline-accent cursor-pointer"
             >
               <img
                 src={workflowImage.src}
@@ -147,6 +148,7 @@ export function AutomationPipeline({ project, index }: AutomationPipelineProps) 
           aria-controls={panelId}
           onClick={() => setOpen((prev) => !prev)}
           className="inline-flex items-center gap-1.5 text-[0.875rem] font-medium text-accent underline-offset-4 hover:underline focus-visible:outline-accent"
+          className="btn-press inline-flex items-center gap-1.5 text-[0.875rem] font-medium text-accent underline-offset-4 hover:underline focus-visible:outline-accent cursor-pointer"
         >
           <span>{open ? 'Hide automation architecture details' : 'Read automation architecture & error handling'}</span>
           <svg

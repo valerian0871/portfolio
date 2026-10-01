@@ -41,6 +41,8 @@
 
   --ease-brand: cubic-bezier(0.2, 0, 0, 1);
   --ease-brand-soft: cubic-bezier(0.33, 1, 0.68, 1);
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -111,10 +113,19 @@
   }
 }
 
+/* Emil Kowalski: Responsive press feedback */
+.btn-press {
+  transition: transform 160ms var(--ease-out), background-color 150ms ease, border-color 150ms ease, color 150ms ease, box-shadow 150ms ease;
+}
+.btn-press:active {
+  transform: scale(0.97);
+}
+
 .panel {
   display: grid;
   grid-template-rows: 0fr;
   transition: grid-template-rows 420ms var(--ease-brand);
+  transition: grid-template-rows 240ms var(--ease-out);
 }
 .panel[data-open="true"] {
   grid-template-rows: 1fr;
@@ -123,6 +134,7 @@
   overflow: hidden;
   visibility: hidden;
   transition: visibility 0s linear 420ms;
+  transition: visibility 0s linear 240ms;
 }
 .panel[data-open="true"] > div {
   visibility: visible;
@@ -142,6 +154,8 @@
 .enter {
   animation: enter 420ms var(--ease-brand-soft) both;
   animation-delay: calc(var(--i, 0) * 45ms);
+  animation: enter 280ms var(--ease-out) both;
+  animation-delay: calc(var(--i, 0) * 35ms);
 }
 
 @keyframes shimmer {

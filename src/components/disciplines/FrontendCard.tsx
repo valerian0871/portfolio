@@ -66,6 +66,7 @@ export function FrontendCard({ project, index }: FrontendCardProps) {
                     type="button"
                     onClick={() => setViewMode('live')}
                     className={`inline-flex items-center gap-1 sm:gap-1.5 rounded-xs px-2 sm:px-2.5 py-0.5 sm:py-1 transition-colors duration-150 cursor-pointer ${
+                    className={`btn-press inline-flex items-center gap-1 sm:gap-1.5 rounded-xs px-2 sm:px-2.5 py-0.5 sm:py-1 cursor-pointer ${
                       viewMode === 'live'
                         ? 'bg-accent text-accent-ink font-semibold shadow-xs'
                         : 'hover:text-ink'
@@ -81,6 +82,7 @@ export function FrontendCard({ project, index }: FrontendCardProps) {
                       type="button"
                       onClick={() => setViewMode('screenshot')}
                       className={`inline-flex items-center gap-1 rounded-xs px-2 sm:px-2.5 py-0.5 sm:py-1 transition-colors duration-150 cursor-pointer ${
+                      className={`btn-press inline-flex items-center gap-1 rounded-xs px-2 sm:px-2.5 py-0.5 sm:py-1 cursor-pointer ${
                         viewMode === 'screenshot'
                           ? 'bg-accent text-accent-ink font-semibold shadow-xs'
                           : 'hover:text-ink'
@@ -105,6 +107,7 @@ export function FrontendCard({ project, index }: FrontendCardProps) {
                     title="Reload live preview"
                     aria-label="Reload live preview"
                     className="flex size-6 sm:size-7 items-center justify-center rounded-sm border border-rule bg-paper text-ink-3 hover:border-accent hover:text-accent transition-colors cursor-pointer"
+                    className="btn-press flex size-6 sm:size-7 items-center justify-center rounded-sm border border-rule bg-paper text-ink-3 hover:border-accent hover:text-accent cursor-pointer"
                   >
                     <svg viewBox="0 0 16 16" width="11" height="11" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" aria-hidden="true">
                       <path d="M13.5 8a5.5 5.5 0 1 1-1.6-3.9L14 6m0-4v4h-4" />
@@ -119,6 +122,7 @@ export function FrontendCard({ project, index }: FrontendCardProps) {
                   title="Open site in new tab"
                   aria-label="Open site in new tab"
                   className="flex size-6 sm:size-7 items-center justify-center rounded-sm border border-rule bg-paper text-ink-3 hover:border-accent hover:text-accent transition-colors"
+                  className="btn-press flex size-6 sm:size-7 items-center justify-center rounded-sm border border-rule bg-paper text-ink-3 hover:border-accent hover:text-accent cursor-pointer"
                 >
                   <svg viewBox="0 0 16 16" width="11" height="11" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                     <path d="M6 3h7v7M13 3 7 9" />
@@ -270,6 +274,7 @@ export function FrontendCard({ project, index }: FrontendCardProps) {
                 aria-controls={panelId}
                 onClick={() => setOpen((prev) => !prev)}
                 className="inline-flex items-center gap-1.5 text-[0.875rem] font-medium text-accent underline-offset-4 hover:underline focus-visible:outline-accent"
+                className="btn-press inline-flex items-center gap-1.5 text-[0.875rem] font-medium text-accent underline-offset-4 hover:underline focus-visible:outline-accent cursor-pointer"
               >
                 <span>{open ? 'Hide technical implementation' : 'Read technical implementation'}</span>
                 <svg
@@ -315,6 +320,7 @@ export function FrontendCard({ project, index }: FrontendCardProps) {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center justify-center gap-1.5 rounded-sm border border-rule-firm bg-paper px-4 py-2 text-[0.875rem] font-medium text-ink transition-all duration-150 ease-brand hover:-translate-y-0.5 hover:border-accent hover:text-accent hover:shadow-xs focus-visible:outline-accent w-full sm:w-auto"
+                className="btn-press inline-flex items-center justify-center gap-1.5 rounded-sm border border-rule-firm bg-paper px-4 py-2 text-[0.875rem] font-medium text-ink hover:-translate-y-0.5 hover:border-accent hover:text-accent hover:shadow-xs focus-visible:outline-accent w-full sm:w-auto cursor-pointer"
               >
                 <span>{project.link.label}</span>
                 <svg viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">

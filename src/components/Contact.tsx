@@ -76,6 +76,7 @@ export function Contact() {
     <section id="contact" aria-labelledby="contact-title" className="relative overflow-hidden scroll-mt-24 border-t border-rule py-14 sm:py-20 lg:py-28">
       {/* 3D Orbital Rings & Signal Pulse Background */}
       <Section3DBackground variant="contact-rings" opacity={0.45} />
+      <Section3DBackground variant="contact-rings" opacity={0.28} />
 
       <Container className="relative z-10">
         <div className="flex flex-wrap items-center justify-between gap-4 mb-8 sm:mb-12">
@@ -104,7 +105,7 @@ export function Contact() {
               <button
                 type="button"
                 onClick={handleCopyEmail}
-                className="group inline-flex items-center gap-2 rounded-sm border border-accent/40 bg-accent-soft/30 px-3.5 py-2 font-mono text-xs font-medium text-accent hover:border-accent hover:bg-accent-soft/50 transition-all cursor-pointer shadow-xs"
+                className="btn-press group inline-flex items-center gap-2 rounded-sm border border-accent/40 bg-accent-soft/30 px-3.5 py-2 font-mono text-xs font-medium text-accent hover:border-accent hover:bg-accent-soft/50 cursor-pointer shadow-xs"
               >
                 <span>{copied ? '✓ Copied to clipboard' : `Copy: ${profile.email}`}</span>
               </button>
@@ -121,7 +122,7 @@ export function Contact() {
                 {...(item.isExternal ? { target: '_blank', rel: 'me noopener noreferrer' } : {})}
                 aria-label={item.label}
                 title={item.label}
-                className="group inline-flex items-center justify-center sm:justify-start gap-2 sm:gap-2.5 rounded-sm border border-rule-firm bg-paper/90 backdrop-blur-xs px-3.5 sm:px-4 py-2.5 text-[0.8125rem] sm:text-[0.875rem] font-medium text-ink transition-all duration-200 ease-brand hover:-translate-y-0.5 hover:border-accent hover:text-accent hover:shadow-xs focus-visible:outline-accent"
+                className="btn-press group inline-flex items-center justify-center sm:justify-start gap-2 sm:gap-2.5 rounded-sm border border-rule-firm bg-paper/90 backdrop-blur-xs px-3.5 sm:px-4 py-2.5 text-[0.8125rem] sm:text-[0.875rem] font-medium text-ink hover:border-accent hover:text-accent hover:shadow-xs focus-visible:outline-accent"
               >
                 <span className="text-ink-2 transition-colors group-hover:text-accent">{item.icon}</span>
                 <span>{item.label}</span>

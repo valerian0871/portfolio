@@ -13,6 +13,7 @@ export function Hero({ onSelectPractice }: HeroProps) {
     <section aria-labelledby="hero-title" className="relative overflow-hidden py-14 sm:py-20 lg:py-28">
       {/* 3D Geometric Torus Lattice Background */}
       <Section3DBackground variant="hero-lattice" opacity={0.55} />
+      <Section3DBackground variant="hero-lattice" opacity={0.34} />
 
       <Container className="relative z-10">
         {/* Availability status badge */}

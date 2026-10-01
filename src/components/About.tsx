@@ -16,6 +16,7 @@ export function About() {
     <section id="about" aria-labelledby="about-title" className="relative overflow-hidden scroll-mt-24 border-t border-rule py-14 sm:py-20 lg:py-28">
       {/* 3D Floating Polyhedra Geometry Background */}
       <Section3DBackground variant="about-polyhedra" opacity={0.45} />
+      <Section3DBackground variant="about-polyhedra" opacity={0.26} />
 
       <Container className="relative z-10">
         <h2 className="scroll-reveal mb-8 sm:mb-12 text-2xl sm:text-[2rem] leading-[1.18] font-semibold tracking-[-0.03em]" id="about-title">
