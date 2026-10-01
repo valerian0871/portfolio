@@ -36,6 +36,12 @@ export default function App() {
   }, [])
 
   const navigateTo = (pathOrHash: string) => {
+    // External URLs: open in a new tab
+    if (pathOrHash.startsWith('https://') || pathOrHash.startsWith('http://')) {
+      window.open(pathOrHash, '_blank', 'noopener,noreferrer')
+      return
+    }
+
     if (pathOrHash.startsWith('#')) {
       // Internal section anchor
       if (route !== '/') {
@@ -66,7 +72,7 @@ export default function App() {
       {/* Accessible skip link */}
       <a
         href="#main"
-        className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[10000] focus:rounded-full focus:bg-[#111111] focus:px-6 focus:py-3 focus:text-[#FAFAF8] focus:text-[14px] focus:font-medium focus:outline-2 focus:outline-offset-2 focus:outline-[#111111]"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[10000] focus:rounded-full focus:bg-text focus:px-6 focus:py-3 focus:text-bg focus:text-[14px] focus:font-medium focus:outline-2 focus:outline-offset-2 focus:outline-text"
       >
         Skip to main content
       </a>

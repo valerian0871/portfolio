@@ -4,8 +4,10 @@
  */
 
 :root {
+  color-scheme: light dark;
+
   /* ========================================================================
-     COLOUR TOKENS (Light theme only, no gradients, no shadows, no glow)
+     COLOUR TOKENS (Light theme by default)
      ======================================================================== */
   --color-bg: #FAFAF8;
   --color-surface: #F0EFEA;
@@ -13,10 +15,43 @@
   --color-muted: #6B6A65;   /* >= 4.5:1 contrast ratio against #FAFAF8 */
   --color-line: #E2E1DB;    /* 1px hairline dividers */
 
-  /* Inverse (loader & dark accent moments only) */
+  /* Loader tokens */
+  --color-loader-bg: #111111;
+  --color-loader-text: #F2F1EC;
+  --color-loader-muted: #9A9993;
+  --color-loader-line: #2A2A27;
+
+  /* Inverse */
   --color-inverse-bg: #111111;
   --color-inverse-text: #FAFAF8;
   --color-inverse-muted: #8E8D88;
+}
+
+/* ==========================================================================
+   DARK THEME TOKENS (Item 5: prefers-color-scheme: dark from device)
+   ========================================================================== */
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-bg: #0E0E0D;
+    --color-surface: #181816;
+    --color-text: #F2F1EC;
+    --color-muted: #9A9993;   /* >= 4.5:1 contrast ratio against #0E0E0D */
+    --color-line: #2A2A27;
+
+    /* Loader in dark mode */
+    --color-loader-bg: #1C1C1A;
+    --color-loader-text: #F2F1EC;
+    --color-loader-muted: #9A9993;
+    --color-loader-line: #2A2A27;
+
+    --color-inverse-bg: #FAFAF8;
+    --color-inverse-text: #111111;
+    --color-inverse-muted: #6B6A65;
+  }
+}
+
+:root {
 
   /* ========================================================================
      TYPOGRAPHY TOKENS
@@ -35,11 +70,11 @@
   --text-label: 12px;
 
   /* Leading & Tracking */
-  --leading-display: 1.02;
-  --leading-h2: 1.08;
+  --leading-display: 1.1;
+  --leading-h2: 1.15;
   --leading-h3: 1.25;
   --leading-body: 1.55;
-  --leading-tight: 1.2;
+  --leading-tight: 1.25;
 
   --tracking-heading: -0.035em;
   --tracking-normal: -0.011em;

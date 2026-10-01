@@ -10,8 +10,8 @@ interface ContactPageProps {
 export function ContactPage({ onBack }: ContactPageProps) {
   const [copied, setCopied] = useState(false)
 
-  const handleCopy = () => {
-    navigator.clipboard.writeText(content.contact.email)
+  const handleCopyPhone = () => {
+    navigator.clipboard.writeText(content.contact.whatsapp.formatted)
     setCopied(true)
     setTimeout(() => setCopied(false), 1500)
   }
@@ -29,7 +29,7 @@ export function ContactPage({ onBack }: ContactPageProps) {
                 onBack()
               }
             }}
-            className="inline-flex items-center gap-2 text-[14px] text-[#6B6A65] hover:text-[#111111] transition-colors"
+            className="inline-flex items-center gap-2 text-[14px] text-muted hover:text-text transition-colors"
           >
             <span>←</span>
             <span>Back to overview</span>
@@ -38,45 +38,50 @@ export function ContactPage({ onBack }: ContactPageProps) {
 
         {/* Heading */}
         <div className="mb-12 md:mb-16">
-          <span className="text-[12px] uppercase font-medium tracking-[0.08em] text-[#6B6A65] block mb-3">
+          <span className="text-[12px] uppercase font-medium tracking-[0.08em] text-muted block mb-3">
             Get In Touch
           </span>
           <HeadingReveal
             text="Let us discuss your next project."
             as="h1"
-            className="text-[clamp(36px,5vw,72px)] font-heading font-medium tracking-[-0.035em] leading-[1.05] text-[#111111]"
+            className="text-[clamp(36px,5vw,72px)] font-heading font-medium tracking-[-0.035em] leading-[1.1] text-text"
           />
         </div>
 
-        <div className="h-[1px] w-full bg-[#E2E1DB] mb-12 md:mb-16" />
+        <div className="h-[1px] w-full bg-line mb-12 md:mb-16" />
 
         <div className="grid grid-cols-12 gap-8 lg:gap-12">
           {/* Left Column: Direct channels */}
           <div className="col-span-12 md:col-span-7 flex flex-col gap-8">
             <FadeReveal>
-              <h2 className="text-[20px] font-heading font-medium text-[#111111] mb-2">
+              <h2 className="text-[20px] font-heading font-medium text-text mb-2">
                 Direct Communication
               </h2>
-              <p className="text-[16px] text-[#6B6A65] leading-[1.6] max-w-[50ch] mb-6">
+              <p className="text-[16px] text-muted leading-[1.6] max-w-[50ch] mb-6">
                 I am currently open to freelance design engineering contracts, frontend development engagements, and full-time technical roles.
               </p>
 
+              {/* Primary: WhatsApp CTA + secondary copy phone */}
               <div className="flex flex-wrap items-center gap-4">
                 <a
-                  href={`mailto:${content.contact.email}`}
+                  href={content.contact.whatsapp.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="btn-pill"
+                  aria-label={`Open WhatsApp chat with Prosper (${content.contact.whatsapp.formatted})`}
                 >
-                  Open in email client
+                  {content.contact.whatsapp.label}
                 </a>
 
                 <button
                   type="button"
-                  onClick={handleCopy}
-                  className="btn-pill-secondary btn-press rounded-full px-6 py-3 text-[14px] font-medium text-[#111111] cursor-pointer"
+                  onClick={handleCopyPhone}
+                  className="btn-pill-secondary btn-press rounded-full px-6 py-3 text-[14px] font-medium text-text cursor-pointer inline-flex items-center gap-2"
+                  aria-label={`Copy phone number ${content.contact.whatsapp.formatted} to clipboard`}
                 >
-                  <span>{content.contact.email}</span>
+                  <span>{content.contact.whatsapp.formatted}</span>
                   {copied && (
-                    <span className="ml-2 font-mono text-[12px] text-[#111111] font-semibold">
+                    <span className="font-mono text-[12px] text-text font-semibold">
                       ✓ Copied
                     </span>
                   )}
@@ -84,11 +89,11 @@ export function ContactPage({ onBack }: ContactPageProps) {
               </div>
             </FadeReveal>
 
-            <FadeReveal delay={0.2} className="pt-6 border-t border-[#E2E1DB]">
-              <span className="text-[12px] uppercase font-medium tracking-[0.08em] text-[#6B6A65] block mb-2">
+            <FadeReveal delay={0.2} className="pt-6 border-t border-line">
+              <span className="text-[12px] uppercase font-medium tracking-[0.08em] text-muted block mb-2">
                 Availability
               </span>
-              <p className="text-[15px] text-[#111111]">
+              <p className="text-[15px] text-text">
                 {content.profile.availability}
               </p>
             </FadeReveal>
@@ -96,25 +101,25 @@ export function ContactPage({ onBack }: ContactPageProps) {
 
           {/* Right Column: Social Profiles */}
           <div className="col-span-12 md:col-span-5 flex flex-col gap-6">
-            <h2 className="text-[20px] font-heading font-medium text-[#111111]">
+            <h2 className="text-[20px] font-heading font-medium text-text">
               Connected Networks
             </h2>
-            <div className="flex flex-col divide-y divide-[#E2E1DB] border-y border-[#E2E1DB]">
+            <div className="flex flex-col divide-y divide-line border-y border-line">
               {content.profile.socials.map((social) => (
                 <a
                   key={social.label}
                   href={social.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="py-4 flex items-center justify-between text-[15px] text-[#111111] hover:text-[#6B6A65] transition-colors"
+                  className="py-4 flex items-center justify-between text-[15px] text-text hover:text-muted transition-colors"
                 >
                   <span>{social.label}</span>
                   <span>↗</span>
                 </a>
               ))}
-              <div className="py-4 flex items-center justify-between text-[15px] text-[#6B6A65]">
+              <div className="py-4 flex items-center justify-between text-[15px] text-muted">
                 <span>Location</span>
-                <span className="text-[#111111]">Nigeria (UTC+1)</span>
+                <span className="text-text">Nigeria (UTC+1)</span>
               </div>
             </div>
           </div>

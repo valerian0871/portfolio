@@ -22,7 +22,6 @@ export type DisciplineId =
   | 'graphics'
   | 'writing'
   | 'automation'
-  | 'email-marketing'
 
 export interface Project {
   slug: string
@@ -37,6 +36,7 @@ export interface Project {
   images: ProjectImage[]
   pipeline?: ProjectPipeline
   metrics?: string
+  year?: string
 }
 
 export interface DisciplineService {
@@ -64,6 +64,8 @@ export interface SiteContent {
     role: string
     location: string
     email: string
+    phone: string
+    whatsappUrl: string
     availability: string
     socials: SocialLink[]
   }
@@ -87,6 +89,13 @@ export interface SiteContent {
     displayStatement: string
     cta: { label: string; href: string }
     email: string
+    phone: string
+    whatsapp: {
+      raw: string
+      formatted: string
+      href: string
+      label: string
+    }
   }
   footer: {
     legal: string
@@ -98,7 +107,7 @@ export const content: SiteContent = {
   meta: {
     title: 'Prosper Kayode — Frontend Developer & Multi-Disciplinary Builder',
     description:
-      'Minimalist, high-craft portfolio of Prosper Kayode covering frontend development, graphic design, content writing, AI automation, and email marketing.',
+      'Minimalist, high-craft portfolio of Prosper Kayode covering frontend development, graphic design, content writing, and AI automation.',
     url: 'https://prosperkayode.vercel.app',
     ogImage: 'https://prosperkayode.vercel.app/apple-touch-icon.png',
   },
@@ -108,6 +117,9 @@ export const content: SiteContent = {
     role: 'Frontend Developer & Multi-Disciplinary Builder',
     location: 'Nigeria',
     email: 'kayodeprosper0987@gmail.com',
+    phone: '+234 701 175 7204',
+    whatsappUrl:
+      'https://wa.me/2347011757204?text=Hello%20Prosper%2C%20I%20found%20your%20portfolio%20and%20would%20like%20to%20talk%20about%20a%20project.',
     availability: 'Available for freelance engagements and full-time engineering roles',
     socials: [
       { label: 'GitHub', href: 'https://github.com/valerian0871' },
@@ -123,13 +135,13 @@ export const content: SiteContent = {
       { label: 'Contact', href: '/#contact' },
     ],
     cta: {
-      label: 'Get in touch',
-      href: '#contact',
+      label: "Let's talk",
+      href: 'https://wa.me/2347011757204?text=Hello%20Prosper%2C%20I%20found%20your%20portfolio%20and%20would%20like%20to%20talk%20about%20a%20project.',
     },
   },
 
   hero: {
-    label: 'Frontend Development · Graphics Design · Content Writing · AI Automation · Email Marketing',
+    label: 'Frontend Development · Graphics Design · Content Writing · AI Automation',
     // 16 words stating what I do and for whom (within 12 to 18 words rule)
     headline: 'Building high-craft frontend interfaces, editorial systems, and automated workflows for ambitious digital products and teams.',
     cta: {
@@ -191,19 +203,6 @@ export const content: SiteContent = {
         'Data reconciliation, schema validation, and reporting syncs',
       ],
     },
-    {
-      id: 'email-marketing',
-      index: '05',
-      name: 'Email Marketing',
-      description:
-        'Strategic lifecycle email sequences, high-deliverability template development, and automated customer nurture workflows designed to drive engagement.',
-      subItems: [
-        'Automated onboarding, retention, and re-engagement flows',
-        'Responsive cross-client HTML email template development',
-        'Subscriber list hygiene, segmentation, and deliverability monitoring',
-        'Campaign performance analytics and conversion tracking',
-      ],
-    },
   ],
 
   about: {
@@ -234,10 +233,17 @@ export const content: SiteContent = {
   contact: {
     displayStatement: 'Have a project in mind or looking to collaborate? Let us build something exceptional together.',
     cta: {
-      label: 'Send an email',
-      href: 'mailto:kayodeprosper0987@gmail.com',
+      label: "Let's talk on WhatsApp",
+      href: 'https://wa.me/2347011757204?text=Hello%20Prosper%2C%20I%20found%20your%20portfolio%20and%20would%20like%20to%20talk%20about%20a%20project.',
     },
     email: 'kayodeprosper0987@gmail.com',
+    phone: '+234 701 175 7204',
+    whatsapp: {
+      raw: '07011757204',
+      formatted: '+234 701 175 7204',
+      href: 'https://wa.me/2347011757204?text=Hello%20Prosper%2C%20I%20found%20your%20portfolio%20and%20would%20like%20to%20talk%20about%20a%20project.',
+      label: "Let's talk on WhatsApp",
+    },
   },
 
   footer: {
@@ -576,6 +582,122 @@ export const content: SiteContent = {
           height: 550,
         },
       ],
+    },
+    {
+      slug: 'gitcast-ocr',
+      title: 'Gitcast OCR confidence',
+      discipline: 'frontend',
+      disciplineLabel: 'Frontend Development',
+      kind: 'Open source',
+      summary: 'First open source contribution. OCR was failing on dark editor themes.',
+      detail:
+        'Tesseract loses confidence reading light text on a dark background, which broke transcription for anyone using a dark theme. The contribution samples pixel brightness and inverts the image before OCR runs, recovering accuracy without changing anything for light-theme users.',
+      tools: ['Python', 'Tesseract'],
+      images: [],
+    },
+    {
+      slug: 'resume-analyser',
+      title: 'Resume analyser',
+      discipline: 'frontend',
+      disciplineLabel: 'Frontend Development',
+      kind: 'Independent build',
+      summary: 'A tool that reads a CV against a target role and reports the gaps.',
+      detail:
+        'Built while moving from tutorial work into full-stack projects, with attention to how model output is parsed and displayed when it returns in an unexpected shape.',
+      tools: ['React', 'Python', 'FastAPI'],
+      images: [],
+    },
+    {
+      slug: 'order-of-service',
+      title: 'Commemorative order of service',
+      discipline: 'writing',
+      disciplineLabel: 'Content Writing and Copywriting',
+      kind: 'Commissioned',
+      summary: 'A funeral order of service, typeset and generated programmatically.',
+      detail:
+        'Built in Node with the docx library, with ornaments generated as SVG in Python so the layout held across every page. Produced to a short deadline, which is the reason the whole thing was generated rather than hand-set.',
+      tools: ['Node.js', 'docx', 'Python'],
+      images: [],
+    },
+    {
+      slug: 'postgraduate-editing',
+      title: 'Postgraduate thesis proposal',
+      discipline: 'writing',
+      disciplineLabel: 'Content Writing and Copywriting',
+      kind: 'Academic',
+      summary: 'Comprehensive research proposal drafted with up-to-date academic references and low similarity scores.',
+      detail:
+        'Researched and drafted a comprehensive academic proposal for the client from the ground up, establishing the problem statement, methodological framework, and contemporary literature review. Delivered with rigorous academic referencing and achieved verified low plagiarism and minimal Turnitin AI detection scores.',
+      tools: ['Academic research', 'Literature review', 'Turnitin verification', 'Substantive editing'],
+      images: [],
+    },
+    {
+      slug: 'career-materials',
+      title: 'Career materials',
+      discipline: 'writing',
+      disciplineLabel: 'Content Writing and Copywriting',
+      kind: 'Client work',
+      summary: 'CVs, cover letters and LinkedIn profiles written to a named target role.',
+      detail:
+        'Materials tailored for roles across customer success, social media management, AI automation and annotation work, written from the posting rather than from a template.',
+      tools: ['CV writing', 'Cover letters', 'LinkedIn'],
+      images: [],
+    },
+    {
+      slug: 'social-captions',
+      title: 'Social captions',
+      discipline: 'writing',
+      disciplineLabel: 'Content Writing and Copywriting',
+      kind: 'Ongoing',
+      summary: 'Caption and content writing for organisational accounts.',
+      detail:
+        "Ongoing caption work for education and WASH sector organisations, matched to each account's established voice.",
+      tools: ['Copywriting', 'Social content'],
+      images: [],
+    },
+    {
+      slug: 'agent-world-building',
+      title: 'World building for AI agents',
+      discipline: 'automation',
+      disciplineLabel: 'AI Automation',
+      kind: 'Contract',
+      summary: 'Building simulated work environments to find where AI agents fail.',
+      detail:
+        'Recreating real work situations, with their emails, spreadsheets and message history, inside a simulation platform, then setting a task an agent ought to complete. A task only counts if the agent fails it and the failure can be graded from the end state alone.',
+      tools: ['Task design', 'Evaluation', 'Simulated environments'],
+      pipeline: {
+        trigger: 'Real-world workplace simulation scenario',
+        steps: [
+          'Context synthesis (threads, files, data)',
+          'Agent task execution & boundary testing',
+          'State-based deterministic grading',
+        ],
+        output: 'Failure analysis & model benchmark report',
+      },
+      metrics: 'Deterministic end-state grading across edge failure modes',
+      images: [],
+    },
+    {
+      slug: 'membership-data',
+      title: 'Membership data and reporting',
+      discipline: 'automation',
+      disciplineLabel: 'AI Automation',
+      kind: 'Data work',
+      summary: 'Contact data cleaning and Power BI onboarding for a foundation.',
+      detail:
+        'Cleaned and reconciled a membership contact list, then set up reporting so the team could read their own numbers without requesting an export each time.',
+      tools: ['Data cleaning', 'Power BI'],
+      pipeline: {
+        trigger: 'Disparate raw contact spreadsheets',
+        steps: [
+          'Deduplication & schema reconciliation',
+          'Data model & relationship definition',
+          'Automated Power BI dashboard refresh',
+        ],
+        output: 'Self-serve interactive reporting suite',
+      },
+      metrics: 'Eliminated manual export requests across team leadership',
+      images: [],
     },
   ],
 }

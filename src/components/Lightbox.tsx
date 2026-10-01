@@ -80,24 +80,24 @@ export function Lightbox({
       onClick={(e) => {
         if (e.target === dialogRef.current) onClose()
       }}
-      className="fixed inset-0 z-[100] m-auto max-h-[92dvh] w-[min(1200px,94vw)] rounded-[12px] border border-[#E2E1DB] bg-[#FAFAF8] p-0 text-[#111111] backdrop:bg-[#111111]/70 backdrop:backdrop-blur-[4px]"
+      className="fixed inset-0 z-[100] m-auto max-h-[92dvh] w-[min(1200px,94vw)] rounded-[12px] border border-line bg-bg p-0 text-text backdrop:bg-text/70 backdrop:backdrop-blur-[4px]"
     >
       {/* Header bar */}
-      <div className="flex items-center justify-between border-b border-[#E2E1DB] px-5 py-4">
-        <p className="text-[14px] text-[#6B6A65] truncate pr-4">
+      <div className="flex items-center justify-between border-b border-line px-5 py-4">
+        <p className="text-[14px] text-muted truncate pr-4">
           {image.caption || image.alt}
         </p>
         <button
           type="button"
           onClick={onClose}
-          className="btn-press rounded-full border border-[#E2E1DB] px-4 py-1.5 text-[13px] font-medium text-[#111111] hover:border-[#111111] cursor-pointer"
+          className="btn-press rounded-full border border-line px-4 py-1.5 text-[13px] font-medium text-text hover:border-text cursor-pointer"
         >
           Close
         </button>
       </div>
 
       {/* Main Image */}
-      <div className="flex items-center justify-center p-4 sm:p-8 bg-[#F0EFEA] min-h-[300px]">
+      <div className="flex items-center justify-center p-4 sm:p-8 bg-surface min-h-[300px]">
         <img
           src={image.src}
           alt={image.alt}
@@ -109,21 +109,21 @@ export function Lightbox({
 
       {/* Footer bar */}
       {images.length > 1 && (
-        <div className="flex items-center justify-between border-t border-[#E2E1DB] px-5 py-4">
+        <div className="flex items-center justify-between border-t border-line px-5 py-4">
           <button
             type="button"
             onClick={() => step(-1)}
-            className="btn-press rounded-full border border-[#E2E1DB] px-4 py-1.5 text-[13px] font-medium text-[#111111] hover:border-[#111111] cursor-pointer"
+            className="btn-press rounded-full border border-line px-4 py-1.5 text-[13px] font-medium text-text hover:border-text cursor-pointer"
           >
             Previous
           </button>
-          <span className="text-[13px] font-mono tabular-nums text-[#6B6A65]">
+          <span className="text-[13px] font-mono tabular-nums text-muted">
             {index + 1} / {images.length}
           </span>
           <button
             type="button"
             onClick={() => step(1)}
-            className="btn-press rounded-full border border-[#E2E1DB] px-4 py-1.5 text-[13px] font-medium text-[#111111] hover:border-[#111111] cursor-pointer"
+            className="btn-press rounded-full border border-line px-4 py-1.5 text-[13px] font-medium text-text hover:border-text cursor-pointer"
           >
             Next
           </button>

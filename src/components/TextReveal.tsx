@@ -15,6 +15,19 @@ const EASE_REVEAL = [0.16, 1, 0.3, 1] as const
 
 export const TextReveal = HeadingReveal
 
+export interface LineMaskProps {
+  children: ReactNode
+  className?: string
+}
+
+export function LineMask({ children, className = '' }: LineMaskProps) {
+  return (
+    <span className={`mask-line ${className}`}>
+      {children}
+    </span>
+  )
+}
+
 export function HeadingReveal({
   text,
   as = 'h2',
@@ -29,9 +42,9 @@ export function HeadingReveal({
   const words = text.split(' ')
   const ref = containerRef as Ref<HTMLHeadingElement | HTMLParagraphElement | HTMLDivElement>
 
-  // Line animation variant
+  // Line animation variant: 120% ensure full descent clearance (Item 7)
   const lineVariants = {
-    hidden: { y: '110%' },
+    hidden: { y: '120%' },
     visible: (i: number) => ({
       y: '0%',
       transition: {

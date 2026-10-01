@@ -10,13 +10,13 @@ export function AboutSection({ onReadMore }: AboutSectionProps) {
   return (
     <section
       id="about"
-      className="py-[64px] md:py-[96px] lg:py-[128px] border-b border-[#E2E1DB]"
+      className="py-[64px] md:py-[96px] lg:py-[128px] border-b border-line"
     >
       <Container>
         <div className="grid grid-cols-12 gap-6">
           {/* Label left column on desktop */}
           <div className="col-span-12 md:col-span-3 lg:col-span-3">
-            <span className="text-[12px] uppercase font-medium tracking-[0.08em] text-[#6B6A65] block mb-4">
+            <span className="text-[12px] uppercase font-medium tracking-[0.08em] text-muted block mb-4">
               About
             </span>
           </div>
@@ -26,11 +26,11 @@ export function AboutSection({ onReadMore }: AboutSectionProps) {
             <HeadingReveal
               text="Engineering with graphic sensibility & operational rigor."
               as="h2"
-              className="text-[clamp(28px,3.5vw,48px)] font-heading font-medium tracking-[-0.035em] leading-[1.1] text-[#111111]"
+              className="text-[clamp(28px,3.5vw,48px)] font-heading font-medium tracking-[-0.035em] leading-[1.15] text-text"
             />
 
             <FadeReveal delay={0.1}>
-              <p className="text-[18px] md:text-[20px] text-[#6B6A65] leading-[1.55] max-w-[58ch]">
+              <p className="text-[18px] md:text-[20px] text-muted leading-[1.55] max-w-[58ch]">
                 {content.about.previewParagraph}
               </p>
             </FadeReveal>
@@ -44,7 +44,7 @@ export function AboutSection({ onReadMore }: AboutSectionProps) {
                     onReadMore()
                   }
                 }}
-                className="group inline-flex items-center gap-2 text-[15px] font-medium text-[#111111] underline-offset-8 hover:underline cursor-pointer"
+                className="group inline-flex items-center gap-2 text-[15px] font-medium text-text underline-offset-8 hover:underline cursor-pointer"
               >
                 <span>{content.about.linkText}</span>
                 <span className="transition-transform duration-200 group-hover:translate-x-1">→</span>

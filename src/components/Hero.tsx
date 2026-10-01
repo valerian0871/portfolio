@@ -10,13 +10,13 @@ export function Hero({ onCtaClick }: HeroProps) {
   return (
     <section
       id="top"
-      className="relative flex flex-col justify-between min-h-[100svh] pt-[128px] md:pt-[140px] pb-16 md:pb-24 border-b border-[#E2E1DB]"
+      className="relative flex flex-col justify-between min-h-[100svh] pt-[128px] md:pt-[140px] pb-16 md:pb-24 border-b border-line"
     >
       <Container className="flex-1 flex flex-col justify-between">
         {/* Top category label */}
         <div className="pt-2">
           <FadeReveal delay={0.1}>
-            <span className="text-[12px] uppercase font-medium tracking-[0.08em] text-[#6B6A65]">
+            <span className="text-[12px] uppercase font-medium tracking-[0.08em] text-muted">
               {content.hero.label}
             </span>
           </FadeReveal>
@@ -29,7 +29,7 @@ export function Hero({ onCtaClick }: HeroProps) {
               text={content.hero.headline}
               as="h1"
               trigger="mount"
-              className="text-[clamp(44px,7.2vw,112px)] font-heading font-medium tracking-[-0.035em] leading-[1.02] text-[#111111]"
+              className="text-[clamp(44px,7.2vw,112px)] font-heading font-medium tracking-[-0.035em] leading-[1.1] text-text"
             />
           </div>
         </div>

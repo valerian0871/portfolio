@@ -4,6 +4,7 @@ import { HeadingReveal } from './TextReveal'
 import { content, type DisciplineId, type Project } from '../data/content'
 import { Lightbox } from './Lightbox'
 import { LiveSitePreview } from './LiveSitePreview'
+import { WorkArchive } from './WorkArchive'
 
 interface WorkSectionProps {
   onSelectProject?: (project: Project) => void
@@ -17,9 +18,14 @@ export function WorkSection({ onSelectProject }: WorkSectionProps) {
   const [lightboxOpen, setLightboxOpen] = useState(false)
   const [lightboxIndex, setLightboxIndex] = useState(0)
 
-  // Filter only projects that have valid images
+  // Filter projects with images for the visual grid
   const allProjectsWithImages = content.projects.filter(
     (p) => p.images && p.images.length > 0
+  )
+
+  // Filter text-only projects for the archive below
+  const archiveProjects = content.projects.filter(
+    (p) => !p.images || p.images.length === 0
   )
 
   const filteredProjects =
@@ -34,7 +40,6 @@ export function WorkSection({ onSelectProject }: WorkSectionProps) {
     graphics: allProjectsWithImages.filter((p) => p.discipline === 'graphics').length,
     writing: allProjectsWithImages.filter((p) => p.discipline === 'writing').length,
     automation: allProjectsWithImages.filter((p) => p.discipline === 'automation').length,
-    'email-marketing': allProjectsWithImages.filter((p) => p.discipline === 'email-marketing').length,
   }
 
   const filterTabs: { id: FilterCategory; label: string }[] = [
@@ -55,22 +60,22 @@ export function WorkSection({ onSelectProject }: WorkSectionProps) {
   return (
     <section
       id="work"
-      className="py-[64px] md:py-[96px] lg:py-[128px] border-b border-[#E2E1DB]"
+      className="py-[64px] md:py-[96px] lg:py-[128px] border-b border-line"
     >
       <Container>
         {/* Section Header */}
         <div className="mb-10 md:mb-14 flex flex-col md:flex-row md:items-end justify-between gap-6">
           <div>
-            <span className="text-[12px] uppercase font-medium tracking-[0.08em] text-[#6B6A65] block mb-3">
+            <span className="text-[12px] uppercase font-medium tracking-[0.08em] text-muted block mb-3">
               Selected Work
             </span>
             <HeadingReveal
               text="Case studies & visual systems"
               as="h2"
-              className="text-[clamp(32px,4.2vw,64px)] font-heading font-medium tracking-[-0.035em] leading-[1.08] text-[#111111]"
+              className="text-[clamp(32px,4.2vw,64px)] font-heading font-medium tracking-[-0.035em] leading-[1.15] text-text"
             />
           </div>
-          <div className="text-[14px] text-[#6B6A65] tabular-nums shrink-0">
+          <div className="text-[14px] text-muted tabular-nums shrink-0">
             Showing {filteredProjects.length} of {allProjectsWithImages.length} projects
           </div>
         </div>
@@ -79,7 +84,7 @@ export function WorkSection({ onSelectProject }: WorkSectionProps) {
         <div
           role="tablist"
           aria-label="Filter projects by discipline"
-          className="flex flex-wrap items-center gap-2 mb-12 md:mb-16 pb-4 border-b border-[#E2E1DB]/70"
+          className="flex flex-wrap items-center gap-2 mb-12 md:mb-16 pb-4 border-b border-line/70"
         >
           {filterTabs.map((tab) => {
             const count = categoryCounts[tab.id]
@@ -95,16 +100,16 @@ export function WorkSection({ onSelectProject }: WorkSectionProps) {
                 onClick={() => setSelectedCategory(tab.id)}
                 className={`btn-press rounded-full px-4 py-2 text-[13px] font-medium transition-all cursor-pointer flex items-center gap-2 ${
                   isActive
-                    ? 'bg-[#111111] text-[#FAFAF8] shadow-xs'
-                    : 'bg-transparent text-[#6B6A65] border border-[#E2E1DB] hover:border-[#111111] hover:text-[#111111]'
+                    ? 'bg-text text-bg shadow-xs'
+                    : 'bg-transparent text-muted border border-line hover:border-text hover:text-text'
                 }`}
               >
                 <span>{tab.label}</span>
                 <span
                   className={`text-[11px] font-mono px-1.5 py-0.2 rounded-full ${
                     isActive
-                      ? 'bg-[#FAFAF8]/20 text-[#FAFAF8]'
-                      : 'bg-[#F0EFEA] text-[#6B6A65]'
+                      ? 'bg-bg/20 text-bg'
+                      : 'bg-surface text-muted'
                   }`}
                 >
                   {count}
@@ -133,6 +138,9 @@ export function WorkSection({ onSelectProject }: WorkSectionProps) {
             )
           })}
         </div>
+
+        {/* Item 3: Text-only archive for projects with no images */}
+        <WorkArchive projects={archiveProjects} />
       </Container>
 
       {/* Lightbox / detail inspection */}
@@ -188,7 +196,7 @@ function WorkCard({ project, onOpenLightbox }: WorkCardProps) {
               onOpenLightbox(activeImageIndex)
             }
           }}
-          className={`relative w-full rounded-[6px] overflow-hidden bg-[#F0EFEA] border border-[#E2E1DB] cursor-pointer focus-visible:outline-2 focus-visible:outline-[#111111] transition-transform duration-300 ${
+          className={`relative w-full rounded-[6px] overflow-hidden bg-surface border border-line cursor-pointer focus-visible:outline-2 focus-visible:outline-text transition-transform duration-300 ${
             isAutomation ? 'aspect-[16/10] p-2.5 sm:p-3' : isWriting ? 'aspect-[4/5] p-6' : 'aspect-[4/5] p-3'
           }`}
           aria-label={`View ${project.title} full image`}
@@ -196,8 +204,8 @@ function WorkCard({ project, onOpenLightbox }: WorkCardProps) {
           {/* Subtle canvas background for workflows */}
           {isAutomation && (
             <div className="absolute top-2 left-3 z-10 flex items-center gap-1.5">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#111111]/40" />
-              <span className="text-[10px] font-mono uppercase tracking-wider text-[#6B6A65]">
+              <span className="w-1.5 h-1.5 rounded-full bg-text/40" />
+              <span className="text-[10px] font-mono uppercase tracking-wider text-muted">
                 n8n Workflow Canvas
               </span>
             </div>
@@ -228,12 +236,12 @@ function WorkCard({ project, onOpenLightbox }: WorkCardProps) {
               onClick={(e) => e.stopPropagation()}
             >
               {/* Slide Counter Badge */}
-              <span className="px-2.5 py-0.5 rounded-full bg-[#FAFAF8]/90 backdrop-blur-sm text-[11px] font-mono text-[#111111] border border-[#E2E1DB]">
+              <span className="px-2.5 py-0.5 rounded-full bg-bg/90 backdrop-blur-sm text-[11px] font-mono text-text border border-line">
                 {activeImageIndex + 1} / {project.images.length}
               </span>
 
               {/* Quick dot navigation for fine pointer */}
-              <div className="flex items-center gap-1.5 bg-[#FAFAF8]/90 backdrop-blur-sm px-2 py-1 rounded-full border border-[#E2E1DB]">
+              <div className="flex items-center gap-1.5 bg-bg/90 backdrop-blur-sm px-2 py-1 rounded-full border border-line">
                 {project.images.map((img, idx) => (
                   <button
                     key={img.src}
@@ -244,8 +252,8 @@ function WorkCard({ project, onOpenLightbox }: WorkCardProps) {
                     }}
                     className={`h-1.5 rounded-full transition-all cursor-pointer ${
                       activeImageIndex === idx
-                        ? 'w-4 bg-[#111111]'
-                        : 'w-1.5 bg-[#6B6A65]/40 hover:bg-[#111111]'
+                        ? 'w-4 bg-text'
+                        : 'w-1.5 bg-muted/40 hover:bg-text'
                     }`}
                     aria-label={`Go to slide ${idx + 1}`}
                   />
@@ -263,17 +271,17 @@ function WorkCard({ project, onOpenLightbox }: WorkCardProps) {
             transition: 'transform 250ms cubic-bezier(0.23, 1, 0.32, 1)',
           }}
           onClick={() => onOpenLightbox(activeImageIndex)}
-          className="text-[16px] md:text-[18px] font-heading font-medium tracking-tight text-[#111111] group-hover:translate-x-[4px] cursor-pointer"
+          className="text-[16px] md:text-[18px] font-heading font-medium tracking-tight text-text group-hover:translate-x-[4px] cursor-pointer"
         >
           {project.title}
         </h3>
-        <span className="text-[12px] text-[#6B6A65] uppercase tracking-[0.06em] shrink-0 font-medium">
+        <span className="text-[12px] text-muted uppercase tracking-[0.06em] shrink-0 font-medium">
           {project.disciplineLabel}
         </span>
       </div>
 
       {/* Short summary and tools */}
-      <p className="mt-1 text-[14px] text-[#6B6A65] line-clamp-2 leading-[1.5]">
+      <p className="mt-1 text-[14px] text-muted line-clamp-2 leading-[1.5]">
         {project.summary}
       </p>
 
@@ -282,7 +290,7 @@ function WorkCard({ project, onOpenLightbox }: WorkCardProps) {
         {project.tools.slice(0, 4).map((tool) => (
           <span
             key={tool}
-            className="text-[11px] font-mono text-[#6B6A65] bg-[#F0EFEA] px-2 py-0.5 rounded-[3px]"
+            className="text-[11px] font-mono text-muted bg-surface px-2 py-0.5 rounded-[3px]"
           >
             {tool}
           </span>
@@ -292,7 +300,7 @@ function WorkCard({ project, onOpenLightbox }: WorkCardProps) {
             href={project.link.href}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-[11px] font-medium text-[#111111] hover:underline ml-auto inline-flex items-center gap-1"
+            className="text-[11px] font-medium text-text hover:underline ml-auto inline-flex items-center gap-1"
           >
             <span>{project.link.label}</span>
             <span>↗</span>

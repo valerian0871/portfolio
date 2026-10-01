@@ -1,6 +1,12 @@
 import { useEffect, useRef } from 'react'
 import Lenis from 'lenis'
 
+let globalLenisInstance: Lenis | null = null
+
+export function getLenis(): Lenis | null {
+  return globalLenisInstance
+}
+
 export function useLenis() {
   const lenisRef = useRef<Lenis | null>(null)
 
@@ -26,6 +32,7 @@ export function useLenis() {
     })
 
     lenisRef.current = lenis
+    globalLenisInstance = lenis
 
     let rafId: number
     function raf(time: number) {
@@ -55,6 +62,7 @@ export function useLenis() {
       document.removeEventListener('click', handleHashClick)
       lenis.destroy()
       lenisRef.current = null
+      globalLenisInstance = null
     }
   }, [])
 

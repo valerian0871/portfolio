@@ -4,25 +4,25 @@ import { HeadingReveal } from './TextReveal'
 import { content } from '../data/content'
 
 export function ContactSection() {
-  const [copied, setCopied] = useState(false)
+  const [phoneCopied, setPhoneCopied] = useState(false)
 
-  const handleCopyEmail = () => {
-    navigator.clipboard.writeText(content.contact.email)
-    setCopied(true)
+  const handleCopyPhone = () => {
+    navigator.clipboard.writeText(content.contact.whatsapp.formatted)
+    setPhoneCopied(true)
     setTimeout(() => {
-      setCopied(false)
+      setPhoneCopied(false)
     }, 1500)
   }
 
   return (
     <section
       id="contact"
-      className="py-[64px] md:py-[96px] lg:py-[128px] border-b border-[#E2E1DB]"
+      className="py-[64px] md:py-[96px] lg:py-[128px] border-b border-line"
     >
       <Container>
         <div className="grid grid-cols-12 gap-6">
           <div className="col-span-12">
-            <span className="text-[12px] uppercase font-medium tracking-[0.08em] text-[#6B6A65] block mb-4">
+            <span className="text-[12px] uppercase font-medium tracking-[0.08em] text-muted block mb-4">
               Contact
             </span>
           </div>
@@ -32,41 +32,52 @@ export function ContactSection() {
             <HeadingReveal
               text={content.contact.displayStatement}
               as="h2"
-              className="text-[clamp(36px,5.8vw,88px)] font-heading font-medium tracking-[-0.035em] leading-[1.04] text-[#111111]"
+              className="text-[clamp(36px,5.8vw,88px)] font-heading font-medium tracking-[-0.035em] leading-[1.1] text-text"
             />
           </div>
 
-          {/* CTA & Email Copy with inline confirmation */}
+          {/* WhatsApp CTA (primary) + copy phone number (secondary) */}
           <div className="col-span-12 mt-8 md:mt-12 flex flex-wrap items-center gap-6">
+            {/* Primary: WhatsApp pill — opens in new tab */}
             <a
-              href={content.contact.cta.href}
+              href={content.contact.whatsapp.href}
+              target="_blank"
+              rel="noopener noreferrer"
               className="btn-pill"
+              aria-label={`Open WhatsApp chat with Prosper (${content.contact.whatsapp.formatted})`}
             >
-              {content.contact.cta.label}
+              {content.contact.whatsapp.label}
             </a>
 
+            {/* Secondary: copy phone number with Copied confirmation */}
             <div className="relative inline-flex items-center">
               <button
                 type="button"
-                onClick={handleCopyEmail}
-                className="btn-pill-secondary btn-press rounded-full px-6 py-3 text-[14px] font-medium text-[#111111] cursor-pointer"
-                aria-label="Copy email address to clipboard"
+                onClick={handleCopyPhone}
+                className="btn-pill-secondary btn-press rounded-full px-6 py-3 text-[14px] font-medium text-text cursor-pointer inline-flex items-center gap-2"
+                aria-label={`Copy phone number ${content.contact.whatsapp.formatted} to clipboard`}
               >
-                <span>{content.contact.email}</span>
+                <span>{content.contact.whatsapp.formatted}</span>
                 <span
                   style={{
                     transition: 'opacity 200ms ease, transform 200ms ease',
-                    opacity: copied ? 1 : 0,
-                    transform: copied ? 'translateY(0)' : 'translateY(4px)',
+                    opacity: phoneCopied ? 1 : 0,
+                    transform: phoneCopied ? 'translateY(0)' : 'translateY(4px)',
+                    display: phoneCopied ? 'inline' : 'none',
                   }}
-                  className={`ml-2 text-[12px] font-mono uppercase tracking-[0.08em] text-[#111111] font-semibold ${
-                    copied ? 'inline-block' : 'hidden'
-                  }`}
+                  className="text-[12px] font-mono uppercase tracking-[0.08em] font-semibold text-text"
                 >
                   ✓ Copied
                 </span>
               </button>
             </div>
+          </div>
+
+          {/* WhatsApp label with number */}
+          <div className="col-span-12 mt-2">
+            <span className="text-[13px] text-muted">
+              WhatsApp · {content.contact.whatsapp.formatted}
+            </span>
           </div>
         </div>
       </Container>

@@ -25,12 +25,12 @@ export function LiveSitePreview({
 
   return (
     <div
-      className="group/preview relative w-full rounded-[6px] overflow-hidden border border-[#E2E1DB] bg-[#FAFAF8] transition-colors duration-300"
+      className="group/preview relative w-full rounded-[6px] overflow-hidden border border-line bg-bg transition-colors duration-300"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
       {/* Browser Window Header Chrome */}
-      <div className="flex items-center justify-between px-3 py-2 bg-[#F0EFEA] border-b border-[#E2E1DB] select-none text-[11px]">
+      <div className="flex items-center justify-between px-3 py-2 bg-surface border-b border-line select-none text-[11px]">
         {/* macOS style traffic dots */}
         <div className="flex items-center gap-1.5 shrink-0" aria-hidden="true">
           <span className="w-2.5 h-2.5 rounded-full bg-[#FF5F56]/70 inline-block" />
@@ -39,9 +39,9 @@ export function LiveSitePreview({
         </div>
 
         {/* Address bar pill */}
-        <div className="flex items-center justify-center gap-1.5 px-3 py-0.5 rounded-full bg-[#FAFAF8] border border-[#E2E1DB] text-[#6B6A65] font-mono text-[10.5px] max-w-[210px] md:max-w-[280px] truncate shadow-[inset_0_1px_2px_rgba(0,0,0,0.02)]">
+        <div className="flex items-center justify-center gap-1.5 px-3 py-0.5 rounded-full bg-bg border border-line text-muted font-mono text-[10.5px] max-w-[210px] md:max-w-[280px] truncate shadow-[inset_0_1px_2px_rgba(0,0,0,0.02)]">
           <svg
-            className="w-3 h-3 text-[#6B6A65] shrink-0"
+            className="w-3 h-3 text-muted shrink-0"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
@@ -62,17 +62,17 @@ export function LiveSitePreview({
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
             <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-600" />
           </span>
-          <span className="font-mono text-[9.5px] uppercase tracking-wider text-[#6B6A65] hidden sm:inline font-medium">
+          <span className="font-mono text-[9.5px] uppercase tracking-wider text-muted hidden sm:inline font-medium">
             Live
           </span>
         </div>
       </div>
 
       {/* Browser Viewport with Animated Live Screenshot */}
-      <div className="relative w-full aspect-[16/10] overflow-hidden bg-[#F0EFEA] cursor-pointer">
+      <div className="relative w-full aspect-[16/10] overflow-hidden bg-surface cursor-pointer">
         {/* Placeholder skeleton before decode */}
         {!imageLoaded && (
-          <div className="absolute inset-0 bg-[#F0EFEA] animate-pulse" />
+          <div className="absolute inset-0 bg-surface animate-pulse" />
         )}
 
         {/* 
@@ -104,7 +104,7 @@ export function LiveSitePreview({
           aria-hidden="true"
         >
           <div className="live-cursor">
-            {/* SVG Crisp Arrow Pointer */}
+            {/* SVG Crisp Arrow Pointer adapting to dark/light */}
             <svg
               width="18"
               height="22"
@@ -114,14 +114,14 @@ export function LiveSitePreview({
             >
               <path
                 d="M1 1L7 20L10.5 12.5L17 10L1 1Z"
-                fill="#111111"
-                stroke="#FAFAF8"
+                fill="var(--color-text)"
+                stroke="var(--color-bg)"
                 strokeWidth="1.5"
                 strokeLinejoin="round"
               />
             </svg>
             {/* Click Ripple Indicator */}
-            <span className="live-cursor-ripple" />
+            <span className="live-cursor-ripple" style={{ borderColor: 'var(--color-text)' }} />
           </div>
         </div>
 
@@ -133,7 +133,7 @@ export function LiveSitePreview({
               target="_blank"
               rel="noopener noreferrer"
               onClick={(e) => e.stopPropagation()}
-              className="btn-pill-secondary btn-press inline-flex items-center gap-1.5 rounded-full bg-[#FAFAF8]/95 backdrop-blur-sm px-2.5 py-1 text-[11px] font-medium text-[#111111] border border-[#E2E1DB] hover:border-[#111111] shadow-xs transition-all"
+              className="btn-pill-secondary btn-press inline-flex items-center gap-1.5 rounded-full bg-bg/95 backdrop-blur-sm px-2.5 py-1 text-[11px] font-medium text-text border border-line hover:border-text shadow-xs transition-all"
               title={`Open ${title} in new tab`}
             >
               <span>Visit site</span>
@@ -147,7 +147,7 @@ export function LiveSitePreview({
                 e.stopPropagation()
                 onOpenLightbox()
               }}
-              className="btn-press inline-flex items-center justify-center w-7 h-7 rounded-full bg-[#FAFAF8]/95 backdrop-blur-sm text-[#111111] border border-[#E2E1DB] hover:border-[#111111] text-[12px] shadow-xs cursor-pointer"
+              className="btn-press inline-flex items-center justify-center w-7 h-7 rounded-full bg-bg/95 backdrop-blur-sm text-text border border-line hover:border-text text-[12px] shadow-xs cursor-pointer"
               title="Expand screenshot"
               aria-label={`Expand full image for ${title}`}
             >
