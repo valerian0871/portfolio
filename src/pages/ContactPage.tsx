@@ -8,12 +8,12 @@ interface ContactPageProps {
 }
 
 export function ContactPage({ onBack }: ContactPageProps) {
-  const [copied, setCopied] = useState(false)
+  const [emailCopied, setEmailCopied] = useState(false)
 
-  const handleCopyPhone = () => {
-    navigator.clipboard.writeText(content.contact.whatsapp.formatted)
-    setCopied(true)
-    setTimeout(() => setCopied(false), 1500)
+  const handleCopyEmail = () => {
+    navigator.clipboard.writeText(content.contact.email)
+    setEmailCopied(true)
+    setTimeout(() => setEmailCopied(false), 1500)
   }
 
   return (
@@ -61,26 +61,27 @@ export function ContactPage({ onBack }: ContactPageProps) {
                 I am currently open to freelance design engineering contracts, frontend development engagements, and full-time technical roles.
               </p>
 
-              {/* Primary: WhatsApp CTA + secondary copy phone */}
+              {/* Primary: WhatsApp CTA — no phone visible */}
               <div className="flex flex-wrap items-center gap-4">
                 <a
                   href={content.contact.whatsapp.href}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="btn-pill"
-                  aria-label={`Open WhatsApp chat with Prosper (${content.contact.whatsapp.formatted})`}
+                  aria-label="Open WhatsApp chat with Prosper"
                 >
                   {content.contact.whatsapp.label}
                 </a>
 
+                {/* Secondary: copy email address */}
                 <button
                   type="button"
-                  onClick={handleCopyPhone}
+                  onClick={handleCopyEmail}
                   className="btn-pill-secondary btn-press rounded-full px-6 py-3 text-[14px] font-medium text-text cursor-pointer inline-flex items-center gap-2"
-                  aria-label={`Copy phone number ${content.contact.whatsapp.formatted} to clipboard`}
+                  aria-label={`Copy email address ${content.contact.email} to clipboard`}
                 >
-                  <span>{content.contact.whatsapp.formatted}</span>
-                  {copied && (
+                  <span>{content.contact.email}</span>
+                  {emailCopied && (
                     <span className="font-mono text-[12px] text-text font-semibold">
                       ✓ Copied
                     </span>

@@ -55,7 +55,7 @@ export function Footer({ onNavigate }: FooterProps) {
               Contact
             </span>
             <div className="flex flex-col gap-2">
-              {/* WhatsApp as primary contact */}
+              {/* WhatsApp direct link without phone number written out */}
               <a
                 href={content.contact.whatsapp.href}
                 target="_blank"
@@ -63,8 +63,17 @@ export function Footer({ onNavigate }: FooterProps) {
                 className="text-[14px] text-text underline-offset-4 hover:underline inline-flex items-center gap-1.5"
               >
                 <span>WhatsApp</span>
-                <span className="text-[12px] text-muted font-mono">{content.contact.whatsapp.formatted}</span>
+                <span className="text-[12px] text-muted">↗</span>
               </a>
+
+              {/* Email direct link */}
+              <a
+                href={`mailto:${content.contact.email}`}
+                className="text-[14px] text-text underline-offset-4 hover:underline inline-flex items-center gap-1.5"
+              >
+                <span>{content.contact.email}</span>
+              </a>
+
               {/* Social links */}
               {content.profile.socials.map((s) => (
                 <a
