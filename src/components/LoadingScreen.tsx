@@ -4,15 +4,6 @@ import { content } from '../data/content'
 import { getLenis } from '../hooks/useLenis'
 import { easeInOutStrong, springUI } from '../lib/motion'
 
-/**
- * Intro loader.
- *
- * Research notes (docs/changelog.md): keep it well under 2-3 s, tie it to real
- * readiness with a hard cap, make it skippable, show it once per session, and
- * use a progress line that accelerates to the end. The authored moment is the
- * handoff: the name sets in large, then flies into the top-bar wordmark while
- * the panel wipes away from the top.
- */
 
 const NAME = content.profile.name
 const MIN_MS = 1000
@@ -31,9 +22,7 @@ function shouldShow() {
 }
 
 interface LoadingScreenProps {
-  /** Hero entrance may start */
   onHeroReady: () => void
-  /** Loader is gone; the real wordmark can show */
   onDone: () => void
 }
 
@@ -55,9 +44,7 @@ export function LoadingScreen({ onHeroReady, onDone }: LoadingScreenProps) {
 
     try {
       sessionStorage.setItem(SEEN_KEY, 'true')
-    } catch {
-      /* private mode: the loader simply shows again next visit */
-    }
+    } catch {}
     document.body.style.overflow = 'hidden'
     getLenis()?.stop()
 
@@ -67,7 +54,6 @@ export function LoadingScreen({ onHeroReady, onDone }: LoadingScreenProps) {
       fontsReady = true
     })
 
-    // Slow first stretch; the last stretch accelerates once we are ready
     const firstLeg = animate(progress, 0.62, { duration: CAP_MS / 1000, ease: [0.1, 0.6, 0.3, 1] })
 
     const exit = async () => {
@@ -137,8 +123,6 @@ export function LoadingScreen({ onHeroReady, onDone }: LoadingScreenProps) {
       firstLeg.stop()
       document.body.style.overflow = ''
     }
-    // Runs once per page load by design
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   if (!mounted) return null

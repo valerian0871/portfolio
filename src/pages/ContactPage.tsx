@@ -6,7 +6,7 @@ import { springUI } from '../lib/motion'
 import { contactItems, isMac } from '../lib/site'
 import { MaskLines } from '../components/site/Reveal'
 
-function lagosTime() {
+function localTime() {
   return new Intl.DateTimeFormat('en-GB', {
     timeZone: 'Africa/Lagos',
     hour: '2-digit',
@@ -15,13 +15,12 @@ function lagosTime() {
   }).format(new Date())
 }
 
-/** /contact: large action rows (copy, WhatsApp, profiles) and the practical details */
 export function ContactPage() {
   const site = useSite()
-  const [time, setTime] = useState(lagosTime)
+  const [time, setTime] = useState(localTime)
 
   useEffect(() => {
-    const id = window.setInterval(() => setTime(lagosTime()), 15000)
+    const id = window.setInterval(() => setTime(localTime()), 15000)
     return () => window.clearInterval(id)
   }, [])
 
@@ -70,9 +69,9 @@ export function ContactPage() {
             <dd className="mt-2 max-w-[30ch] text-[15px] leading-[1.55]">{content.profile.availability}</dd>
           </div>
           <div>
-            <dt className="font-mono text-[11px] text-muted">Location</dt>
+            <dt className="font-mono text-[11px] text-muted">Local time</dt>
             <dd className="mt-2 text-[15px] leading-[1.55]">
-              Nigeria (UTC+1) <span className="text-muted">· {time} now</span>
+              {time} <span className="text-muted">WAT · UTC+1</span>
             </dd>
           </div>
           <div className="hidden sm:block">

@@ -4,7 +4,6 @@ import { MaskLines } from './site/Reveal'
 import { ScrollWords } from './site/ScrollWords'
 import { TextLink } from './site/TextLink'
 
-/** About: the lead paragraph brightens word by word with scroll (spec #14) */
 export function AboutSection() {
   const site = useSite()
 

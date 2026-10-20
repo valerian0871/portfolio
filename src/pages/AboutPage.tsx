@@ -6,7 +6,6 @@ import { MaskLines } from '../components/site/Reveal'
 import { ScrollWords } from '../components/site/ScrollWords'
 import { TextLink } from '../components/site/TextLink'
 
-/** /about: background story, then operating principles */
 export function AboutPage() {
   const site = useSite()
   const [lead, ...rest] = content.about.fullStory
@@ -27,7 +26,7 @@ export function AboutPage() {
               Background
             </h2>
             <p className="mt-5 max-w-[26ch] text-[14px] leading-[1.55] text-muted">
-              Based in Nigeria, working remotely with teams globally across engineering and design systems.
+              Working remotely with teams globally across engineering and design systems.
             </p>
           </div>
           <div className="col-span-12 md:col-span-8">

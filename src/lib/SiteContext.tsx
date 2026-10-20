@@ -15,7 +15,6 @@ import { SECTION_IDS, findProject, type PaletteItem, type SectionId } from './si
 
 interface PaletteState {
   open: boolean
-  /** Opened from the keyboard: snap open with no morph (spec #18) */
   instant: boolean
 }
 
@@ -114,14 +113,12 @@ export function SiteProvider({ route, navigate, children }: SiteProviderProps) {
   }, [])
 
   const closePalette = useCallback((opts?: { restoreFocus?: boolean; viaKeyboard?: boolean }) => {
-    // Keyboard-initiated: snap closed, then allow morphs again on the next frame
     setPalette({ open: false, instant: Boolean(opts?.viaKeyboard) })
     if (opts?.viaKeyboard) {
       window.setTimeout(() => setPalette((p) => (p.open ? p : { open: false, instant: false })), 60)
     }
     if (opts?.restoreFocus !== false) {
       const opener = paletteOpenerRef.current
-      // Wait for the island to swap content before moving focus back
       requestAnimationFrame(() => {
         if (opener && opener.isConnected && opener !== document.body) opener.focus({ preventScroll: true })
       })
@@ -141,7 +138,6 @@ export function SiteProvider({ route, navigate, children }: SiteProviderProps) {
   }, [showToast])
 
   const openCase = useCallback((slug: string) => {
-    // Moving between case studies keeps the original list position for Close
     caseOpenerRef.current = { slug, scrollY: caseOpenerRef.current?.scrollY ?? window.scrollY }
     setCaseSlug(slug)
     window.history.pushState({ case: slug }, '', `${window.location.pathname}#work/${slug}`)
@@ -156,7 +152,6 @@ export function SiteProvider({ route, navigate, children }: SiteProviderProps) {
       const path = window.location.pathname
       window.history.pushState(null, '', path === '/' ? '/#work' : path)
     }
-    // Restore the reading position and return focus to the row that opened it
     requestAnimationFrame(() => {
       const y = opener?.scrollY ?? document.getElementById('work')?.offsetTop ?? 0
       const lenis = getLenis()
@@ -187,7 +182,6 @@ export function SiteProvider({ route, navigate, children }: SiteProviderProps) {
     [copyEmail, closePalette, scrollToSection, caseSlug],
   )
 
-  // ⌘K on macOS, Ctrl+K elsewhere (both accepted everywhere)
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Escape' && palette.open) {
@@ -205,14 +199,12 @@ export function SiteProvider({ route, navigate, children }: SiteProviderProps) {
     return () => window.removeEventListener('keydown', onKeyDown)
   }, [palette.open, openPalette, closePalette])
 
-  // Browser Back/Forward between the list and a case study
   useEffect(() => {
     const onPopState = () => setCaseSlug(readCaseFromHash())
     window.addEventListener('popstate', onPopState)
     return () => window.removeEventListener('popstate', onPopState)
   }, [])
 
-  // Case studies open from the home page and from /work
   useEffect(() => {
     if (route !== '/' && route !== '/work' && caseSlug) setCaseSlug(null)
   }, [route, caseSlug])

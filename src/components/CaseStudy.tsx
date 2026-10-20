@@ -6,7 +6,6 @@ import { findProject, selectedProjects, workOrder } from '../lib/site'
 import { Lightbox } from './Lightbox'
 import { TextLink } from './site/TextLink'
 
-/** Case study view that replaces the home sections while open (spec #15, #16) */
 export function CaseStudy({ slug }: { slug: string }) {
   const site = useSite()
   const project = findProject(slug)

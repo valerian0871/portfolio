@@ -1,48 +1,34 @@
-/**
- * DESIGN TOKENS (derived from Pearl / Minimalist Editorial Architecture)
- * Light + system dark theme. One accent (availability dot only). 4pt spacing scale.
- */
 
 :root {
   color-scheme: light dark;
 
-  /* ========================================================================
-     COLOUR TOKENS (Light theme by default)
-     ======================================================================== */
   --color-bg: #FAFAF8;
   --color-surface: #F0EFEA;
   --color-text: #111111;
-  --color-muted: #6B6A65;   /* >= 4.5:1 contrast ratio against #FAFAF8 */
-  --color-line: #E2E1DB;    /* 1px hairline dividers */
+  --color-muted: #6B6A65;
+  --color-line: #E2E1DB;
 
-  /* Loader tokens */
   --color-loader-bg: #111111;
   --color-loader-text: #F2F1EC;
   --color-loader-muted: #9A9993;
   --color-loader-line: #2A2A27;
 
-  /* Inverse */
   --color-inverse-bg: #111111;
   --color-inverse-text: #FAFAF8;
-  --color-inverse-muted: #9C9B96; /* >= 4.5:1 on the island, including the highlighted row */
+  --color-inverse-muted: #9C9B96;
 
-  /* Single accent (PRODUCT.md forest green), used only for the availability dot */
-  --color-accent: #7FBFA8; /* sits on the ink island */
+  --color-accent: #7FBFA8;
 }
 
-/* ==========================================================================
-   DARK THEME TOKENS (Item 5: prefers-color-scheme: dark from device)
-   ========================================================================== */
 
 @media (prefers-color-scheme: dark) {
   :root {
     --color-bg: #0E0E0D;
     --color-surface: #181816;
     --color-text: #F2F1EC;
-    --color-muted: #9A9993;   /* >= 4.5:1 contrast ratio against #0E0E0D */
+    --color-muted: #9A9993;
     --color-line: #2A2A27;
 
-    /* Loader in dark mode */
     --color-loader-bg: #1C1C1A;
     --color-loader-text: #F2F1EC;
     --color-loader-muted: #9A9993;
@@ -51,22 +37,16 @@
     --color-inverse-bg: #FAFAF8;
     --color-inverse-text: #111111;
     --color-inverse-muted: #5C5B57;
-    --color-accent: #1F5245; /* sits on the light island */
+    --color-accent: #1F5245;
   }
 }
 
 :root {
 
-  /* ========================================================================
-     TYPOGRAPHY TOKENS
-     Self-hosted Inter Tight (Headings) and Inter (Body) with fallbacks
-     ======================================================================== */
   --font-heading: "Inter Tight", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --font-body: "Inter", "Inter-Fallback", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  /* Metadata only: numbers, years, tags, hints, the clock */
   --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
 
-  /* Typography Ramp */
   --text-display: clamp(44px, 7.2vw, 112px);
   --text-h2: clamp(32px, 4.2vw, 64px);
   --text-h3: clamp(20px, 2vw, 28px);
@@ -75,7 +55,6 @@
   --text-meta: 13px;
   --text-label: 12px;
 
-  /* Leading & Tracking */
   --leading-display: 1.1;
   --leading-h2: 1.15;
   --leading-h3: 1.25;
@@ -86,12 +65,8 @@
   --tracking-normal: -0.011em;
   --tracking-label: 0.08em;
 
-  /* Max Measure */
   --measure-body: 60ch;
 
-  /* ========================================================================
-     SPACING SCALE (Strict 4pt scale: 4, 8, 12, 16, 24, 32, 48, 64, 96, 128, 192)
-     ======================================================================== */
   --space-4: 4px;
   --space-8: 8px;
   --space-12: 12px;
@@ -104,38 +79,28 @@
   --space-128: 128px;
   --space-192: 192px;
 
-  /* Section vertical padding */
   --section-padding-desktop: 128px;
   --section-padding-tablet: 96px;
   --section-padding-mobile: 64px;
 
-  /* Grid Tokens (12-column grid, max width 1440, gutter 24) */
   --grid-max-width: 1440px;
   --grid-gutter: 24px;
   --grid-margin-desktop: 40px;
   --grid-margin-tablet: 24px;
   --grid-margin-mobile: 20px;
 
-  /* Work column rhythm offset */
   --work-stagger-offset: 96px;
 
-  /* ========================================================================
-     RADIUS TOKENS
-     ======================================================================== */
   --radius-image: 4px;
   --radius-input: 4px;
   --radius-card: 12px;
   --radius-panel: 12px;
   --radius-button: 999px;
 
-  /* ========================================================================
-     MOTION & INTERACTION TOKENS (Emil Kowalski + Pearl Specification)
-     ======================================================================== */
   --ease-default: cubic-bezier(0.23, 1, 0.32, 1);
   --ease-reveal: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-sheet: cubic-bezier(0.76, 0, 0.24, 1);
 
-  /* Rebuild (docs/section-mapping-and-motion-spec.md) */
   --ease-out-strong: cubic-bezier(0.22, 1, 0.36, 1);
   --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
   --ease-in-out-strong: cubic-bezier(0.77, 0, 0.175, 1);
@@ -149,7 +114,6 @@
   --duration-text: 900ms;
   --duration-image: 1000ms;
 
-  /* Button tactile interaction */
   --button-press-scale: 0.97;
   --button-hover-lift: -2px;
 }

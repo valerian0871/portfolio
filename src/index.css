@@ -1,9 +1,6 @@
 @import "tailwindcss";
 @import "./styles/tokens.css";
 
-/* ==========================================================================
-   SELF-HOSTED FONTS & SIZE-ADJUSTED FALLBACKS (Zero Layout Shift)
-   ========================================================================== */
 
 @font-face {
   font-family: 'Inter Tight';
@@ -30,9 +27,6 @@
   size-adjust: 107%;
 }
 
-/* ==========================================================================
-   TAILWIND CSS V4 THEME BINDINGS
-   ========================================================================== */
 
 @theme {
   --color-bg: var(--color-bg);
@@ -60,9 +54,6 @@
   --ease-sheet: cubic-bezier(0.76, 0, 0.24, 1);
 }
 
-/* ==========================================================================
-   GLOBAL RESETS & CRAFT FLOOR RULES
-   ========================================================================== */
 
 @layer base {
   html {
@@ -88,14 +79,12 @@
     transition: background-color 200ms ease, color 200ms ease;
   }
 
-  /* Dark mode: apply brightness(0.92) to photographs only per Item 5 */
   @media (prefers-color-scheme: dark) {
     img:not([src$=".svg"]) {
       filter: brightness(0.92);
     }
   }
 
-  /* Headings: Inter Tight, weight 500, letter-spacing -0.035em, line-height 1.02 for display */
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-heading);
     font-weight: 500;
@@ -109,7 +98,6 @@
     max-width: 60ch;
   }
 
-  /* Selection styling */
   ::selection {
     background-color: var(--color-text);
     color: var(--color-bg);
@@ -119,13 +107,11 @@
     caret-color: var(--color-text);
   }
 
-  /* Focus ring: 2px solid #111111, 3px offset, keyboard focus only */
   :focus-visible {
     outline: 2px solid var(--color-text);
     outline-offset: 3px;
   }
 
-  /* Custom scrollbars without glow or shadow */
   ::-webkit-scrollbar {
     width: 6px;
     height: 6px;
@@ -142,19 +128,12 @@
   }
 }
 
-/* ==========================================================================
-   REDUCED MOTION: keep opacity and colour, drop movement (per-component rules below)
-   ========================================================================== */
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto !important; }
   *, *::before, *::after { transition-duration: 150ms !important; }
 }
 
-/* ==========================================================================
-   REBUILD LAYER (docs/section-mapping-and-motion-spec.md)
-   Hover effects are gated to fine pointers; motion respects reduced motion.
-   ========================================================================== */
 
 :root {
   --page-gutter: 20px;
@@ -170,7 +149,6 @@ html.loader-pending body {
   background-color: var(--color-loader-bg);
 }
 
-/* ---------- Type scale ---------- */
 .hero-title {
   font-size: clamp(2.6rem, 9.6vw, 7.5rem);
   line-height: 0.98;
@@ -219,7 +197,6 @@ html.loader-pending body {
   white-space: nowrap;
 }
 
-/* Line masks: reserved line box, transform-only reveal */
 .mask-line-box {
   display: block;
   overflow: hidden;
@@ -227,11 +204,12 @@ html.loader-pending body {
   margin-bottom: -0.12em;
 }
 
-/* ---------- Top bar ---------- */
 .topbar-wordmark { left: var(--page-gutter); }
 .topbar-clock { right: var(--page-gutter); }
+@media (max-width: 767px) {
+  .topbar-clock { right: auto; left: var(--page-gutter); top: 58px; }
+}
 
-/* ---------- Ink surfaces: island, inline switcher, toast ---------- */
 .on-ink {
   background-color: var(--color-inverse-bg);
   color: var(--color-inverse-text);
@@ -243,6 +221,7 @@ html.loader-pending body {
 }
 .island-beside-wordmark { margin-left: calc(var(--page-gutter) + 160px); }
 .island-at-gutter { margin-left: var(--page-gutter); }
+.island-at-right { margin-right: var(--page-gutter); }
 
 .seg-button {
   color: color-mix(in srgb, var(--color-inverse-text) 62%, transparent);
@@ -266,7 +245,6 @@ html.loader-pending body {
   }
 }
 
-/* Availability dot */
 @media (prefers-reduced-motion: no-preference) {
   .status-dot { animation: status-pulse 2400ms linear infinite; }
 }
@@ -275,7 +253,6 @@ html.loader-pending body {
   50% { opacity: 0.35; }
 }
 
-/* ---------- Text links ---------- */
 .text-link {
   border-color: color-mix(in srgb, var(--color-text) 22%, transparent);
   transition: border-color 150ms var(--ease-standard);
@@ -288,7 +265,6 @@ html.loader-pending body {
   .case-next:hover .text-link-arrow { transform: translateX(3px); }
 }
 
-/* ---------- Work rows ---------- */
 .stretched::after {
   content: '';
   position: absolute;
@@ -318,19 +294,16 @@ html.loader-pending body {
   .work-row:hover .work-row-arrow { opacity: 1; transform: translateX(2px); }
 }
 
-/* ---------- Services rows ---------- */
 .service-row-text { transition: transform 250ms ease; display: inline-block; }
 @media (hover: hover) and (pointer: fine) {
   .service-row:hover .service-row-text { transform: translateX(4px); }
 }
 
-/* ---------- Case study ---------- */
 .case-image { transition: border-color 200ms var(--ease-standard); }
 @media (hover: hover) and (pointer: fine) {
   .case-image:hover { border-color: color-mix(in srgb, var(--color-text) 30%, transparent); }
 }
 
-/* ---------- Page card + reveal footer ---------- */
 .site-card {
   border-radius: 0 0 28px 28px;
   box-shadow: 0 40px 60px -30px rgba(0, 0, 0, 0.18);
@@ -358,13 +331,11 @@ html.loader-pending body {
   .footer-top:hover .footer-top-arrow { transform: translateY(-2px); }
 }
 
-/* ---------- Custom cursor (fine pointers only) ---------- */
 html.has-cursor,
 html.has-cursor * { cursor: none; }
 html.has-cursor input,
 html.has-cursor textarea { cursor: text; }
 
-/* Reduced motion: keep colour and opacity feedback, drop hover movement */
 @media (prefers-reduced-motion: reduce) {
   .work-row-title,
   .work-row-arrow,
@@ -375,12 +346,10 @@ html.has-cursor textarea { cursor: text; }
   }
 }
 
-/* ---------- Record player (hero) ---------- */
 :root {
   --island-h: 44px;
 }
 @media (max-width: 767px) {
-  /* Bigger, width-responsive island on phones */
   :root { --island-h: clamp(48px, 13.5vw, 58px); }
   .seg-button { font-size: clamp(13px, 3.9vw, 15px); }
 }
@@ -412,7 +381,7 @@ html.has-cursor textarea { cursor: text; }
     repeating-radial-gradient(circle, #121212 0 1.2px, #0a0a0a 1.2px 2.6px);
 }
 @media (prefers-reduced-motion: no-preference) {
-  .vinyl { animation: vinyl-spin 1.8s linear infinite paused; } /* 33 1/3 rpm */
+  .vinyl { animation: vinyl-spin 1.8s linear infinite paused; }
   .vinyl[data-spinning] { animation-play-state: running; }
 }
 @keyframes vinyl-spin {
@@ -453,7 +422,6 @@ html.has-cursor textarea { cursor: text; }
   box-shadow: 0 0 6px var(--color-accent);
 }
 
-/* Floating music control */
 .music-control {
   width: 52px;
   height: 52px;
@@ -462,7 +430,6 @@ html.has-cursor textarea { cursor: text; }
   box-shadow: 0 12px 28px -12px rgba(0, 0, 0, 0.5);
 }
 @media (max-width: 767px) {
-  /* Sits above the bottom island on phones */
   .music-control { bottom: calc(16px + var(--island-h) + 12px); right: 16px; }
 }
 .music-control-disc { opacity: 0.9; }
@@ -481,4 +448,12 @@ html.has-cursor textarea { cursor: text; }
 @media (max-width: 399px) {
   .status-extra { display: none; }
   .seg-button { padding-inline: 0.55rem; }
+}
+
+.hero-player { width: clamp(118px, 34vw, 170px); }
+@media (min-width: 640px) {
+  .hero-player { width: clamp(200px, 32vw, 280px); }
+}
+@media (min-width: 1024px) {
+  .hero-player { width: auto; }
 }

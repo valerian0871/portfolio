@@ -11,12 +11,9 @@ interface TopBarProps {
   wordmarkVisible: boolean
 }
 
-/** Wordmark (back to top) and local time. Lives in the fixed morph overlay. */
 export function TopBar({ visible, wordmarkVisible }: TopBarProps) {
   const site = useSite()
   const reduceMotion = useReducedMotion()
-  // Fixed text would collide with content scrolling under it, so the top bar
-  // only shows near the top of each page
   const [scrolledAway, setScrolledAway] = useState(false)
   useEffect(() => {
     const onScroll = () => setScrolledAway(window.scrollY > window.innerHeight * 0.5)
@@ -66,7 +63,7 @@ export function TopBar({ visible, wordmarkVisible }: TopBarProps) {
   )
 }
 
-function formatLagos(date: Date) {
+function formatLocal(date: Date) {
   return new Intl.DateTimeFormat('en-GB', {
     timeZone: 'Africa/Lagos',
     hour: '2-digit',
@@ -82,13 +79,13 @@ function Clock() {
     const id = window.setInterval(() => setNow(new Date()), 1000)
     return () => window.clearInterval(id)
   }, [])
-  const time = formatLagos(now)
+  const time = formatLocal(now)
   return (
     <span
-      className="topbar-clock pointer-events-none absolute top-5 hidden h-9 items-center font-mono text-[12px] tabular-nums text-muted md:flex"
+      className="topbar-clock pointer-events-none absolute flex items-center font-mono text-[11px] tabular-nums text-muted md:top-5 md:h-9 md:text-[12px]"
     >
       <span aria-hidden="true">{time} WAT</span>
-      <span className="sr-only">Local time in Nigeria: {time.slice(0, 5)}</span>
+      <span className="sr-only">Local time: {time.slice(0, 5)}</span>
     </span>
   )
 }

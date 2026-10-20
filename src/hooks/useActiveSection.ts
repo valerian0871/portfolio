@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef, useCallback } from 'react'
 import { getLenis } from './useLenis'
 
-const HEADER_OFFSET = 0 // no fixed header: sections carry their own top padding
+const HEADER_OFFSET = 0
 
 export function useActiveSection(sectionIds: string[], currentRoute: string) {
   const [activeSection, setActiveSection] = useState<string | null>(() => {
@@ -15,7 +15,6 @@ export function useActiveSection(sectionIds: string[], currentRoute: string) {
   const lockTimerRef = useRef<number | null>(null)
   const lastHashUpdateRef = useRef<number>(0)
 
-  // Unlock observer after scroll ends
   const unlockObserver = useCallback(() => {
     isLockedRef.current = false
     if (lockTimerRef.current) {
@@ -24,13 +23,11 @@ export function useActiveSection(sectionIds: string[], currentRoute: string) {
     }
   }, [])
 
-  // Programmatic scroll-to-section with lock
   const scrollToSection = useCallback(
     (sectionId: string) => {
       const element = document.getElementById(sectionId)
       if (!element) return
 
-      // Set active immediately
       setActiveSection(sectionId)
       isLockedRef.current = true
 
@@ -38,7 +35,6 @@ export function useActiveSection(sectionIds: string[], currentRoute: string) {
         clearTimeout(lockTimerRef.current)
       }
 
-      // 800ms fallback timeout for scroll end
       lockTimerRef.current = window.setTimeout(unlockObserver, 800)
 
       const onScrollEnd = () => {
@@ -47,7 +43,6 @@ export function useActiveSection(sectionIds: string[], currentRoute: string) {
       }
       window.addEventListener('scrollend', onScrollEnd, { once: true })
 
-      // Check if Lenis is active
       const lenis = getLenis()
       if (lenis) {
         lenis.scrollTo(element, {
@@ -59,21 +54,18 @@ export function useActiveSection(sectionIds: string[], currentRoute: string) {
         window.scrollTo({ top, behavior: 'smooth' })
       }
 
-      // Update URL hash cleanly with replaceState
       window.history.replaceState(null, '', `#${sectionId}`)
     },
     [unlockObserver]
   )
 
   useEffect(() => {
-    // Only run scroll-based detection on root route
     if (currentRoute !== '/') {
       const routeSegment = currentRoute.replace(/^\//, '')
       setActiveSection(routeSegment || null)
       return
     }
 
-    // Handle initial deep-link hash scroll
     if (window.location.hash) {
       const initialId = window.location.hash.replace('#', '')
       const el = document.getElementById(initialId)
@@ -88,23 +80,19 @@ export function useActiveSection(sectionIds: string[], currentRoute: string) {
 
     if (sections.length === 0) return
 
-    // IntersectionObserver with rootMargin: "-40% 0px -55% 0px" per Item 6
     const observer = new IntersectionObserver(
       (entries) => {
         if (isLockedRef.current) return
 
-        // Check edge cases: top of page & bottom of page
         const scrollY = window.scrollY
         const docHeight = document.documentElement.scrollHeight
         const windowHeight = window.innerHeight
 
-        // Near top of page: none or home
         if (scrollY < 80) {
           setActiveSection(null)
           return
         }
 
-        // At bottom of page: highlight last section
         if (scrollY + windowHeight >= docHeight - 4) {
           const lastId = sectionIds[sectionIds.length - 1]
           setActiveSection(lastId)
@@ -116,7 +104,6 @@ export function useActiveSection(sectionIds: string[], currentRoute: string) {
             const id = entry.target.id
             setActiveSection(id)
 
-            // Throttled replaceState for hash update
             const now = Date.now()
             if (now - lastHashUpdateRef.current > 400) {
               lastHashUpdateRef.current = now
@@ -134,7 +121,6 @@ export function useActiveSection(sectionIds: string[], currentRoute: string) {
 
     sections.forEach((section) => observer.observe(section))
 
-    // Fallback scroll listener for top and bottom edge boundaries
     const handleScrollEdges = () => {
       if (isLockedRef.current) return
       const scrollY = window.scrollY

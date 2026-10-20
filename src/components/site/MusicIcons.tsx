@@ -1,4 +1,3 @@
-/** The site's only drawn icons: play and pause for the record player (16px, filled) */
 export function PlayIcon() {
   return (
     <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">

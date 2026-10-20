@@ -3,11 +3,6 @@ import { TRACK, useMusic } from '../../lib/MusicContext'
 import { easeOutStrong } from '../../lib/motion'
 import { PauseIcon, PlayIcon } from './MusicIcons'
 
-/**
- * Floating pause / resume button. Appears once the needle is down and the
- * record player has scrolled out of view, so it follows the visitor through
- * the site. Resuming continues from the same position.
- */
 export function MusicControl() {
   const music = useMusic()
   const visible = music.needleDown && !music.playerInView
@@ -27,7 +22,6 @@ export function MusicControl() {
           exit={{ opacity: 0, scale: 0.9, transition: { duration: 0.15, ease: 'easeOut' } }}
           whileTap={{ scale: 0.95 }}
         >
-          {/* A tiny record that spins while the song plays: status at a glance */}
           <span
             aria-hidden="true"
             className="vinyl music-control-disc absolute inset-[5px] rounded-full"

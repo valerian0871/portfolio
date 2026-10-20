@@ -33,7 +33,6 @@ export interface Project {
   detail: string
   tools: string[]
   link?: ProjectLink
-  /** false when the live site refuses to load inside a frame (X-Frame-Options) */
   embeddable?: boolean
   images: ProjectImage[]
   pipeline?: ProjectPipeline
@@ -144,7 +143,6 @@ export const content: SiteContent = {
 
   hero: {
     label: 'Frontend Development · Graphics Design · Content Writing · AI Automation',
-    // 16 words stating what I do and for whom (within 12 to 18 words rule)
     headline: 'Building high-craft frontend interfaces, editorial systems, and automated workflows for ambitious digital products and teams.',
     cta: {
       label: 'Explore selected work',
@@ -209,7 +207,7 @@ export const content: SiteContent = {
 
   about: {
     previewParagraph:
-      'I am an independent developer and designer based in Nigeria, operating across frontend engineering, graphic design, writing, and automation. I work directly with founders, teams, and organisations to ship durable software and cohesive visual systems.',
+      'I am an independent developer and designer operating across frontend engineering, graphic design, writing, and automation. I work directly with founders, teams, and organisations to ship durable software and cohesive visual systems.',
     fullStory: [
       'My work bridges technical engineering and graphic disciplines. Rather than treating code, typography, and automation as disconnected skills, I combine them into unified digital products where design precision and systems architecture reinforce each other.',
       'In frontend engineering, I focus on predictable state architecture, semantic accessibility, and motion that feels physical and intentional. In visual design and writing, I emphasize clarity and restraint, avoiding superfluous decoration in favor of strong typographic hierarchy and clean execution.',
@@ -254,23 +252,23 @@ export const content: SiteContent = {
 
   projects: [
     {
-      slug: 'miracle-olu-peters',
+      slug: 'creative-strategist-portfolio',
       year: '2026',
-      title: 'Miracle Olu-Peters',
+      title: 'Creative strategist portfolio',
       discipline: 'frontend',
       disciplineLabel: 'Frontend Development',
       kind: 'Design and build, with CMS',
-      summary: 'Portfolio for a Lagos-based creative strategist and copywriter, built with Next.js.',
+      summary: 'Portfolio for a creative strategist and copywriter, built with Next.js.',
       detail:
-        'Designed and built the site end to end in Next.js 16 with Tailwind CSS v4 and GSAP motion. Miracle manages her own case studies through an embedded Sanity Studio, and each project stays hidden until client permission is confirmed and its embargo date has passed. The contact form sends enquiries through Resend, and Yorùbá diacritics are fully supported. Deployed on Vercel.',
+        'Designed and built the site end to end in Next.js 16 with Tailwind CSS v4 and GSAP motion. The client manages her own case studies through an embedded Sanity Studio, and each project stays hidden until client permission is confirmed and its embargo date has passed. The contact form sends enquiries through Resend, and Yorùbá diacritics are fully supported. Deployed on Vercel.',
       tools: ['Next.js', 'Sanity', 'GSAP', 'Tailwind CSS', 'Resend'],
       link: { href: 'https://miracleolupeters.vercel.app/', label: 'Visit live site' },
       embeddable: false,
       images: [
         {
-          src: '/work/miracle-olu-peters/homepage.jpg',
-          alt: 'Miracle Olu-Peters homepage: her name set large in condensed capitals beside a portrait on a purple backdrop, with the lines creative strategist and copywriter, English and Yorùbá',
-          caption: 'Miracle Olu-Peters, homepage',
+          src: '/work/creative-strategist-portfolio/homepage.jpg',
+          alt: 'Creative strategist portfolio homepage: the owner’s name set large in condensed capitals beside a portrait on a purple backdrop, with the lines creative strategist and copywriter, English and Yorùbá',
+          caption: 'Creative strategist portfolio, homepage',
           width: 1440,
           height: 900,
         },

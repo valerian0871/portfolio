@@ -11,7 +11,6 @@ export function useLenis() {
   const lenisRef = useRef<Lenis | null>(null)
 
   useEffect(() => {
-    // Only enable on desktop pointer devices and when reduced motion is not requested
     const isDesktopPointer = window.matchMedia('(pointer: fine)').matches
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
@@ -39,7 +38,6 @@ export function useLenis() {
     }
     rafId = requestAnimationFrame(raf)
 
-    // Handle hash anchor links
     const handleHashClick = (e: MouseEvent) => {
       const target = (e.target as HTMLElement).closest('a')
       if (!target) return

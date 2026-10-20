@@ -6,7 +6,6 @@ interface ScrollWordsProps {
   className?: string
 }
 
-/** A paragraph whose words brighten as it scrolls through the viewport (spec #14) */
 export function ScrollWords({ text, className = '' }: ScrollWordsProps) {
   const ref = useRef<HTMLParagraphElement>(null)
   const reduceMotion = useReducedMotion()

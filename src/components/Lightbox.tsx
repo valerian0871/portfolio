@@ -82,7 +82,6 @@ export function Lightbox({
       }}
       className="fixed inset-0 z-[100] m-auto max-h-[92dvh] w-[min(1200px,94vw)] rounded-[12px] border border-line bg-bg p-0 text-text backdrop:bg-text/70 backdrop:backdrop-blur-[4px]"
     >
-      {/* Header bar */}
       <div className="flex items-center justify-between border-b border-line px-5 py-4">
         <p className="text-[14px] text-muted truncate pr-4">
           {image.caption || image.alt}
@@ -96,7 +95,6 @@ export function Lightbox({
         </button>
       </div>
 
-      {/* Main Image */}
       <div className="flex items-center justify-center p-4 sm:p-8 bg-surface min-h-[300px]">
         <img
           src={image.src}
@@ -107,7 +105,6 @@ export function Lightbox({
         />
       </div>
 
-      {/* Footer bar */}
       {images.length > 1 && (
         <div className="flex items-center justify-between border-t border-line px-5 py-4">
           <button

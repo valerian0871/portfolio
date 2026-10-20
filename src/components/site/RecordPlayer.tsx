@@ -3,13 +3,6 @@ import { animate, motion, useMotionValue, useMotionValueEvent, useReducedMotion 
 import { TRACK, formatTime, useMusic } from '../../lib/MusicContext'
 import { PauseIcon, PlayIcon } from './MusicIcons'
 
-/*
- * Geometry, in a 400 x 340 design box (everything below is a percentage of it):
- *   platter centre (170, 170), radius 150
- *   tonearm pivot (350, 60), needle 230 below the pivot
- * Needle angle: 0 deg rests off the record, 24 deg is the outer groove,
- * 36 deg the inner groove. It tracks inward as the song plays.
- */
 const PIVOT = { x: 0.875, y: 60 / 340 }
 const REST = 0
 const START = 24
@@ -28,7 +21,6 @@ export function RecordPlayer() {
 
   const { setPlayerInView, needleDown, status } = music
 
-  // Tell the floating control whether the player itself is on screen
   useEffect(() => {
     const el = rootRef.current
     if (!el) return
@@ -42,7 +34,6 @@ export function RecordPlayer() {
     }
   }, [setPlayerInView])
 
-  // The needle follows playback inward
   useMotionValueEvent(music.progress, 'change', (p) => {
     if (following.current && !drag.current) angle.set(START + (END - START) * p)
   })
@@ -57,7 +48,6 @@ export function RecordPlayer() {
     animate(angle, target, ARM_SPRING).then(() => then?.())
   }
 
-  // Keep the arm in sync with state changes from elsewhere (ended, error, lifted)
   useEffect(() => {
     if (drag.current) return
     if (needleDown) {
@@ -67,7 +57,6 @@ export function RecordPlayer() {
     } else {
       moveArmTo(REST)
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [needleDown])
 
   const toggleNeedle = () => {
@@ -123,7 +112,6 @@ export function RecordPlayer() {
   return (
     <figure className="record-player w-full" aria-label={`Record player: ${TRACK.title} by ${TRACK.artist}`}>
       <div ref={rootRef} className="turntable relative aspect-[400/340] w-full select-none">
-        {/* Platter + record (the record spins; the sheen stays put like a real reflection) */}
         <div
           className="turntable-platter absolute rounded-full"
           style={{ left: '5%', top: `${(20 / 340) * 100}%`, width: '75%', aspectRatio: '1' }}
@@ -132,27 +120,24 @@ export function RecordPlayer() {
         >
           <div className="vinyl absolute inset-[3.3%] rounded-full" data-spinning={spinning || undefined}>
             <div className="vinyl-label absolute left-1/2 top-1/2 grid aspect-square w-[33%] -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full">
-              <span className="font-heading text-[clamp(0.8rem,2.6vw,1.15rem)] tracking-[-0.04em]">PK</span>
+              <img src="/favicon-192x192.png" alt="" width={192} height={192} className="absolute inset-[7%] h-[86%] w-[86%] rounded-full object-cover" draggable={false} />
               <span className="vinyl-spindle absolute left-1/2 top-1/2 h-[9%] w-[9%] -translate-x-1/2 -translate-y-1/2 rounded-full" />
             </div>
           </div>
           <div className="vinyl-sheen pointer-events-none absolute inset-[3.3%] rounded-full" />
         </div>
 
-        {/* Speed + status light */}
-        <div className="absolute bottom-[6%] right-[5%] flex items-center gap-2 font-mono text-[10px] text-[color:var(--deck-muted)]" aria-hidden="true">
+        <div className="absolute bottom-[6%] right-[5%] hidden items-center gap-2 sm:flex font-mono text-[10px] text-[color:var(--deck-muted)]" aria-hidden="true">
           <span className="deck-led h-1.5 w-1.5 rounded-full" data-on={spinning || undefined} />
           33⅓
         </div>
 
-        {/* Pivot base */}
         <div
           className="deck-pivot absolute aspect-square w-[11%] -translate-x-1/2 -translate-y-1/2 rounded-full"
           style={{ left: `${PIVOT.x * 100}%`, top: `${PIVOT.y * 100}%` }}
           aria-hidden="true"
         />
 
-        {/* Tonearm: rotates around the pivot; the needle is the button */}
         <motion.div
           className="absolute w-[9%] -translate-x-1/2"
           style={{
@@ -185,33 +170,38 @@ export function RecordPlayer() {
                 toggleNeedle()
               }
             }}
-            className="deck-needle absolute bottom-[-6%] left-1/2 h-12 w-12 -translate-x-1/2 touch-none rounded-full"
+            className="deck-needle absolute bottom-[-6%] left-1/2 h-10 w-10 -translate-x-1/2 touch-none rounded-full sm:h-12 sm:w-12"
             data-dragging={dragging || undefined}
           />
         </motion.div>
       </div>
 
-      <figcaption className="mt-4 flex items-center justify-between gap-4">
+      <figcaption className="mt-3 flex items-center justify-between gap-2 sm:mt-4 sm:gap-4">
         <div className="min-w-0">
-          <p className="truncate text-[13px] font-medium text-text">{TRACK.title}</p>
-          <p className="truncate text-[12px] text-muted">
+          <p className="truncate text-[12px] font-medium text-text sm:text-[13px]">{TRACK.title}</p>
+          <p className="truncate text-[11px] text-muted sm:text-[12px]">
             {status === 'error'
               ? 'The track couldn’t load. Try again in a moment.'
               : needleDown
                 ? TRACK.artist
-                : `${TRACK.artist} · drop the needle to play`}
+                : (
+                    <>
+                      <span className="sm:hidden">Tap the needle</span>
+                      <span className="hidden sm:inline">{TRACK.artist} · drop the needle to play</span>
+                    </>
+                  )}
           </p>
         </div>
         {needleDown ? (
           <div className="flex shrink-0 items-center gap-3">
-            <span className="font-mono text-[11px] tabular-nums text-muted" aria-live="off">
+            <span className="hidden font-mono text-[11px] tabular-nums text-muted sm:inline" aria-live="off">
               {status === 'loading' ? 'Loading…' : `${formatTime(music.currentTime)} / ${formatTime(music.duration)}`}
             </span>
             <button
               type="button"
               onClick={music.togglePause}
               aria-label={status === 'paused' ? 'Resume music' : 'Pause music'}
-              className="on-ink grid h-10 w-10 place-items-center rounded-full"
+              className="on-ink grid h-8 w-8 place-items-center rounded-full sm:h-10 sm:w-10"
             >
               {status === 'paused' ? <PlayIcon /> : <PauseIcon />}
             </button>

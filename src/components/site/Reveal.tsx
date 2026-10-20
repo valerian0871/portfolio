@@ -6,18 +6,12 @@ interface MaskLinesProps {
   lines: string[]
   as?: ElementType
   className?: string
-  /** Animate when scrolled into view (sections) or when `play` turns true (hero) */
   trigger?: 'inView' | 'play'
   play?: boolean
   stagger?: number
   delay?: number
 }
 
-/**
- * Each line rises out of an overflow mask (spec #2, #5).
- * Transform only, inside a reserved line box, so nothing shifts.
- * Reduced motion: MotionConfig drops the transform and the text sits at rest.
- */
 export function MaskLines({
   lines,
   as: Tag = 'h2',
@@ -59,7 +53,6 @@ interface FadeInProps {
   play?: boolean
 }
 
-/** Opacity-only follow-up for supporting copy (spec #3) */
 export function FadeIn({ children, className = '', delay = 0, play = true }: FadeInProps) {
   return (
     <motion.div

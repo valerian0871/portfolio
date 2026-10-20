@@ -11,19 +11,13 @@ interface SegmentedProps<T extends string> {
   items: SegmentedItem<T>[]
   active: T | null
   onSelect: (id: T) => void
-  /**
-   * `tabs`: a real tablist controlling `panelId` (arrow keys, roving tabindex).
-   * `nav`: section navigation buttons with aria-current.
-   */
   mode: 'tabs' | 'nav'
   label: string
   panelId?: string
   idPrefix: string
-  /** Tighter padding for long label sets (five filters on a phone) */
   compact?: boolean
 }
 
-/** Pill row with a sliding indicator. Used in the island and inline on mobile. */
 export function Segmented<T extends string>({
   items,
   active,

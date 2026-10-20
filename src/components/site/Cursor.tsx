@@ -5,7 +5,6 @@ import { useFinePointer } from '../../hooks/useMediaQuery'
 
 const INTERACTIVE = 'a, button, input, [role="button"], [role="tab"], [role="option"], [data-cursor]'
 
-/** 10px blend-mode dot that grows over interactive targets (spec #24). Fine pointers only. */
 export function Cursor() {
   const finePointer = useFinePointer()
   const reduceMotion = useReducedMotion()

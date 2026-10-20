@@ -23,7 +23,6 @@ type View = 'status' | 'nav' | 'practice' | 'contact' | 'palette' | 'case' | 'pa
 const ROW = 40
 const INPUT_ROW = 52
 
-/** Height of a list island: input row, hairline, rows, bottom padding */
 const listHeight = (rows: number) => INPUT_ROW + 1 + Math.max(rows, 1) * ROW + 12
 
 interface Placement {
@@ -41,7 +40,6 @@ const pageItems = [
   { id: '/about', label: 'About' },
   { id: '/contact', label: 'Contact' },
 ]
-/** Phones get a taller island that scales with the screen (see --island-h) */
 const MOBILE_H = 'var(--island-h)'
 
 interface IslandProps {
@@ -79,14 +77,13 @@ export function Island({ wordmarkVisible }: IslandProps) {
     switch (view) {
       case 'status':
         return {
-          className: 'self-start mt-5',
+          className: isDesktop ? 'self-start mt-5' : 'self-end mt-5',
           width: isNarrow ? 124 : 176,
           height: 36,
           radius: 18,
         }
       case 'footer':
         return {
-          // On phones the giant footer wordmark owns the bottom edge
           className: isDesktop ? 'self-start mt-auto mb-5' : 'self-start mt-auto mb-5 invisible',
           width: 176,
           height: 36,
@@ -125,9 +122,8 @@ export function Island({ wordmarkVisible }: IslandProps) {
     ? { duration: 0 }
     : { layout: springIsland, borderRadius: { duration: 0.28, ease: easeOutStrong } }
 
-  // Status pills sit beside the wordmark; everything else is centred
   const statusOffset =
-    view === 'status' ? 'island-beside-wordmark' : view === 'footer' ? 'island-at-gutter' : ''
+    view === 'status' ? (isDesktop ? 'island-beside-wordmark' : 'island-at-right') : view === 'footer' ? 'island-at-gutter' : ''
 
   return (
     <>
@@ -204,7 +200,9 @@ function StatusContent() {
   return (
     <div className="flex h-full items-center justify-center gap-2 whitespace-nowrap text-[13px] font-medium">
       <span className="status-dot h-1.5 w-1.5 rounded-full bg-accent" aria-hidden="true" />
-      Available<span className="status-extra"> for work</span>
+      <span>
+        Available<span className="status-extra"> for work</span>
+      </span>
     </div>
   )
 }
@@ -241,7 +239,6 @@ interface ListContentProps {
   items: PaletteItem[]
 }
 
-/** Contact preview (bottom island in the Contact section) and the command palette */
 function ListContent({ mode, query, setQuery, items }: ListContentProps) {
   const site = useSite()
   const containerRef = useRef<HTMLDivElement>(null)
@@ -254,7 +251,6 @@ function ListContent({ mode, query, setQuery, items }: ListContentProps) {
     if (isPalette) inputRef.current?.focus({ preventScroll: true })
   }, [isPalette])
 
-  // Click outside closes the palette (focus is not pulled back to the page)
   useEffect(() => {
     if (!isPalette) return
     const onPointerDown = (event: PointerEvent) => {
@@ -286,7 +282,6 @@ function ListContent({ mode, query, setQuery, items }: ListContentProps) {
       if (item) site.runItem(item)
       return
     }
-    // Focus trap: the input is the only tab stop (options use aria-activedescendant)
     if (event.key === 'Tab') {
       event.preventDefault()
       inputRef.current?.focus()
@@ -382,7 +377,6 @@ function PaletteRow({
   )
   const rowClass = 'palette-row flex w-full items-center justify-between rounded-2xl px-3 text-left text-[14px]'
 
-  // Palette: the option itself is the target (focus stays in the input via aria-activedescendant)
   if (isPalette) {
     return (
       <li
@@ -409,7 +403,6 @@ function PaletteRow({
   )
 }
 
-/** "Email copied" pill, plus a polite live region for screen readers */
 function Toast() {
   const { toast } = useSite()
   return (

@@ -10,7 +10,6 @@ import {
 } from 'react'
 import { useMotionValue, type MotionValue } from 'motion/react'
 
-/** One swappable track. The file only downloads when the needle first drops. */
 export const TRACK = {
   src: '/audio/purpose-is-glorious.mp3',
   title: 'Purpose Is Glorious',
@@ -21,17 +20,12 @@ export type MusicStatus = 'idle' | 'loading' | 'playing' | 'paused' | 'error'
 
 interface MusicContextValue {
   status: MusicStatus
-  /** Needle on the record (playing, paused or loading) */
   needleDown: boolean
-  /** 0..1 playback progress, updated every frame while playing */
   progress: MotionValue<number>
   currentTime: number
   duration: number
-  /** Start from the beginning (needle placed on the record) */
   dropNeedle: () => void
-  /** Stop and rewind (needle lifted off the record) */
   liftNeedle: () => void
-  /** Pause / resume from the same position */
   togglePause: () => void
   playerInView: boolean
   setPlayerInView: (inView: boolean) => void
@@ -64,7 +58,6 @@ export function MusicProvider({ children }: { children: ReactNode }) {
     return audioRef.current
   }, [])
 
-  // Wire audio events once the element exists
   const wired = useRef(false)
   const wire = useCallback(
     (audio: HTMLAudioElement) => {
@@ -138,7 +131,6 @@ export function MusicProvider({ children }: { children: ReactNode }) {
     }
   }, [needleDown])
 
-  // Hardware keys and the OS media panel
   useEffect(() => {
     if (!('mediaSession' in navigator) || !needleDown) return
     navigator.mediaSession.metadata = new MediaMetadata({ title: TRACK.title, artist: TRACK.artist })

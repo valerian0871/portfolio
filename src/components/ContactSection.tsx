@@ -2,10 +2,6 @@ import { useSite } from '../lib/SiteContext'
 import { contactItems, isMac } from '../lib/site'
 import { MaskLines } from './site/Reveal'
 
-/**
- * Contact. On desktop the actions live in the bottom island (which doubles
- * as the command palette); on mobile they render inline.
- */
 export function ContactSection() {
   const site = useSite()
 

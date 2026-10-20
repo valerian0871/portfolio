@@ -14,7 +14,6 @@ const filterItems: { id: Filter; label: string }[] = [
   ...practiceTabs.map((tab) => ({ id: tab.id, label: tab.label })),
 ]
 
-/** /work: every project as a numbered row, grouped by practice. Rows open the case study. */
 export function WorkPage() {
   const [filter, setFilter] = useState<Filter>('all')
   const groups = filter === 'all' ? workGroups : workGroups.filter((g) => g.id === filter)

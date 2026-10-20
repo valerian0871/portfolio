@@ -4,7 +4,6 @@ import { RecordPlayer } from './site/RecordPlayer'
 import { TextLink } from './site/TextLink'
 
 interface HeroProps {
-  /** Turns true when the loader hands off (or immediately when it is skipped) */
   ready?: boolean
 }
 
@@ -23,13 +22,14 @@ export function Hero({ ready = true }: HeroProps) {
             className="hero-title font-heading text-text"
           />
         </div>
-        <div className="col-span-12 lg:col-span-6">
+        <div className="col-span-12 flex items-start justify-between gap-5 sm:gap-8 lg:grid lg:grid-cols-12 lg:gap-10">
+        <div className="min-w-0 flex-1 lg:col-span-6">
           <FadeIn play={ready} delay={0.25}>
             <p className="max-w-[34rem] text-[15px] leading-[1.65] text-muted sm:text-[17px]">
-              Frontend developer in Nigeria. I also design brand systems, typeset books and automate
+              Frontend developer. I also design brand systems, typeset books and automate
               business workflows.
             </p>
-            <div className="mt-7 flex flex-wrap items-center gap-6 sm:mt-9">
+            <div className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-1 sm:mt-9">
               <TextLink href="#work" onClick={(e) => { e.preventDefault(); site.scrollToSection('work') }}>
                 View work
               </TextLink>
@@ -42,10 +42,11 @@ export function Hero({ ready = true }: HeroProps) {
         <FadeIn
           play={ready}
           delay={0.4}
-          className="col-span-12 w-full max-w-[22rem] sm:max-w-[24rem] lg:col-span-4 lg:col-start-9 lg:max-w-none"
+          className="hero-player shrink-0 lg:col-span-4 lg:col-start-9 lg:w-auto"
         >
           <RecordPlayer />
         </FadeIn>
+        </div>
       </div>
     </section>
   )

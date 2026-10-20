@@ -7,11 +7,6 @@ import { Segmented } from './site/Segmented'
 
 const tabItems = practiceTabs.map((tab) => ({ id: tab.id, label: tab.label }))
 
-/**
- * Services as a switcher (the reference's stack pattern, spec #12, #13).
- * Desktop: the tabs live in the bottom island while this section is active.
- * Mobile: the same tabs render inline.
- */
 export function ServicesSection() {
   const site = useSite()
   const tab = practiceTabs.find((t) => t.id === site.practice) ?? practiceTabs[0]

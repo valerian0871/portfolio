@@ -7,10 +7,6 @@ import { isMac } from '../lib/site'
 
 const WORDMARK = content.profile.name.split(' ')[0]
 
-/**
- * Reveal footer (spec #22, #23): a fixed layer clipped by its own box, so the
- * rounded page card above appears to lift off it.
- */
 export function Footer() {
   const site = useSite()
   const ref = useRef<HTMLElement>(null)
@@ -18,7 +14,6 @@ export function Footer() {
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start end', 'end end'] })
   const y = useTransform(scrollYProgress, [0, 1], ['-15%', '0%'])
   const { setFooterInView } = site
-  // Latches: the letters observe the footer, not themselves (their own mask hides them)
   const [revealed, setRevealed] = useState(false)
 
   useEffect(() => {

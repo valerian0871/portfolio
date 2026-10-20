@@ -1,7 +1,6 @@
 import { content, type DisciplineId, type Project } from '../data/content'
 import { practices } from '../data/practices'
 
-/** Home-page sections, in page order. `null` active section means the hero. */
 export const SECTION_IDS = ['work', 'services', 'about', 'contact'] as const
 export type SectionId = (typeof SECTION_IDS)[number]
 
@@ -12,9 +11,8 @@ export const SECTION_LABELS: Record<SectionId, string> = {
   contact: 'Contact',
 }
 
-/** Selected work rows, newest first, practices interleaved. The rest live on /work. */
 const SELECTED_SLUGS = [
-  'miracle-olu-peters',
+  'creative-strategist-portfolio',
   'cakes-n-pastries',
   'nazirite',
   'instagram-workflow',
@@ -35,7 +33,6 @@ export function findProject(slug: string): Project | undefined {
   return content.projects.find((p) => p.slug === slug)
 }
 
-/** Services switcher: one tab per practice */
 export interface PracticeTab {
   id: DisciplineId
   label: string
@@ -69,7 +66,6 @@ export const practiceTabs: PracticeTab[] = content.services.map((service) => {
   }
 })
 
-/** Contact actions, shared by the contact island, the mobile list and the palette */
 export type PaletteAction =
   | { kind: 'copy'; value: string }
   | { kind: 'open'; href: string }
@@ -156,7 +152,6 @@ export function filterItems(items: PaletteItem[], query: string): PaletteItem[] 
 export const isMac =
   typeof navigator !== 'undefined' && /Mac|iPhone|iPad/i.test(navigator.platform || navigator.userAgent)
 
-/** /work order: grouped by practice, content order within each group */
 export const workGroups = practiceTabs.map((tab) => ({
   id: tab.id,
   label: tab.name,

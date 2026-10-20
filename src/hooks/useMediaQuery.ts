@@ -16,7 +16,5 @@ export function useMediaQuery(query: string): boolean {
   return matches
 }
 
-/** Matches Tailwind's `md` breakpoint */
 export const useIsDesktop = () => useMediaQuery('(min-width: 768px)')
-/** Fine pointer that can hover: gates the cursor and hover-only effects */
 export const useFinePointer = () => useMediaQuery('(hover: hover) and (pointer: fine)')

@@ -4,7 +4,6 @@ import { springUI } from '../lib/motion'
 import { selectedProjects } from '../lib/site'
 import { MaskLines } from './site/Reveal'
 
-/** Numbered work rows (spec #6, #7, #8). A row opens its case study in place. */
 export function WorkSection() {
   const site = useSite()
 

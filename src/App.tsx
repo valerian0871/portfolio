@@ -27,7 +27,6 @@ export default function App() {
   const [heroReady, setHeroReady] = useState(false)
   const [wordmarkVisible, setWordmarkVisible] = useState(false)
 
-  // Lenis smooth scroll on fine pointers (off under reduced motion)
   useLenis()
 
   useEffect(() => {

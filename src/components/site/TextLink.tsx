@@ -5,7 +5,6 @@ interface TextLinkProps extends AnchorHTMLAttributes<HTMLAnchorElement> {
   arrow?: '↗' | '→'
 }
 
-/** Underlined text link with a glyph arrow that nudges on hover (spec #9) */
 export function TextLink({ children, arrow = '↗', className = '', ...rest }: TextLinkProps) {
   return (
     <a
