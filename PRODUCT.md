@@ -29,22 +29,22 @@ Unlike conventional single-discipline developers who stop at markup, Prosper bri
 
 - Browsed on desktop and mobile viewports by clients, founders, and engineers evaluating capability.
 - Visitors often browse with tight attention spans; work must lead immediately with proof, interactive demonstrations, and clear scope notes.
-- Frontend projects feature live in-browser preview frames allowing real site interaction directly within the card.
+- Frontend case studies show the real screenshot and can load the live site in a sandboxed frame on request.
 
 ## Capabilities and Constraints
 
-- Four core practice filters: Frontend Development, Graphics Design, Content & Copywriting, and AI Automation.
-- Live interactive website previews embedded in sandboxed frames for verified production URLs (`cakesnpastries.com.ng`, `smartcbt.com.ng`, `facons.edu.ng`, `topvision.ng`), with fallback to static screenshots.
+- Four practices (Frontend Development, Graphics Design, Content & Copywriting, AI Automation), switchable in the Services section.
+- Live sites load on demand in sandboxed frames for verified production URLs (`cakesnpastries.com.ng`, `smartcbt.com.ng`, `facons.edu.ng`, `topvision.ng`); the screenshot is shown first. No simulated "live" effects.
 - Lightbox asset viewer with keyboard navigation (`ArrowLeft`, `ArrowRight`, `Escape`).
-- Zero reliance on external icon packs or heavy animation runtimes; hardware-composited transitions only.
+- No icon packs (text glyphs only). Motion and Lenis are the only animation dependencies; transform and opacity first. ⌘K / Ctrl K command palette.
 - Strict performance budget: fast initial paint, optimized responsive typography (`clamp`), zero scroll-trapping on mobile.
 
 ## Brand Commitments
 
 - Name: Prosper Kayode.
-- Aesthetic tone: Editorial, restrained, authentic, craftsman-like. Monospaced metadata paired with serif editorial text and clear sans display typography.
-- Signature identity: Calligraphic loading screen with Runethia font ("Prosper Kayode") smoothly introducing the portfolio.
-- Palette & theme: Warm natural paper background (`#EEEFEA` light / `#111412` dark) with deep forest green accent (`#1F5245` light / `#7FBFA8` dark) and crisp hairline borders (`#D8DAD2` / `#2A302C`).
+- Aesthetic tone: Editorial, restrained, authentic, craftsman-like. Inter Tight display, Inter body, monospaced metadata (numbers, years, tools, time).
+- Signature identity: a short intro where "Prosper Kayode" sets in and flies into the top-bar wordmark; a morphing ink "island" that carries navigation, the services switcher, contact and the command palette. (Runethia is a personal-use demo font and is not used.)
+- Palette & theme: Near-white paper (`#FAFAF8` light / `#0E0E0D` dark), ink `#111111`, hairlines `#E2E1DB` / `#2A2A27`. One forest-green accent (`#7FBFA8` on the ink island / `#1F5245` on the light island) for the availability dot only. Follows the system light/dark setting.
 
 ## Evidence on Hand
 

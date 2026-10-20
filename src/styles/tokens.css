@@ -1,6 +1,6 @@
 /**
  * DESIGN TOKENS (derived from Pearl / Minimalist Editorial Architecture)
- * Light theme only, no accent colour, strict 4pt spacing scale, 12-column grid.
+ * Light + system dark theme. One accent (availability dot only). 4pt spacing scale.
  */
 
 :root {
@@ -24,7 +24,10 @@
   /* Inverse */
   --color-inverse-bg: #111111;
   --color-inverse-text: #FAFAF8;
-  --color-inverse-muted: #8E8D88;
+  --color-inverse-muted: #9C9B96; /* >= 4.5:1 on the island, including the highlighted row */
+
+  /* Single accent (PRODUCT.md forest green), used only for the availability dot */
+  --color-accent: #7FBFA8; /* sits on the ink island */
 }
 
 /* ==========================================================================
@@ -47,7 +50,8 @@
 
     --color-inverse-bg: #FAFAF8;
     --color-inverse-text: #111111;
-    --color-inverse-muted: #6B6A65;
+    --color-inverse-muted: #5C5B57;
+    --color-accent: #1F5245; /* sits on the light island */
   }
 }
 
@@ -59,6 +63,8 @@
      ======================================================================== */
   --font-heading: "Inter Tight", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --font-body: "Inter", "Inter-Fallback", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  /* Metadata only: numbers, years, tags, hints, the clock */
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
 
   /* Typography Ramp */
   --text-display: clamp(44px, 7.2vw, 112px);
@@ -128,6 +134,11 @@
   --ease-default: cubic-bezier(0.23, 1, 0.32, 1);
   --ease-reveal: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-sheet: cubic-bezier(0.76, 0, 0.24, 1);
+
+  /* Rebuild (docs/section-mapping-and-motion-spec.md) */
+  --ease-out-strong: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-in-out-strong: cubic-bezier(0.77, 0, 0.175, 1);
 
   --duration-fast: 150ms;
   --duration-ui: 250ms;

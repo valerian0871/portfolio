@@ -1,79 +1,40 @@
-import { useState } from 'react'
-import { Container } from './Container'
-import { HeadingReveal } from './TextReveal'
-import { content } from '../data/content'
+import { useSite } from '../lib/SiteContext'
+import { contactItems, isMac } from '../lib/site'
+import { MaskLines } from './site/Reveal'
 
+/**
+ * Contact. On desktop the actions live in the bottom island (which doubles
+ * as the command palette); on mobile they render inline.
+ */
 export function ContactSection() {
-  const [emailCopied, setEmailCopied] = useState(false)
-
-  const handleCopyEmail = () => {
-    navigator.clipboard.writeText(content.contact.email)
-    setEmailCopied(true)
-    setTimeout(() => {
-      setEmailCopied(false)
-    }, 1500)
-  }
+  const site = useSite()
 
   return (
-    <section
-      id="contact"
-      className="py-[64px] md:py-[96px] lg:py-[128px] border-b border-line"
-    >
-      <Container>
-        <div className="grid grid-cols-12 gap-6">
-          <div className="col-span-12">
-            <span className="text-[12px] uppercase font-medium tracking-[0.08em] text-muted block mb-4">
-              Contact
-            </span>
-          </div>
+    <section id="contact" className="min-h-[120svh] py-28 md:py-40">
+      <div className="mx-auto w-full max-w-[1100px] px-6">
+        <MaskLines lines={['Have a project', 'in mind?']} className="contact-title" />
+        <p className="mt-8 max-w-[40ch] text-[17px] leading-[1.55] text-muted">
+          WhatsApp is the fastest way to reach me. Email works too.
+        </p>
+        <p className="mt-3 hidden font-mono text-[12px] text-muted md:block">
+          {isMac ? '⌘K' : 'Ctrl K'} opens the command palette from anywhere on the page.
+        </p>
 
-          {/* Closing statement at display size */}
-          <div className="col-span-12 lg:col-span-11">
-            <HeadingReveal
-              text={content.contact.displayStatement}
-              as="h2"
-              className="text-[clamp(36px,5.8vw,88px)] font-heading font-medium tracking-[-0.035em] leading-[1.1] text-text"
-            />
-          </div>
-
-          {/* WhatsApp CTA (primary) + copy email (secondary) */}
-          <div className="col-span-12 mt-8 md:mt-12 flex flex-wrap items-center gap-4 sm:gap-6">
-            {/* Primary: WhatsApp pill — opens in new tab */}
-            <a
-              href={content.contact.whatsapp.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-pill"
-              aria-label="Open WhatsApp chat with Prosper"
-            >
-              {content.contact.whatsapp.label}
-            </a>
-
-            {/* Secondary: copy email address with Copied confirmation */}
-            <div className="relative inline-flex items-center">
+        <ul className="mt-10 border-b border-line md:hidden">
+          {contactItems.map((item) => (
+            <li key={item.id} className="border-t border-line">
               <button
                 type="button"
-                onClick={handleCopyEmail}
-                className="btn-pill-secondary btn-press rounded-full px-6 py-3 text-[14px] font-medium text-text cursor-pointer inline-flex items-center gap-2"
-                aria-label={`Copy email address ${content.contact.email} to clipboard`}
+                onClick={() => site.runItem(item)}
+                className="flex h-14 w-full items-center justify-between gap-4 text-left text-[17px]"
               >
-                <span>{content.contact.email}</span>
-                <span
-                  style={{
-                    transition: 'opacity 200ms ease, transform 200ms ease',
-                    opacity: emailCopied ? 1 : 0,
-                    transform: emailCopied ? 'translateY(0)' : 'translateY(4px)',
-                    display: emailCopied ? 'inline' : 'none',
-                  }}
-                  className="text-[12px] font-mono uppercase tracking-[0.08em] font-semibold text-text"
-                >
-                  ✓ Copied
-                </span>
+                <span>{item.label}</span>
+                <span className="truncate font-mono text-[12px] text-muted">{item.hint}</span>
               </button>
-            </div>
-          </div>
-        </div>
-      </Container>
+            </li>
+          ))}
+        </ul>
+      </div>
     </section>
   )
 }

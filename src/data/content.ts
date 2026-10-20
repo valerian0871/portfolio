@@ -253,6 +253,7 @@ export const content: SiteContent = {
   projects: [
     {
       slug: 'cakes-n-pastries',
+      year: '2026',
       title: "Cakes 'N' Pastries",
       discipline: 'frontend',
       disciplineLabel: 'Frontend Development',
@@ -274,6 +275,7 @@ export const content: SiteContent = {
     },
     {
       slug: 'cliques',
+      year: '2026',
       title: 'Cliques',
       discipline: 'graphics',
       disciplineLabel: 'Graphics Design',
@@ -315,6 +317,7 @@ export const content: SiteContent = {
     },
     {
       slug: 'nazirite',
+      year: '2026',
       title: 'Birthing a Nazirite',
       discipline: 'writing',
       disciplineLabel: 'Content Writing and Copywriting',
@@ -342,6 +345,7 @@ export const content: SiteContent = {
     },
     {
       slug: 'instagram-workflow',
+      year: '2026',
       title: 'Instagram Content Automation',
       discipline: 'automation',
       disciplineLabel: 'AI Automation',
@@ -373,6 +377,7 @@ export const content: SiteContent = {
     },
     {
       slug: 'smartcbt',
+      year: '2025',
       title: 'SmartCBT',
       discipline: 'frontend',
       disciplineLabel: 'Frontend Development',
@@ -436,6 +441,7 @@ export const content: SiteContent = {
     },
     {
       slug: 'orchestyle-automation',
+      year: '2026',
       title: 'Orchestyle Order Automation',
       discipline: 'automation',
       disciplineLabel: 'AI Automation',
@@ -467,6 +473,7 @@ export const content: SiteContent = {
     },
     {
       slug: 'facons',
+      year: '2026',
       title: 'FACONS',
       discipline: 'frontend',
       disciplineLabel: 'Frontend Development',
@@ -529,6 +536,7 @@ export const content: SiteContent = {
     },
     {
       slug: 'topvision',
+      year: '2024',
       title: 'TopVision',
       discipline: 'frontend',
       disciplineLabel: 'Frontend Development',

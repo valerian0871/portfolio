@@ -1,148 +1,87 @@
-import { useState } from 'react'
-import { Container } from './Container'
-import { HeadingReveal } from './TextReveal'
-import { content } from '../data/content'
+import { AnimatePresence, motion } from 'motion/react'
+import { useSite } from '../lib/SiteContext'
+import { easeOutStrong } from '../lib/motion'
+import { practiceTabs } from '../lib/site'
+import { MaskLines } from './site/Reveal'
+import { Segmented } from './site/Segmented'
 
+const tabItems = practiceTabs.map((tab) => ({ id: tab.id, label: tab.label }))
+
+/**
+ * Services as a switcher (the reference's stack pattern, spec #12, #13).
+ * Desktop: the tabs live in the bottom island while this section is active.
+ * Mobile: the same tabs render inline.
+ */
 export function ServicesSection() {
-  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null)
-  const [expandedIndex, setExpandedIndex] = useState<number | null>(0)
-
-  const toggleRow = (index: number) => {
-    setExpandedIndex((curr) => (curr === index ? null : index))
-  }
+  const site = useSite()
+  const tab = practiceTabs.find((t) => t.id === site.practice) ?? practiceTabs[0]
 
   return (
-    <section
-      id="services"
-      className="py-[64px] md:py-[96px] lg:py-[128px] border-b border-line"
-    >
-      <Container>
-        {/* Section Header */}
-        <div className="mb-12 md:mb-16 lg:mb-20">
-          <span className="text-[12px] uppercase font-medium tracking-[0.08em] text-muted block mb-3">
-            Capabilities &amp; Services
-          </span>
-          <HeadingReveal
-            text="Disciplines &amp; Architecture"
-            as="h2"
-            className="text-[clamp(32px,4.2vw,64px)] font-heading font-medium tracking-[-0.035em] leading-[1.15] text-text"
-          />
+    <section id="services" className="py-28 md:py-40">
+      <div className="mx-auto grid w-full max-w-[1100px] grid-cols-12 gap-y-10 px-6">
+        <div className="col-span-12 md:col-span-4">
+          <MaskLines lines={['Services']} className="section-title" />
+          <p className="mt-6 hidden max-w-[22ch] text-[13px] leading-[1.5] text-muted md:block">
+            Choose a practice from the bar at the bottom of the screen.
+          </p>
+          <div className="on-ink mt-8 h-11 max-w-[400px] rounded-full md:hidden">
+            <Segmented
+              mode="tabs"
+              label="Services"
+              idPrefix="inline-practice"
+              panelId="services-panel"
+              items={tabItems}
+              active={site.practice}
+              onSelect={site.setPractice}
+            />
+          </div>
         </div>
 
-        {/* Four stacked rows */}
-        <div className="flex flex-col border-t border-line">
-          {content.services.map((service, index) => {
-            const isHovered = hoveredIndex === index
-            const isSibling = hoveredIndex !== null && !isHovered
-            const isExpanded = expandedIndex === index
-
-            return (
-              <div
-                key={service.id}
-                onMouseEnter={() => setHoveredIndex(index)}
-                onMouseLeave={() => setHoveredIndex(null)}
-                style={{
-                  transition: 'opacity 250ms cubic-bezier(0.23, 1, 0.32, 1)',
-                  opacity: isSibling ? 0.35 : 1,
-                }}
-                className="border-b border-line py-8 md:py-12 transition-opacity"
-              >
-                {/* Desktop layout: Always expanded, full scanability */}
-                <div className="hidden md:grid md:grid-cols-12 gap-6 items-baseline">
-                  {/* Col 1-2: Index number in label style */}
-                  <div className="col-span-2">
-                    <span className="text-[12px] uppercase font-medium tracking-[0.08em] text-muted font-mono">
-                      {service.index}
-                    </span>
-                  </div>
-
-                  {/* Col 3-7: Discipline name at h2 size */}
-                  <div className="col-span-5">
-                    <h3 className="text-[clamp(28px,3.2vw,48px)] font-heading font-medium tracking-[-0.035em] leading-[1.15] text-text">
-                      {service.name}
-                    </h3>
-                    <p className="mt-3 text-[15px] text-muted leading-[1.55] max-w-[50ch]">
-                      {service.description}
-                    </p>
-                  </div>
-
-                  {/* Col 8-12: Sub-items in muted body text */}
-                  <div className="col-span-5 pl-4">
-                    <ul className="space-y-2.5">
-                      {service.subItems.map((item) => (
-                        <li
-                          key={item}
-                          className="text-[15px] text-muted flex items-center gap-3"
-                        >
-                          <span className="w-1.5 h-1.5 rounded-full bg-text/30 shrink-0" />
-                          <span>{item}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </div>
-
-                {/* Mobile layout: Tap row to expand sub-items */}
-                <div className="md:hidden">
-                  <button
-                    type="button"
-                    onClick={() => toggleRow(index)}
-                    aria-expanded={isExpanded}
-                    aria-controls={`service-panel-${service.id}`}
-                    className="w-full text-left flex items-start justify-between gap-4 cursor-pointer focus-visible:outline-2 focus-visible:outline-text"
+        <div
+          id="services-panel"
+          role="tabpanel"
+          aria-label={tab.name}
+          tabIndex={0}
+          className="col-span-12 min-h-[34rem] focus-visible:outline-offset-8 md:col-span-8"
+        >
+          <AnimatePresence mode="wait" initial={false}>
+            <motion.div
+              key={tab.id}
+              initial={{ opacity: 0, filter: 'blur(4px)' }}
+              animate={{
+                opacity: 1,
+                filter: 'blur(0px)',
+                transition: { duration: 0.15, delay: 0.03, ease: 'easeOut' },
+              }}
+              exit={{ opacity: 0, filter: 'blur(4px)', transition: { duration: 0.12, ease: 'easeOut' } }}
+            >
+              <p className="mb-6 text-[17px] text-muted">{tab.note}</p>
+              <ul className="border-b border-line">
+                {tab.items.map((item, i) => (
+                  <motion.li
+                    key={item}
+                    className="service-row group flex items-baseline gap-4 border-t border-line py-4 md:py-5"
+                    initial={{ opacity: 0, y: 8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.22, delay: 0.04 + i * 0.03, ease: easeOutStrong }}
                   >
-                    <div>
-                      <span className="text-[12px] uppercase font-medium tracking-[0.08em] text-muted font-mono block mb-1">
-                        {service.index}
-                      </span>
-                      <h3 className="text-[26px] sm:text-[30px] font-heading font-medium tracking-tight text-text">
-                        {service.name}
-                      </h3>
-                    </div>
-                    <span
-                      style={{
-                        transition: 'transform 300ms cubic-bezier(0.23, 1, 0.32, 1)',
-                        transform: isExpanded ? 'rotate(45deg)' : 'none',
-                      }}
-                      className="text-[22px] font-light text-muted shrink-0 pt-1"
-                    >
-                      +
-                    </span>
-                  </button>
-
-                  {/* Expandable sub-items container using grid-template-rows for smooth composite animation */}
-                  <div
-                    id={`service-panel-${service.id}`}
-                    style={{
-                      display: 'grid',
-                      gridTemplateRows: isExpanded ? '1fr' : '0fr',
-                      transition: 'grid-template-rows 300ms cubic-bezier(0.23, 1, 0.32, 1), opacity 300ms ease',
-                      opacity: isExpanded ? 1 : 0,
-                    }}
-                  >
-                    <div className="overflow-hidden min-h-0">
-                      <p className="mt-3 text-[14px] text-muted leading-[1.5]">
-                        {service.description}
-                      </p>
-                      <ul className="mt-4 space-y-2 pb-2">
-                        {service.subItems.map((item) => (
-                          <li
-                            key={item}
-                            className="text-[14px] text-muted flex items-center gap-2.5"
-                          >
-                            <span className="w-1 h-1 rounded-full bg-text/40 shrink-0" />
-                            <span>{item}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  </div>
-                </div>
+                    <span className="service-row-text font-heading text-text">{item}</span>
+                  </motion.li>
+                ))}
+              </ul>
+              <p className="mt-8 max-w-[60ch] text-[15px] leading-[1.6] text-muted">{tab.description}</p>
+              <div className="mt-8 flex flex-wrap items-center gap-1.5">
+                <span className="mr-2 font-mono text-[11px] text-muted">Tools in my work</span>
+                {tab.tools.map((tool) => (
+                  <span key={tool} className="work-tag rounded-full border px-2.5 py-1 font-mono text-[11px] text-muted">
+                    {tool}
+                  </span>
+                ))}
               </div>
-            )
-          })}
+            </motion.div>
+          </AnimatePresence>
         </div>
-      </Container>
+      </div>
     </section>
   )
 }

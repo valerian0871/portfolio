@@ -1,54 +1,40 @@
-import { Container } from './Container'
-import { HeadingReveal, FadeReveal } from './TextReveal'
-import { content } from '../data/content'
+import { useSite } from '../lib/SiteContext'
+import { FadeIn, MaskLines } from './site/Reveal'
+import { TextLink } from './site/TextLink'
 
 interface HeroProps {
-  onCtaClick?: () => void
+  /** Turns true when the loader hands off (or immediately when it is skipped) */
   ready?: boolean
 }
 
-export function Hero({ onCtaClick, ready = true }: HeroProps) {
+export function Hero({ ready = true }: HeroProps) {
+  const site = useSite()
+
   return (
-    <section
-      id="top"
-      className="relative flex flex-col justify-between min-h-[100svh] pt-[128px] md:pt-[140px] pb-16 md:pb-24 border-b border-line"
-    >
-      <Container className="flex-1 flex flex-col justify-between">
-        {/* Top category label */}
-        <div className="pt-2">
-          <FadeReveal delay={0.1}>
-            <span className="text-[12px] uppercase font-medium tracking-[0.08em] text-muted">
-              {content.hero.label}
-            </span>
-          </FadeReveal>
-        </div>
-
-        {/* Statement headline spanning columns 1 to 10 on desktop */}
-        <div className="my-auto py-12 md:py-20 lg:py-24 grid grid-cols-12 gap-6">
-          <div className="col-span-12 lg:col-span-10">
-            <HeadingReveal
-              text={content.hero.headline}
-              as="h1"
-              trigger="ready"
-              ready={ready}
-              className="text-[clamp(44px,7.2vw,112px)] font-heading font-medium tracking-[-0.035em] leading-[1.1] text-text"
-            />
+    <section id="top" className="relative flex min-h-svh items-center py-24 sm:py-28 md:py-0">
+      <div className="mx-auto w-full max-w-[1280px] px-5 sm:px-6 md:px-10">
+        <MaskLines
+          as="h1"
+          trigger="play"
+          play={ready}
+          lines={['Code, design,', 'words, workflows.']}
+          className="hero-title font-heading text-text"
+        />
+        <FadeIn play={ready} delay={0.25}>
+          <p className="mt-7 max-w-[34rem] text-[15px] leading-[1.65] text-muted sm:mt-10 sm:text-[17px]">
+            Frontend developer in Nigeria. I also design brand systems, typeset books and automate
+            business workflows.
+          </p>
+          <div className="mt-7 flex flex-wrap items-center gap-6 sm:mt-9">
+            <TextLink href="#work" onClick={(e) => { e.preventDefault(); site.scrollToSection('work') }}>
+              View work
+            </TextLink>
+            <TextLink href="#contact" onClick={(e) => { e.preventDefault(); site.scrollToSection('contact') }}>
+              Get in touch
+            </TextLink>
           </div>
-        </div>
-
-        {/* One single pill CTA, nothing else */}
-        <div className="pt-4 pb-2">
-          <FadeReveal delay={0.4}>
-            <a
-              href={content.hero.cta.href}
-              onClick={onCtaClick}
-              className="btn-pill"
-            >
-              {content.hero.cta.label}
-            </a>
-          </FadeReveal>
-        </div>
-      </Container>
+        </FadeIn>
+      </div>
     </section>
   )
 }

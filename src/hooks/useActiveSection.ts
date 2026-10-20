@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef, useCallback } from 'react'
 import { getLenis } from './useLenis'
 
-const HEADER_OFFSET = 88 // 72px header + 16px buffer
+const HEADER_OFFSET = 0 // no fixed header: sections carry their own top padding
 
 export function useActiveSection(sectionIds: string[], currentRoute: string) {
   const [activeSection, setActiveSection] = useState<string | null>(() => {

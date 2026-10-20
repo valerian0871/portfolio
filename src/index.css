@@ -46,6 +46,11 @@
   --color-loader-text: var(--color-loader-text);
   --color-loader-muted: var(--color-loader-muted);
   --color-loader-line: var(--color-loader-line);
+  --color-inverse-muted: var(--color-inverse-muted);
+  --color-accent: var(--color-accent);
+  --font-mono: var(--font-mono);
+  --ease-out-strong: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
 
   --font-heading: "Inter Tight", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --font-body: "Inter", "Inter-Fallback", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
@@ -69,11 +74,11 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
-    scroll-padding-top: 88px;
+    scroll-padding-top: 0px;
   }
 
   section[id] {
-    scroll-margin-top: 88px;
+    scroll-margin-top: 0px;
   }
 
   body {
@@ -497,5 +502,228 @@
   }
   to {
     opacity: 1;
+  }
+}
+/* ==========================================================================
+   REBUILD LAYER (docs/section-mapping-and-motion-spec.md)
+   Hover effects are gated to fine pointers; motion respects reduced motion.
+   ========================================================================== */
+
+:root {
+  --page-gutter: 20px;
+}
+@media (min-width: 640px) {
+  :root { --page-gutter: 24px; }
+}
+@media (min-width: 768px) {
+  :root { --page-gutter: max(40px, calc((100vw - 1280px) / 2 + 40px)); }
+}
+
+html.loader-pending body {
+  background-color: var(--color-loader-bg);
+}
+
+/* ---------- Type scale ---------- */
+.hero-title {
+  font-size: clamp(2.6rem, 9.6vw, 7.5rem);
+  line-height: 0.98;
+  letter-spacing: -0.04em;
+}
+.section-title {
+  font-size: clamp(2.25rem, 5vw, 3.5rem);
+  line-height: 1;
+  letter-spacing: -0.04em;
+}
+.contact-title,
+.case-title {
+  font-size: clamp(2.75rem, 8vw, 5.5rem);
+  line-height: 0.95;
+  letter-spacing: -0.04em;
+}
+.work-row-title {
+  font-size: clamp(1.25rem, 3vw, 1.75rem);
+  line-height: 1.25;
+  letter-spacing: -0.03em;
+}
+.service-row-text {
+  font-size: clamp(1.125rem, 2.2vw, 1.625rem);
+  line-height: 1.3;
+  letter-spacing: -0.02em;
+}
+.about-lead {
+  font-size: clamp(1.625rem, 3.2vw, 2.25rem);
+  line-height: 1.25;
+  letter-spacing: -0.025em;
+}
+.case-next {
+  font-size: clamp(1.75rem, 4vw, 3rem);
+  letter-spacing: -0.035em;
+  line-height: 1.05;
+}
+.loader-name {
+  font-size: clamp(3rem, 11vw, 9.5rem);
+  line-height: 1;
+  letter-spacing: -0.03em;
+}
+.footer-wordmark {
+  font-size: 28vw;
+  line-height: 0.82;
+  letter-spacing: -0.045em;
+  white-space: nowrap;
+}
+
+/* Line masks: reserved line box, transform-only reveal */
+.mask-line-box {
+  display: block;
+  overflow: hidden;
+  padding-bottom: 0.12em;
+  margin-bottom: -0.12em;
+}
+
+/* ---------- Top bar ---------- */
+.topbar-wordmark { left: var(--page-gutter); }
+.topbar-clock { right: var(--page-gutter); }
+
+/* ---------- Ink surfaces: island, inline switcher, toast ---------- */
+.on-ink {
+  background-color: var(--color-inverse-bg);
+  color: var(--color-inverse-text);
+  --seg-indicator: var(--color-inverse-text);
+}
+.on-ink :focus-visible {
+  outline-color: var(--color-inverse-text);
+  outline-offset: 2px;
+}
+.island-beside-wordmark { margin-left: calc(var(--page-gutter) + 160px); }
+.island-at-gutter { margin-left: var(--page-gutter); }
+
+.seg-button {
+  color: color-mix(in srgb, var(--color-inverse-text) 62%, transparent);
+  transition: color 150ms var(--ease-standard);
+}
+.seg-button[data-selected] { color: var(--color-inverse-bg); }
+@media (hover: hover) and (pointer: fine) {
+  .seg-button:not([data-selected]):hover { color: var(--color-inverse-text); }
+}
+.seg-button:focus-visible { outline-offset: -2px; }
+
+.palette-row { transition: background-color 120ms var(--ease-standard); }
+.palette-row[data-highlighted],
+.palette-row:focus-visible {
+  background-color: color-mix(in srgb, var(--color-inverse-text) 10%, transparent);
+}
+@media (hover: hover) and (pointer: fine) {
+  .on-ink [data-view] .palette-row:hover,
+  .palette-row:hover {
+    background-color: color-mix(in srgb, var(--color-inverse-text) 10%, transparent);
+  }
+}
+
+/* Availability dot */
+@media (prefers-reduced-motion: no-preference) {
+  .status-dot { animation: status-pulse 2400ms linear infinite; }
+}
+@keyframes status-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.35; }
+}
+
+/* ---------- Text links ---------- */
+.text-link {
+  border-color: color-mix(in srgb, var(--color-text) 22%, transparent);
+  transition: border-color 150ms var(--ease-standard);
+}
+.text-link-arrow { transition: transform 250ms ease; }
+@media (hover: hover) and (pointer: fine) {
+  .text-link:hover { border-color: var(--color-text); }
+  .group:hover .text-link-arrow { transform: translate(2px, -2px); }
+  .group:hover .text-link-arrow.is-forward,
+  .case-next:hover .text-link-arrow { transform: translateX(3px); }
+}
+
+/* ---------- Work rows ---------- */
+.stretched::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 1rem;
+}
+.stretched:focus-visible { outline: none; }
+.work-row { transition: background-color 300ms var(--ease-standard); }
+.work-row:has(.stretched:focus-visible) {
+  outline: 2px solid var(--color-text);
+  outline-offset: 0;
+}
+.work-row-title,
+.work-row-arrow,
+.work-tag {
+  transition-property: transform, opacity, border-color;
+  transition-duration: 250ms;
+  transition-timing-function: ease;
+}
+.work-tag { border-color: color-mix(in srgb, var(--color-text) 10%, transparent); }
+.work-row-arrow { opacity: 0; }
+.work-row:has(.stretched:focus-visible) .work-row-arrow { opacity: 1; }
+@media (hover: hover) and (pointer: fine) {
+  .work-row:hover { background-color: color-mix(in srgb, var(--color-text) 3%, transparent); }
+  .work-row:hover .work-row-title { transform: translateX(4px); }
+  .work-row:hover .work-tag { border-color: color-mix(in srgb, var(--color-text) 18%, transparent); }
+  .work-row:hover .work-row-arrow { opacity: 1; transform: translateX(2px); }
+}
+
+/* ---------- Services rows ---------- */
+.service-row-text { transition: transform 250ms ease; display: inline-block; }
+@media (hover: hover) and (pointer: fine) {
+  .service-row:hover .service-row-text { transform: translateX(4px); }
+}
+
+/* ---------- Case study ---------- */
+.case-image { transition: border-color 200ms var(--ease-standard); }
+@media (hover: hover) and (pointer: fine) {
+  .case-image:hover { border-color: color-mix(in srgb, var(--color-text) 30%, transparent); }
+}
+
+/* ---------- Page card + reveal footer ---------- */
+.site-card {
+  border-radius: 0 0 28px 28px;
+  box-shadow: 0 40px 60px -30px rgba(0, 0, 0, 0.18);
+}
+@media (prefers-color-scheme: dark) {
+  .site-card {
+    box-shadow: 0 40px 60px -30px rgba(0, 0, 0, 0.7);
+    border-bottom: 1px solid var(--color-line);
+  }
+}
+.site-footer { clip-path: inset(0); }
+.footer-kbd {
+  border-color: var(--color-line);
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.08), inset 0 -2px 0 rgba(0, 0, 0, 0.04);
+  transition: border-color 150ms var(--ease-standard);
+}
+.footer-top {
+  border-color: var(--color-line);
+  transition: background-color 300ms var(--ease-standard), color 300ms var(--ease-standard);
+}
+.footer-top-arrow { transition: transform 250ms ease; }
+@media (hover: hover) and (pointer: fine) {
+  .footer-kbd:hover { border-color: color-mix(in srgb, var(--color-text) 40%, transparent); }
+  .footer-top:hover { background-color: var(--color-text); color: var(--color-bg); }
+  .footer-top:hover .footer-top-arrow { transform: translateY(-2px); }
+}
+
+/* ---------- Custom cursor (fine pointers only) ---------- */
+html.has-cursor,
+html.has-cursor * { cursor: none; }
+html.has-cursor input,
+html.has-cursor textarea { cursor: text; }
+
+/* Reduced motion: keep colour and opacity feedback, drop hover movement */
+@media (prefers-reduced-motion: reduce) {
+  .work-row-title,
+  .work-row-arrow,
+  .service-row-text,
+  .text-link-arrow,
+  .footer-top-arrow {
+    transform: none !important;
   }
 }

@@ -20,9 +20,7 @@ export function useLenis() {
     }
 
     const lenis = new Lenis({
-      lerp: 0.1,
-      duration: 1.2,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      lerp: 0.09,
       orientation: 'vertical',
       gestureOrientation: 'vertical',
       smoothWheel: true,

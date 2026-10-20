@@ -1,58 +1,66 @@
-import { Container } from './Container'
-import { HeadingReveal, FadeReveal } from './TextReveal'
+import { useRef } from 'react'
+import { motion, useReducedMotion, useScroll, useTransform, type MotionValue } from 'motion/react'
 import { content } from '../data/content'
+import { useSite } from '../lib/SiteContext'
+import { MaskLines } from './site/Reveal'
+import { TextLink } from './site/TextLink'
 
-interface AboutSectionProps {
-  onReadMore?: () => void
-}
+/** About: the lead paragraph brightens word by word with scroll (spec #14) */
+export function AboutSection() {
+  const site = useSite()
+  const ref = useRef<HTMLDivElement>(null)
+  const reduceMotion = useReducedMotion()
+  const { scrollYProgress } = useScroll({ target: ref, offset: ['start 0.9', 'end 0.35'] })
+  const words = content.about.previewParagraph.split(' ')
 
-export function AboutSection({ onReadMore }: AboutSectionProps) {
   return (
-    <section
-      id="about"
-      className="py-[64px] md:py-[96px] lg:py-[128px] border-b border-line"
-    >
-      <Container>
-        <div className="grid grid-cols-12 gap-6">
-          {/* Label left column on desktop */}
-          <div className="col-span-12 md:col-span-3 lg:col-span-3">
-            <span className="text-[12px] uppercase font-medium tracking-[0.08em] text-muted block mb-4">
-              About
-            </span>
-          </div>
-
-          {/* Paragraph and link right columns */}
-          <div className="col-span-12 md:col-span-9 lg:col-span-8 flex flex-col items-start gap-8">
-            <HeadingReveal
-              text="Engineering with graphic sensibility & operational rigor."
-              as="h2"
-              className="text-[clamp(28px,3.5vw,48px)] font-heading font-medium tracking-[-0.035em] leading-[1.15] text-text"
-            />
-
-            <FadeReveal delay={0.1}>
-              <p className="text-[18px] md:text-[20px] text-muted leading-[1.55] max-w-[58ch]">
-                {content.about.previewParagraph}
-              </p>
-            </FadeReveal>
-
-            <FadeReveal delay={0.2}>
-              <a
-                href="/about"
-                onClick={(e) => {
-                  if (onReadMore) {
-                    e.preventDefault()
-                    onReadMore()
-                  }
-                }}
-                className="group inline-flex items-center gap-2 text-[15px] font-medium text-text underline-offset-8 hover:underline cursor-pointer"
-              >
-                <span>{content.about.linkText}</span>
-                <span className="transition-transform duration-200 group-hover:translate-x-1">→</span>
-              </a>
-            </FadeReveal>
+    <section id="about" className="py-28 md:py-40">
+      <div ref={ref} className="mx-auto grid w-full max-w-[1100px] grid-cols-12 gap-y-10 px-6">
+        <MaskLines lines={['About']} className="section-title col-span-12 md:col-span-4" />
+        <div className="col-span-12 md:col-span-8">
+          <p className="about-lead max-w-[42em] font-heading text-text">
+            {reduceMotion
+              ? content.about.previewParagraph
+              : words.map((word, i) => (
+                  <Word key={i} progress={scrollYProgress} range={[i / words.length, (i + 1) / words.length]}>
+                    {word}
+                  </Word>
+                ))}
+          </p>
+          <p className="mt-8 max-w-[46em] text-[clamp(1.0625rem,1.6vw,1.25rem)] leading-[1.55] text-muted">
+            {content.about.fullStory[0]}
+          </p>
+          <div className="mt-8">
+            <TextLink
+              href="/about"
+              arrow="→"
+              onClick={(e) => {
+                e.preventDefault()
+                site.navigate('/about')
+              }}
+            >
+              {content.about.linkText}
+            </TextLink>
           </div>
         </div>
-      </Container>
+      </div>
     </section>
+  )
+}
+
+function Word({
+  children,
+  progress,
+  range,
+}: {
+  children: string
+  progress: MotionValue<number>
+  range: [number, number]
+}) {
+  const opacity = useTransform(progress, range, [0.18, 1])
+  return (
+    <>
+      <motion.span style={{ opacity }}>{children}</motion.span>{' '}
+    </>
   )
 }

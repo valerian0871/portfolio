@@ -65,10 +65,11 @@
       }
     </script>
     <script>
+      // Paint the loader colour before React mounts, so there is no light flash
       try {
-        if (!window.location.search.includes('loader') && sessionStorage.getItem('portfolio_loader_seen') === 'true') {
-          document.documentElement.classList.add('loader-seen');
-        }
+        var seen = !window.location.search.includes('loader') && sessionStorage.getItem('portfolio_loader_seen') === 'true';
+        var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (!seen && !reduced) document.documentElement.classList.add('loader-pending');
       } catch (e) {}
     </script>
   </head>

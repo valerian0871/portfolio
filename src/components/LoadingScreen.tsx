@@ -1,288 +1,188 @@
-import { useEffect, useState, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import { animate, motion, useAnimate, useMotionValue } from 'motion/react'
+import { content } from '../data/content'
+import { getLenis } from '../hooks/useLenis'
+import { easeInOutStrong, springUI } from '../lib/motion'
 
-interface LoadingScreenProps {
-  onHeroReady?: () => void
+/**
+ * Intro loader.
+ *
+ * Research notes (docs/changelog.md): keep it well under 2-3 s, tie it to real
+ * readiness with a hard cap, make it skippable, show it once per session, and
+ * use a progress line that accelerates to the end. The authored moment is the
+ * handoff: the name sets in large, then flies into the top-bar wordmark while
+ * the panel wipes away from the top.
+ */
+
+const NAME = content.profile.name
+const MIN_MS = 1000
+const CAP_MS = 2000
+const SEEN_KEY = 'portfolio_loader_seen'
+
+function shouldShow() {
+  if (typeof window === 'undefined') return false
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return false
+  if (window.location.search.includes('loader')) return true
+  try {
+    return sessionStorage.getItem(SEEN_KEY) !== 'true'
+  } catch {
+    return true
+  }
 }
 
-export function LoadingScreen({ onHeroReady }: LoadingScreenProps) {
-  const [reducedMotion, setReducedMotion] = useState(false)
-  const [visible, setVisible] = useState(() => {
-    if (typeof window === 'undefined') return false
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    const forceLoader = window.location.search.includes('loader')
-    const hasSeenLoader = !forceLoader && sessionStorage.getItem('portfolio_loader_seen') === 'true'
-    return !hasSeenLoader && !prefersReducedMotion
-  })
+interface LoadingScreenProps {
+  /** Hero entrance may start */
+  onHeroReady: () => void
+  /** Loader is gone; the real wordmark can show */
+  onDone: () => void
+}
 
-  const [textEntered, setTextEntered] = useState(false)
-  const [textExiting, setTextExiting] = useState(false)
-  const [panelExiting, setPanelExiting] = useState(false)
-  const [progress, setProgress] = useState(0)
-  const [curveAmount, setCurveAmount] = useState(70) // Initial convex curve depth in px
-
-  const animFrameRef = useRef<number | null>(null)
+export function LoadingScreen({ onHeroReady, onDone }: LoadingScreenProps) {
+  const [show] = useState(shouldShow)
+  const [mounted, setMounted] = useState(show)
+  const [scope, animateScope] = useAnimate()
+  const progress = useMotionValue(0)
+  const exitingRef = useRef(false)
+  const callbacks = useRef({ onHeroReady, onDone })
+  callbacks.current = { onHeroReady, onDone }
 
   useEffect(() => {
-    if (typeof window === 'undefined') return
-    const rm = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    setReducedMotion(rm)
-  }, [])
-
-  useEffect(() => {
-    if (!visible) {
-      if (onHeroReady) onHeroReady()
+    if (!show) {
+      callbacks.current.onHeroReady()
+      callbacks.current.onDone()
       return
     }
 
-    sessionStorage.setItem('portfolio_loader_seen', 'true')
-    document.body.style.overflow = 'hidden'
-
-    // Reduced motion fast path: 300ms fade
-    if (reducedMotion) {
-      const rmTimer = window.setTimeout(() => {
-        if (onHeroReady) onHeroReady()
-        setVisible(false)
-        document.body.style.overflow = ''
-      }, 300)
-      return () => clearTimeout(rmTimer)
+    try {
+      sessionStorage.setItem(SEEN_KEY, 'true')
+    } catch {
+      /* private mode: the loader simply shows again next visit */
     }
+    document.body.style.overflow = 'hidden'
+    getLenis()?.stop()
 
-    // Trigger text entrance on next tick
-    const rafId = requestAnimationFrame(() => {
-      setTextEntered(true)
+    const start = performance.now()
+    let fontsReady = false
+    document.fonts?.ready.then(() => {
+      fontsReady = true
     })
 
-    const startTime = performance.now()
-    const minDuration = 2800 // Minimum duration so sequence reads
-    const maxDuration = 3600 // Hard maximum duration
+    // Slow first stretch; the last stretch accelerates once we are ready
+    const firstLeg = animate(progress, 0.62, { duration: CAP_MS / 1000, ease: [0.1, 0.6, 0.3, 1] })
 
-    let isRealReady = false
-    if (document.fonts && document.fonts.ready) {
-      document.fonts.ready.then(() => {
-        isRealReady = true
-      })
-    } else {
-      isRealReady = true
-    }
+    const exit = async () => {
+      if (exitingRef.current) return
+      exitingRef.current = true
+      firstLeg.stop()
+      window.removeEventListener('keydown', exit)
 
-    const safetyTimeout = window.setTimeout(() => {
-      isRealReady = true
-    }, maxDuration)
+      await animate(progress, 1, { duration: 0.22, ease: [0.55, 0, 1, 0.45] })
 
-    const updateProgress = () => {
-      const now = performance.now()
-      const elapsed = now - startTime
-      const targetDuration = isRealReady ? minDuration : maxDuration
-      const rawPct = Math.min((elapsed / targetDuration) * 100, 100)
+      const name = scope.current?.querySelector('[data-loader-name]') as HTMLElement | null
+      const target = document.querySelector('[data-wordmark]') as HTMLElement | null
+      const flight: Promise<void>[] = []
+      const settle = (controls: { then: (resolve: () => void) => unknown }) =>
+        new Promise<void>((resolve) => {
+          controls.then(resolve)
+        })
 
-      setProgress((prev) => Math.max(prev, Math.floor(rawPct)))
+      animateScope('[data-loader-chrome]', { opacity: 0 }, { duration: 0.12 })
 
-      if (elapsed >= minDuration && (isRealReady || elapsed >= maxDuration)) {
-        setProgress(100)
-
-        // Hold 250ms at 100 per timeline specification
-        window.setTimeout(() => {
-          // Phase 5: Exit text (translateY(-120%), 600ms, 60ms stagger)
-          setTextExiting(true)
-
-          // Phase 6: Exit panel (900ms cubic-bezier(0.76, 0, 0.24, 1))
-          window.setTimeout(() => {
-            setPanelExiting(true)
-
-            // Animate SVG path morph from convex arc (70px) to straight line (0px)
-            const curveStartTime = performance.now()
-            const animateCurve = () => {
-              const curveElapsed = performance.now() - curveStartTime
-              const t = Math.min(curveElapsed / 900, 1)
-              // Ease curve out toward 0
-              const currentCurve = Math.max(0, (1 - t) * 70)
-              setCurveAmount(currentCurve)
-              if (t < 1) {
-                requestAnimationFrame(animateCurve)
-              }
-            }
-            requestAnimationFrame(animateCurve)
-
-            // Step 7: Hero line reveals start 300ms before panel finishes leaving (at 600ms of 900ms)
-            window.setTimeout(() => {
-              if (onHeroReady) onHeroReady()
-            }, 600)
-
-            // Fully unmount after 900ms exit completes
-            window.setTimeout(() => {
-              setVisible(false)
-              document.body.style.overflow = ''
-            }, 950)
-          }, 350)
-        }, 250)
-
-        return
+      if (name && target) {
+        const from = name.getBoundingClientRect()
+        const to = target.getBoundingClientRect()
+        const scale = to.width / from.width
+        const x = to.left - from.left
+        const y = to.top + to.height / 2 - (from.top + (from.height * scale) / 2)
+        const textColor = getComputedStyle(document.documentElement).getPropertyValue('--color-text').trim()
+        flight.push(
+          settle(animateScope(
+            name,
+            { x, y, scale, color: textColor || '#111111' },
+            { duration: 0.75, ease: easeInOutStrong },
+          )),
+        )
       }
 
-      animFrameRef.current = requestAnimationFrame(updateProgress)
+      window.setTimeout(() => callbacks.current.onHeroReady(), 250)
+      flight.push(
+        settle(animateScope(
+          '[data-loader-panel]',
+          { clipPath: ['inset(0% 0 0 0)', 'inset(100% 0 0 0)'] },
+          { duration: 0.7, ease: easeInOutStrong, delay: 0.05 },
+        )),
+      )
+
+      await Promise.all(flight)
+      document.body.style.overflow = ''
+      document.documentElement.classList.remove('loader-pending')
+      getLenis()?.start()
+      callbacks.current.onDone()
+      setMounted(false)
     }
 
-    animFrameRef.current = requestAnimationFrame(updateProgress)
+    const tick = window.setInterval(() => {
+      const elapsed = performance.now() - start
+      if ((fontsReady && elapsed >= MIN_MS) || elapsed >= CAP_MS) {
+        window.clearInterval(tick)
+        exit()
+      }
+    }, 50)
+
+    window.addEventListener('keydown', exit)
 
     return () => {
-      cancelAnimationFrame(rafId)
-      clearTimeout(safetyTimeout)
-      if (animFrameRef.current) cancelAnimationFrame(animFrameRef.current)
+      window.clearInterval(tick)
+      window.removeEventListener('keydown', exit)
+      firstLeg.stop()
       document.body.style.overflow = ''
     }
-  }, [visible, reducedMotion, onHeroReady])
+    // Runs once per page load by design
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
-  if (!visible) return null
+  if (!mounted) return null
 
   return (
     <div
-      role="status"
-      aria-label="Loading portfolio"
-      style={{
-        backgroundColor: 'var(--color-loader-bg)',
-        color: 'var(--color-loader-text)',
-        transition: reducedMotion
-          ? 'opacity 300ms ease'
-          : 'transform 900ms cubic-bezier(0.76, 0, 0.24, 1)',
-        transform: panelExiting ? 'translateY(-100%)' : 'translateY(0)',
-        willChange: panelExiting ? 'transform' : 'auto',
-      }}
-      className="fixed inset-0 z-[9999] h-[100svh] w-full flex flex-col justify-between px-6 py-6 sm:px-12 sm:py-10 select-none overflow-visible pointer-events-auto"
+      ref={scope}
+      aria-hidden="true"
+      className="fixed inset-0 z-[90]"
+      onPointerDown={() => window.dispatchEvent(new KeyboardEvent('keydown'))}
     >
-      <span className="sr-only">Loading</span>
-
-      {/* Top row: Label left, Year right */}
-      <div className="flex w-full items-center justify-between z-20">
-        <div className="mask-line">
+      <div data-loader-panel className="absolute inset-0 bg-loader-bg" />
+      <div className="relative flex h-full flex-col justify-center px-5 sm:px-6 md:px-10">
+        <div className="mx-auto w-full max-w-[1280px]">
+          <div className="inline-flex flex-col">
           <span
-            style={{
-              display: 'block',
-              transition: textExiting
-                ? 'transform 600ms cubic-bezier(0.16, 1, 0.3, 1) 0ms'
-                : 'transform 900ms cubic-bezier(0.16, 1, 0.3, 1) 0ms',
-              transform: textExiting
-                ? 'translateY(-120%)'
-                : textEntered
-                ? 'translateY(0)'
-                : 'translateY(120%)',
-            }}
-            className="text-[12px] uppercase font-medium tracking-[0.08em] opacity-80"
+            data-loader-name
+            className="loader-name inline-flex origin-top-left whitespace-nowrap font-heading text-loader-text"
           >
-            Portfolio
+            {Array.from(NAME).map((char, i) => (
+              <span key={i} className="inline-block overflow-hidden pb-[0.08em] -mb-[0.08em]">
+                <motion.span
+                  className="inline-block whitespace-pre"
+                  initial={{ y: '105%' }}
+                  animate={{ y: '0%' }}
+                  transition={{ ...springUI, delay: 0.1 + i * 0.03 }}
+                >
+                  {char}
+                </motion.span>
+              </span>
+            ))}
           </span>
-        </div>
-
-        <div className="mask-line">
-          <span
-            style={{
-              display: 'block',
-              transition: textExiting
-                ? 'transform 600ms cubic-bezier(0.16, 1, 0.3, 1) 60ms'
-                : 'transform 900ms cubic-bezier(0.16, 1, 0.3, 1) 80ms',
-              transform: textExiting
-                ? 'translateY(-120%)'
-                : textEntered
-                ? 'translateY(0)'
-                : 'translateY(120%)',
-            }}
-            className="text-[12px] font-mono tracking-widest opacity-80"
-          >
-            2026
-          </span>
-        </div>
-      </div>
-
-      {/* Centre: Name "Prosper" at display size on a line mask, framed by the progress hairline */}
-      <div className="relative flex-1 flex flex-col items-center justify-center w-full z-20">
-        {/* Full-width hairline progress bar running through vertical centre */}
-        <div
-          className="absolute top-1/2 left-0 right-0 -translate-y-1/2 w-full h-[1px] pointer-events-none z-10"
-          style={{
-            backgroundColor: 'var(--color-loader-line)',
-          }}
-        >
-          <div
-            style={{
-              height: '100%',
-              width: '100%',
-              backgroundColor: 'var(--color-loader-text)',
-              transformOrigin: textExiting ? 'right center' : 'left center',
-              transform: textExiting
-                ? 'scaleX(0)'
-                : `scaleX(${progress / 100})`,
-              transition: textExiting
-                ? 'transform 600ms cubic-bezier(0.16, 1, 0.3, 1)'
-                : 'transform 120ms linear',
-            }}
-          />
-        </div>
-
-        {/* Name "Prosper" with background knockout so hairline frames it without cutting through letters */}
-        <div className="relative z-20 px-6 sm:px-10" style={{ backgroundColor: 'var(--color-loader-bg)' }}>
-          <div className="mask-line inline-block px-1">
-            <h1
-              style={{
-                display: 'block',
-                transition: textExiting
-                  ? 'transform 600ms cubic-bezier(0.16, 1, 0.3, 1) 80ms'
-                  : 'transform 900ms cubic-bezier(0.16, 1, 0.3, 1) 160ms',
-                transform: textExiting
-                  ? 'translateY(-120%)'
-                  : textEntered
-                  ? 'translateY(0)'
-                  : 'translateY(120%)',
-              }}
-              className="text-[clamp(48px,8vw,120px)] font-heading font-medium tracking-[-0.035em] leading-[1.08] text-center select-none"
-            >
-              Prosper
-            </h1>
+          <div data-loader-chrome className="mt-6 h-px w-full overflow-hidden bg-loader-line">
+            <motion.div className="h-full origin-left bg-loader-text" style={{ scaleX: progress }} />
+          </div>
           </div>
         </div>
       </div>
-
-      {/* Bottom row: Descriptor left, Clean tabular counter right */}
-      <div className="flex w-full items-baseline justify-between z-20 gap-4">
-        <div className="mask-line min-w-0 max-w-[calc(100%-80px)] sm:max-w-none">
-          <span
-            style={{
-              display: 'block',
-              transition: textExiting
-                ? 'transform 600ms cubic-bezier(0.16, 1, 0.3, 1) 120ms'
-                : 'transform 900ms cubic-bezier(0.16, 1, 0.3, 1) 240ms',
-              transform: textExiting
-                ? 'translateY(-120%)'
-                : textEntered
-                ? 'translateY(0)'
-                : 'translateY(120%)',
-            }}
-            className="text-[11px] sm:text-[12px] uppercase font-medium tracking-[0.08em] opacity-80 truncate block"
-          >
-            Frontend / Design / Writing / Automation
-          </span>
-        </div>
-
-        {/* Counter in tabular figures */}
-        <div className="shrink-0 font-mono text-[14px] sm:text-[16px] tabular-nums font-medium tracking-wider opacity-90">
-          <span>{String(progress).padStart(3, '0')}</span>
-          <span className="ml-1 opacity-70">%</span>
-        </div>
-      </div>
-
-      {/* Trailing curved morphing SVG edge for panel exit (visible as panel slides up) */}
-      {!reducedMotion && (
-        <div className="absolute top-full left-0 right-0 h-[80px] pointer-events-none overflow-visible">
-          <svg
-            viewBox="0 0 1000 80"
-            preserveAspectRatio="none"
-            className="w-full h-full block"
-            style={{
-              fill: 'var(--color-loader-bg)',
-            }}
-          >
-            <path d={`M 0 0 L 1000 0 Q 500 ${curveAmount} 0 0 Z`} />
-          </svg>
-        </div>
-      )}
+      <p
+        data-loader-chrome
+        className="absolute bottom-6 left-5 font-mono text-[11px] text-loader-muted sm:left-6 md:left-10"
+      >
+        Press any key to skip
+      </p>
     </div>
   )
 }
