@@ -24,7 +24,7 @@ export function ServicesSection() {
           <p className="mt-6 hidden max-w-[22ch] text-[13px] leading-[1.5] text-muted md:block">
             Choose a practice from the bar at the bottom of the screen.
           </p>
-          <div className="on-ink mt-8 h-11 max-w-[400px] rounded-full md:hidden">
+          <div className="on-ink mt-8 max-w-[440px] rounded-full md:hidden" style={{ height: 'var(--island-h)' }}>
             <Segmented
               mode="tabs"
               label="Services"
@@ -33,6 +33,7 @@ export function ServicesSection() {
               items={tabItems}
               active={site.practice}
               onSelect={site.setPractice}
+              compact
             />
           </div>
         </div>

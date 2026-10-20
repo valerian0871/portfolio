@@ -11,7 +11,7 @@ export function WorkSection() {
   return (
     <section id="work" className="py-28 md:py-40">
       <div className="mx-auto w-full max-w-[1100px] px-6">
-        <div className="mb-12 flex items-end justify-between gap-6">
+        <div className="mb-12 flex flex-wrap items-end justify-between gap-x-6 gap-y-4">
           <MaskLines lines={['Selected work']} className="section-title" />
           <div className="flex items-center gap-5 pb-1">
             <span className="hidden font-mono text-[12px] text-muted sm:inline">
@@ -23,7 +23,7 @@ export function WorkSection() {
                 e.preventDefault()
                 site.navigate('/work')
               }}
-              className="text-link group inline-flex items-center gap-2 border-b py-1 text-[14px] font-medium"
+              className="text-link group inline-flex items-center gap-2 whitespace-nowrap border-b py-1 text-[14px] font-medium"
             >
               All work <span aria-hidden="true" className="text-link-arrow inline-block">→</span>
             </a>

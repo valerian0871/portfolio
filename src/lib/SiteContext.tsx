@@ -144,7 +144,7 @@ export function SiteProvider({ route, navigate, children }: SiteProviderProps) {
     // Moving between case studies keeps the original list position for Close
     caseOpenerRef.current = { slug, scrollY: caseOpenerRef.current?.scrollY ?? window.scrollY }
     setCaseSlug(slug)
-    window.history.pushState({ case: slug }, '', `#work/${slug}`)
+    window.history.pushState({ case: slug }, '', `${window.location.pathname}#work/${slug}`)
     getLenis()?.scrollTo(0, { immediate: true })
     window.scrollTo(0, 0)
   }, [])
@@ -153,7 +153,8 @@ export function SiteProvider({ route, navigate, children }: SiteProviderProps) {
     const opener = caseOpenerRef.current
     setCaseSlug(null)
     if (window.location.hash.startsWith('#work/')) {
-      window.history.pushState(null, '', '#work')
+      const path = window.location.pathname
+      window.history.pushState(null, '', path === '/' ? '/#work' : path)
     }
     // Restore the reading position and return focus to the row that opened it
     requestAnimationFrame(() => {
@@ -211,9 +212,9 @@ export function SiteProvider({ route, navigate, children }: SiteProviderProps) {
     return () => window.removeEventListener('popstate', onPopState)
   }, [])
 
-  // Case studies only exist on the home route
+  // Case studies open from the home page and from /work
   useEffect(() => {
-    if (route !== '/' && caseSlug) setCaseSlug(null)
+    if (route !== '/' && route !== '/work' && caseSlug) setCaseSlug(null)
   }, [route, caseSlug])
 
   useEffect(() => () => {

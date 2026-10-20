@@ -14,11 +14,11 @@ import {
   type PaletteItem,
   type SectionId,
 } from '../../lib/site'
-import { useIsDesktop } from '../../hooks/useMediaQuery'
+import { useIsDesktop, useMediaQuery } from '../../hooks/useMediaQuery'
 import { Segmented } from './Segmented'
 import { TopBar } from './TopBar'
 
-type View = 'status' | 'nav' | 'practice' | 'contact' | 'palette' | 'case' | 'back' | 'footer'
+type View = 'status' | 'nav' | 'practice' | 'contact' | 'palette' | 'case' | 'pages' | 'footer'
 
 const ROW = 40
 const INPUT_ROW = 52
@@ -29,12 +29,20 @@ const listHeight = (rows: number) => INPUT_ROW + 1 + Math.max(rows, 1) * ROW + 1
 interface Placement {
   className: string
   width: string | number
-  height: number
+  height: number | string
   radius: number
 }
 
 const navItems = SECTION_IDS.map((id) => ({ id, label: SECTION_LABELS[id] }))
 const tabItems = practiceTabs.map((tab) => ({ id: tab.id, label: tab.label }))
+const pageItems = [
+  { id: '/', label: 'Home' },
+  { id: '/work', label: 'Work' },
+  { id: '/about', label: 'About' },
+  { id: '/contact', label: 'Contact' },
+]
+/** Phones get a taller island that scales with the screen (see --island-h) */
+const MOBILE_H = 'var(--island-h)'
 
 interface IslandProps {
   wordmarkVisible: boolean
@@ -43,12 +51,13 @@ interface IslandProps {
 export function Island({ wordmarkVisible }: IslandProps) {
   const site = useSite()
   const isDesktop = useIsDesktop()
+  const isNarrow = useMediaQuery('(max-width: 399px)')
   const [query, setQuery] = useState('')
 
   const view: View = (() => {
     if (site.palette.open) return 'palette'
     if (site.caseSlug) return 'case'
-    if (site.route !== '/') return 'back'
+    if (site.route !== '/') return 'pages'
     if (site.footerInView) return 'footer'
     if (!site.activeSection) return 'status'
     if (!isDesktop) return 'nav'
@@ -71,7 +80,7 @@ export function Island({ wordmarkVisible }: IslandProps) {
       case 'status':
         return {
           className: 'self-start mt-5',
-          width: 176,
+          width: isNarrow ? 124 : 176,
           height: 36,
           radius: 18,
         }
@@ -84,9 +93,10 @@ export function Island({ wordmarkVisible }: IslandProps) {
           radius: 18,
         }
       case 'nav':
+      case 'pages':
         return isDesktop
           ? { className: 'self-center mt-4', width: 360, height: 44, radius: 22 }
-          : { className: 'self-center mt-auto mb-4', width: 'calc(100% - 32px)', height: 44, radius: 22 }
+          : { className: 'self-center mt-auto mb-4', width: 'calc(100% - 32px)', height: MOBILE_H, radius: 999 }
       case 'practice':
         return { className: 'self-center mt-auto mb-5', width: 420, height: 44, radius: 22 }
       case 'contact':
@@ -104,9 +114,9 @@ export function Island({ wordmarkVisible }: IslandProps) {
           radius: 24,
         }
       case 'case':
-        return { className: 'self-center mt-4', width: 'min(420px, calc(100% - 32px))', height: 44, radius: 22 }
-      case 'back':
-        return { className: 'self-center mt-4', width: 148, height: 40, radius: 20 }
+        return isDesktop
+          ? { className: 'self-center mt-4', width: 'min(420px, calc(100% - 32px))', height: 44, radius: 22 }
+          : { className: 'self-center mt-4', width: 'calc(100% - 32px)', height: MOBILE_H, radius: 999 }
     }
   })()
 
@@ -171,7 +181,16 @@ export function Island({ wordmarkVisible }: IslandProps) {
                 />
               ) : null}
               {view === 'case' ? <CaseContent /> : null}
-              {view === 'back' ? <BackContent /> : null}
+              {view === 'pages' ? (
+                <Segmented
+                  mode="nav"
+                  label="Pages"
+                  idPrefix="island-pages"
+                  items={pageItems}
+                  active={site.route}
+                  onSelect={(path) => site.navigate(path)}
+                />
+              ) : null}
             </motion.div>
           </AnimatePresence>
         </motion.div>
@@ -185,21 +204,8 @@ function StatusContent() {
   return (
     <div className="flex h-full items-center justify-center gap-2 whitespace-nowrap text-[13px] font-medium">
       <span className="status-dot h-1.5 w-1.5 rounded-full bg-accent" aria-hidden="true" />
-      Available for work
+      Available<span className="status-extra"> for work</span>
     </div>
-  )
-}
-
-function BackContent() {
-  const site = useSite()
-  return (
-    <button
-      type="button"
-      onClick={() => site.navigate('/')}
-      className="flex h-full w-full items-center justify-center gap-2 text-[13px] font-medium"
-    >
-      <span aria-hidden="true">←</span> Back to home
-    </button>
   )
 }
 

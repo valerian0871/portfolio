@@ -15,6 +15,8 @@ import { AboutPage } from './pages/AboutPage'
 import { ContactPage } from './pages/ContactPage'
 import { useLenis } from './hooks/useLenis'
 import { SiteProvider, useSite } from './lib/SiteContext'
+import { MusicProvider } from './lib/MusicContext'
+import { MusicControl } from './components/site/MusicControl'
 
 function currentPath() {
   return window.location.pathname.replace(/\/$/, '') || '/'
@@ -66,6 +68,7 @@ export default function App() {
   return (
     <MotionConfig reducedMotion="user">
       <SiteProvider route={route} navigate={navigateTo}>
+        <MusicProvider>
         <a
           href="#main"
           className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[10000] focus:rounded-full focus:bg-text focus:px-6 focus:py-3 focus:text-[14px] focus:font-medium focus:text-bg"
@@ -83,6 +86,8 @@ export default function App() {
           </main>
         </div>
         <Footer />
+        <MusicControl />
+        </MusicProvider>
       </SiteProvider>
     </MotionConfig>
   )
@@ -91,10 +96,12 @@ export default function App() {
 function Routes({ route, heroReady }: { route: string; heroReady: boolean }) {
   const site = useSite()
 
-  if (route === '/work') return <WorkPage onBack={() => site.navigate('/')} />
-  if (route === '/about') return <AboutPage onBack={() => site.navigate('/')} />
-  if (route === '/contact') return <ContactPage onBack={() => site.navigate('/')} />
-  if (site.caseSlug) return <CaseStudy key={site.caseSlug} slug={site.caseSlug} />
+  if (site.caseSlug && (route === '/' || route === '/work')) {
+    return <CaseStudy key={site.caseSlug} slug={site.caseSlug} />
+  }
+  if (route === '/work') return <WorkPage />
+  if (route === '/about') return <AboutPage />
+  if (route === '/contact') return <ContactPage />
 
   return (
     <>

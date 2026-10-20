@@ -14,6 +14,7 @@ export const SECTION_LABELS: Record<SectionId, string> = {
 
 /** Selected work rows, newest first, practices interleaved. The rest live on /work. */
 const SELECTED_SLUGS = [
+  'miracle-olu-peters',
   'cakes-n-pastries',
   'nazirite',
   'instagram-workflow',
@@ -154,3 +155,12 @@ export function filterItems(items: PaletteItem[], query: string): PaletteItem[] 
 
 export const isMac =
   typeof navigator !== 'undefined' && /Mac|iPhone|iPad/i.test(navigator.platform || navigator.userAgent)
+
+/** /work order: grouped by practice, content order within each group */
+export const workGroups = practiceTabs.map((tab) => ({
+  id: tab.id,
+  label: tab.name,
+  note: tab.note,
+  projects: content.projects.filter((p) => p.discipline === tab.id),
+}))
+export const workOrder: Project[] = workGroups.flatMap((g) => g.projects)

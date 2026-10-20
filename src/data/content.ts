@@ -33,6 +33,8 @@ export interface Project {
   detail: string
   tools: string[]
   link?: ProjectLink
+  /** false when the live site refuses to load inside a frame (X-Frame-Options) */
+  embeddable?: boolean
   images: ProjectImage[]
   pipeline?: ProjectPipeline
   metrics?: string
@@ -251,6 +253,29 @@ export const content: SiteContent = {
   },
 
   projects: [
+    {
+      slug: 'miracle-olu-peters',
+      year: '2026',
+      title: 'Miracle Olu-Peters',
+      discipline: 'frontend',
+      disciplineLabel: 'Frontend Development',
+      kind: 'Design and build, with CMS',
+      summary: 'Portfolio for a Lagos-based creative strategist and copywriter, built with Next.js.',
+      detail:
+        'Designed and built the site end to end in Next.js 16 with Tailwind CSS v4 and GSAP motion. Miracle manages her own case studies through an embedded Sanity Studio, and each project stays hidden until client permission is confirmed and its embargo date has passed. The contact form sends enquiries through Resend, and Yorùbá diacritics are fully supported. Deployed on Vercel.',
+      tools: ['Next.js', 'Sanity', 'GSAP', 'Tailwind CSS', 'Resend'],
+      link: { href: 'https://miracleolupeters.vercel.app/', label: 'Visit live site' },
+      embeddable: false,
+      images: [
+        {
+          src: '/work/miracle-olu-peters/homepage.jpg',
+          alt: 'Miracle Olu-Peters homepage: her name set large in condensed capitals beside a portrait on a purple backdrop, with the lines creative strategist and copywriter, English and Yorùbá',
+          caption: 'Miracle Olu-Peters, homepage',
+          width: 1440,
+          height: 900,
+        },
+      ],
+    },
     {
       slug: 'cakes-n-pastries',
       year: '2026',

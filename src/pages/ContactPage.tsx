@@ -1,131 +1,88 @@
-import { useState } from 'react'
-import { Container } from '../components/Container'
-import { HeadingReveal, FadeReveal } from '../components/TextReveal'
+import { useEffect, useState } from 'react'
+import { motion } from 'motion/react'
 import { content } from '../data/content'
+import { useSite } from '../lib/SiteContext'
+import { springUI } from '../lib/motion'
+import { contactItems, isMac } from '../lib/site'
+import { MaskLines } from '../components/site/Reveal'
 
-interface ContactPageProps {
-  onBack?: () => void
+function lagosTime() {
+  return new Intl.DateTimeFormat('en-GB', {
+    timeZone: 'Africa/Lagos',
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: false,
+  }).format(new Date())
 }
 
-export function ContactPage({ onBack }: ContactPageProps) {
-  const [emailCopied, setEmailCopied] = useState(false)
+/** /contact: large action rows (copy, WhatsApp, profiles) and the practical details */
+export function ContactPage() {
+  const site = useSite()
+  const [time, setTime] = useState(lagosTime)
 
-  const handleCopyEmail = () => {
-    navigator.clipboard.writeText(content.contact.email)
-    setEmailCopied(true)
-    setTimeout(() => setEmailCopied(false), 1500)
-  }
+  useEffect(() => {
+    const id = window.setInterval(() => setTime(lagosTime()), 15000)
+    return () => window.clearInterval(id)
+  }, [])
 
   return (
-    <article className="page-enter pt-[100px] md:pt-[128px] pb-24 md:pb-32">
-      <Container>
-        {/* Back Link */}
-        <div className="mb-8">
-          <a
-            href="/"
-            onClick={(e) => {
-              if (onBack) {
-                e.preventDefault()
-                onBack()
-              }
-            }}
-            className="inline-flex items-center gap-2 text-[14px] text-muted hover:text-text transition-colors"
-          >
-            <span>←</span>
-            <span>Back to overview</span>
-          </a>
-        </div>
+    <article className="pb-28 pt-32 md:pb-40 md:pt-40">
+      <div className="mx-auto w-full max-w-[1100px] px-6">
+        <MaskLines
+          as="h1"
+          trigger="play"
+          lines={['Let us discuss', 'your next project.']}
+          className="case-title font-heading text-text"
+        />
+        <p className="mt-8 max-w-[44ch] text-[clamp(1.0625rem,1.6vw,1.25rem)] leading-[1.55] text-muted">
+          I am currently open to freelance design engineering contracts, frontend development engagements, and
+          full-time technical roles.
+        </p>
 
-        {/* Heading */}
-        <div className="mb-12 md:mb-16">
-          <span className="text-[12px] uppercase font-medium tracking-[0.08em] text-muted block mb-3">
-            Get In Touch
-          </span>
-          <HeadingReveal
-            text="Let us discuss your next project."
-            as="h1"
-            className="text-[clamp(36px,5vw,72px)] font-heading font-medium tracking-[-0.035em] leading-[1.1] text-text"
-          />
-        </div>
-
-        <div className="h-[1px] w-full bg-line mb-12 md:mb-16" />
-
-        <div className="grid grid-cols-12 gap-8 lg:gap-12">
-          {/* Left Column: Direct channels */}
-          <div className="col-span-12 md:col-span-7 flex flex-col gap-8">
-            <FadeReveal>
-              <h2 className="text-[20px] font-heading font-medium text-text mb-2">
-                Direct Communication
-              </h2>
-              <p className="text-[16px] text-muted leading-[1.6] max-w-[50ch] mb-6">
-                I am currently open to freelance design engineering contracts, frontend development engagements, and full-time technical roles.
-              </p>
-
-              {/* Primary: WhatsApp CTA — no phone visible */}
-              <div className="flex flex-wrap items-center gap-4">
-                <a
-                  href={content.contact.whatsapp.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="btn-pill"
-                  aria-label="Open WhatsApp chat with Prosper"
-                >
-                  {content.contact.whatsapp.label}
-                </a>
-
-                {/* Secondary: copy email address */}
-                <button
-                  type="button"
-                  onClick={handleCopyEmail}
-                  className="btn-pill-secondary btn-press rounded-full px-6 py-3 text-[14px] font-medium text-text cursor-pointer inline-flex items-center gap-2"
-                  aria-label={`Copy email address ${content.contact.email} to clipboard`}
-                >
-                  <span>{content.contact.email}</span>
-                  {emailCopied && (
-                    <span className="font-mono text-[12px] text-text font-semibold">
-                      ✓ Copied
-                    </span>
-                  )}
-                </button>
+        <ul className="mt-16 border-b border-line md:mt-20">
+          {contactItems.map((item, i) => (
+            <motion.li
+              key={item.id}
+              className="work-row group relative -mx-4 rounded-2xl px-4"
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-5% 0px' }}
+              transition={{ ...springUI, delay: i * 0.06 }}
+            >
+              <div className="flex items-center gap-4 border-t border-line py-6 md:py-8">
+                <span className="contact-row-title work-row-title min-w-0 flex-1 font-heading text-text">
+                  <button type="button" onClick={() => site.runItem(item)} className="stretched text-left">
+                    {item.label}
+                  </button>
+                </span>
+                <span className="hidden truncate font-mono text-[12px] text-muted sm:block">{item.hint}</span>
+                <span aria-hidden="true" className="work-row-arrow shrink-0 text-[15px] text-muted">
+                  {item.action.kind === 'copy' ? '→' : '↗'}
+                </span>
               </div>
-            </FadeReveal>
+            </motion.li>
+          ))}
+        </ul>
 
-            <FadeReveal delay={0.2} className="pt-6 border-t border-line">
-              <span className="text-[12px] uppercase font-medium tracking-[0.08em] text-muted block mb-2">
-                Availability
-              </span>
-              <p className="text-[15px] text-text">
-                {content.profile.availability}
-              </p>
-            </FadeReveal>
+        <dl className="mt-16 grid gap-x-6 gap-y-10 sm:grid-cols-3">
+          <div>
+            <dt className="font-mono text-[11px] text-muted">Availability</dt>
+            <dd className="mt-2 max-w-[30ch] text-[15px] leading-[1.55]">{content.profile.availability}</dd>
           </div>
-
-          {/* Right Column: Social Profiles */}
-          <div className="col-span-12 md:col-span-5 flex flex-col gap-6">
-            <h2 className="text-[20px] font-heading font-medium text-text">
-              Connected Networks
-            </h2>
-            <div className="flex flex-col divide-y divide-line border-y border-line">
-              {content.profile.socials.map((social) => (
-                <a
-                  key={social.label}
-                  href={social.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="py-4 flex items-center justify-between text-[15px] text-text hover:text-muted transition-colors"
-                >
-                  <span>{social.label}</span>
-                  <span>↗</span>
-                </a>
-              ))}
-              <div className="py-4 flex items-center justify-between text-[15px] text-muted">
-                <span>Location</span>
-                <span className="text-text">Nigeria (UTC+1)</span>
-              </div>
-            </div>
+          <div>
+            <dt className="font-mono text-[11px] text-muted">Location</dt>
+            <dd className="mt-2 text-[15px] leading-[1.55]">
+              Nigeria (UTC+1) <span className="text-muted">· {time} now</span>
+            </dd>
           </div>
-        </div>
-      </Container>
+          <div className="hidden sm:block">
+            <dt className="font-mono text-[11px] text-muted">Shortcut</dt>
+            <dd className="mt-2 text-[15px] leading-[1.55]">
+              {isMac ? '⌘K' : 'Ctrl K'} <span className="text-muted">opens the command palette</span>
+            </dd>
+          </div>
+        </dl>
+      </div>
     </article>
   )
 }

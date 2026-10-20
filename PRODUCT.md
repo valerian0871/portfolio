@@ -36,6 +36,7 @@ Unlike conventional single-discipline developers who stop at markup, Prosper bri
 - Four practices (Frontend Development, Graphics Design, Content & Copywriting, AI Automation), switchable in the Services section.
 - Live sites load on demand in sandboxed frames for verified production URLs (`cakesnpastries.com.ng`, `smartcbt.com.ng`, `facons.edu.ng`, `topvision.ng`); the screenshot is shown first. No simulated "live" effects.
 - Lightbox asset viewer with keyboard navigation (`ArrowLeft`, `ArrowRight`, `Escape`).
+- Hero record player: visitors choose to play one track by placing the needle; a floating pause control follows them; pause/resume keeps position; lifting the needle rewinds. Audio never loads until played.
 - No icon packs (text glyphs only). Motion and Lenis are the only animation dependencies; transform and opacity first. ⌘K / Ctrl K command palette.
 - Strict performance budget: fast initial paint, optimized responsive typography (`clamp`), zero scroll-trapping on mobile.
 

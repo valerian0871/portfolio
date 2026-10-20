@@ -16,8 +16,15 @@ export function TopBar({ visible, wordmarkVisible }: TopBarProps) {
   const site = useSite()
   const reduceMotion = useReducedMotion()
   // Fixed text would collide with content scrolling under it, so the top bar
-  // only shows over the hero and on sub-pages
-  const hidden = site.footerInView || (site.route === '/' && site.activeSection !== null)
+  // only shows near the top of each page
+  const [scrolledAway, setScrolledAway] = useState(false)
+  useEffect(() => {
+    const onScroll = () => setScrolledAway(window.scrollY > window.innerHeight * 0.5)
+    onScroll()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+  const hidden = site.footerInView || scrolledAway
 
   return (
     <div

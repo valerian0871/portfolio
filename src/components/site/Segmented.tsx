@@ -19,6 +19,8 @@ interface SegmentedProps<T extends string> {
   label: string
   panelId?: string
   idPrefix: string
+  /** Tighter padding for long label sets (five filters on a phone) */
+  compact?: boolean
 }
 
 /** Pill row with a sliding indicator. Used in the island and inline on mobile. */
@@ -30,6 +32,7 @@ export function Segmented<T extends string>({
   label,
   panelId,
   idPrefix,
+  compact = false,
 }: SegmentedProps<T>) {
   const listRef = useRef<HTMLDivElement>(null)
   const [indicator, setIndicator] = useState<{ x: number; width: number } | null>(null)
@@ -92,7 +95,7 @@ export function Segmented<T extends string>({
             aria-current={mode === 'nav' && selected ? 'true' : undefined}
             tabIndex={mode === 'tabs' && !selected ? -1 : 0}
             onClick={() => onSelect(item.id)}
-            className="seg-button relative z-10 h-full flex-1 whitespace-nowrap rounded-full px-3 text-[13px] font-medium"
+            className={`seg-button relative z-10 h-full whitespace-nowrap rounded-full font-medium ${compact ? 'seg-compact flex-auto px-2.5' : 'flex-1 px-3 text-[13px]'}`}
             data-selected={selected || undefined}
           >
             {item.label}

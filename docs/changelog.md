@@ -82,3 +82,50 @@ Reference behaviour: [reference-notes.md](./reference-notes.md). Approved plan: 
 4. **`/work`, `/about`, `/contact` still use the old layout.** They pick up the new tokens, island and footer, but their bodies (including `LiveSitePreview`'s fake "LIVE" frames on `/work`) still need the same pass.
 5. **Untracked file `public/Natalie Holt - Purpose Is Glorious.mp3`** appeared during the session. I didn't add it and I'm not using it. Background audio would break ground rule 5 and add 5–10 MB to the deploy. Remove it, or tell me what it's for.
 6. **Island tabs are 36 px tall.** That passes WCAG 2.2 AA (24 px minimum) but is under Apple's 44 px guidance. The pill can grow to 48 px on phones if you prefer.
+
+---
+
+# Round 2 (2026-10-20): music, sub-pages, phone island
+
+## What changed
+
+| Area | Change |
+|---|---|
+| Runethia | Removed `public/fonts/Runethia.otf`, `Runethia.otf` and its licence note. |
+| Record player (hero) | An authored CSS/SVG turntable (`src/components/site/RecordPlayer.tsx`) beside the intro on desktop and below it on phones. **Place the needle** (click, tap, Enter/Space, or drag the tonearm onto the record) to start the track from the beginning. The record spins at 33⅓ rpm (1.8 s per turn), the status light glows, and the needle tracks inward as the song plays. **Lift the needle** (click, or drag it off) to stop and rewind. A pause/resume button and the elapsed time sit under the deck. Clicking the record itself also pauses and resumes. |
+| Floating control | `MusicControl.tsx`: once the needle is down and the deck has scrolled out of view, a 52 px ink button with a tiny spinning record follows you on every page. Pause and resume continue from the same position. It sits above the bottom island on phones. |
+| Audio rules | Exactly as you specified. Position is kept across pause/resume, across sections and across sub-pages. It **only restarts** after a reload or a lift-and-replace of the needle. When the song ends, the arm returns to rest. The file (`public/audio/purpose-is-glorious.mp3`) has `preload="none"`, so **nothing downloads until someone drops the needle** (verified). OS media keys and lock-screen controls work via the Media Session API. |
+| Reduced motion | The record doesn't spin and the arm moves without animation. Playback is unaffected. |
+| `/work` | New design: h1, project count, a five-way practice filter (ink pill tabs with arrow keys), and every project as a numbered row grouped by practice (scope, thumbnail, year, arrow). Rows open the same in-place case study (`/work#work/<slug>`); Close or Escape returns to the row. |
+| `/about` | New design: two-line h1, Background (lead paragraph brightens word by word with scroll, then the rest of your story), Principles as rows, and a closing "Have a project in mind? Get in touch →". |
+| `/contact` | New design: two-line h1, your availability line, four large action rows (Copy email, WhatsApp, GitHub, LinkedIn), and an Availability / Location (with live Lagos time) / Shortcut row. |
+| Sub-page island | A Home / Work / About / Contact nav replaces the "Back to home" pill. |
+| Phone island | Height now scales with screen width: `clamp(48px, 13.5vw, 58px)`, giving 48 px at 320, 51 at 375 and 58 at 430. Text scales 13–15 px and tab padding tightens below 400 px. The status pill shortens to "Available" below 400 px so it fits beside the wordmark. The inline services and work filters size tabs to their labels so nothing clips at 320. |
+| Top bar | The wordmark and clock now hide once you scroll half a screen on any page, since they collided with content on sub-pages too. |
+| Dead code | Removed `Container`, `TextReveal`, `useSplitLines`, `WorkArchive`, `LiveSitePreview` (the fake "LIVE" frames are gone everywhere) and their CSS. CSS dropped from 66 kB to 43 kB. |
+
+## Verification
+
+All checks used the production build in Chrome via Playwright.
+
+**Music:**
+- No audio request before the first drop.
+- Click to drop: plays and spins.
+- Scroll away: the floating control appears.
+- Pause, wait, resume: continues (0:06, not 0:00).
+- Lift: rewinds.
+- Re-drop: starts at 0:01.
+- Drag the arm off: stops. Drag it on: plays.
+- Music keeps going on `/work`, `/about` and `/contact`.
+
+**Pages and layout:**
+- A `/work` case study opens and closes, and focus returns to the row.
+- No horizontal overflow at 320, 375 or 430 px on any page.
+
+**Accessibility:** axe-core reports no violations in light, dark, palette, case-study and 375 px states.
+
+## Open issues
+
+1. **The track is commercial music.** "Purpose Is Glorious" is from the *Loki* score. Streaming it publicly needs a licence from the rights holder; without one, the host (Vercel) can take it down on a DMCA notice. To swap tracks, change `TRACK` in `src/lib/MusicContext.tsx` and the file in `public/audio/`.
+2. **The mp3 is 7.6 MB and is committed to git.** It downloads only on play, but a ~128 kbps re-encode (about 3 MB) would start faster on mobile data. I couldn't do that here because no audio encoder is installed.
+3. **The floating button sits over content** at the bottom-right edge, which is normal for a persistent player. If it ever covers something important, it could hide while the footer is in view.

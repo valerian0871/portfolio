@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { motion } from 'motion/react'
 import { useSite } from '../lib/SiteContext'
 import { easeOutStrong } from '../lib/motion'
-import { findProject, selectedProjects } from '../lib/site'
+import { findProject, selectedProjects, workOrder } from '../lib/site'
 import { Lightbox } from './Lightbox'
 import { TextLink } from './site/TextLink'
 
@@ -30,9 +30,10 @@ export function CaseStudy({ slug }: { slug: string }) {
 
   if (!project) return null
 
-  const position = selectedProjects.findIndex((p) => p.slug === slug)
-  const next = selectedProjects[(position + 1) % selectedProjects.length]
-  const isLiveSite = project.discipline === 'frontend' && project.link?.href
+  const list = site.route === '/work' ? workOrder : selectedProjects
+  const position = list.findIndex((p) => p.slug === slug)
+  const next = list[(position + 1) % list.length]
+  const isLiveSite = project.discipline === 'frontend' && project.link?.href && project.embeddable !== false
 
   return (
     <motion.article

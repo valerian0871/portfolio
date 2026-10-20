@@ -143,367 +143,14 @@
 }
 
 /* ==========================================================================
-   BUTTONS & TACTILE PRESS FEEDBACK (Emil Kowalski + Pearl Specification)
-   ========================================================================== */
-
-.btn-pill {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: var(--radius-button);
-  padding: 12px 24px;
-  font-family: var(--font-body);
-  font-size: 14px;
-  font-weight: 500;
-  letter-spacing: -0.01em;
-  background-color: var(--color-text);
-  color: var(--color-bg);
-  cursor: pointer;
-  white-space: nowrap;
-  transition: transform var(--duration-fast) var(--ease-default),
-              background-color var(--duration-fast) var(--ease-default),
-              color var(--duration-fast) var(--ease-default),
-              border-color var(--duration-fast) var(--ease-default);
-}
-
-@media (hover: hover) and (pointer: fine) {
-  .btn-pill:hover {
-    transform: translateY(var(--button-hover-lift));
-  }
-}
-
-.btn-pill:active {
-  transform: scale(var(--button-press-scale)) !important;
-}
-
-.btn-pill-secondary {
-  background-color: transparent;
-  color: var(--color-text);
-  border: 1px solid var(--color-line);
-}
-
-@media (hover: hover) and (pointer: fine) {
-  .btn-pill-secondary:hover {
-    border-color: var(--color-text);
-    transform: translateY(var(--button-hover-lift));
-  }
-}
-
-.btn-pill-secondary:active {
-  transform: scale(var(--button-press-scale)) !important;
-}
-
-/* Base button press class for arbitrary interactive items */
-.btn-press {
-  transition: transform var(--duration-fast) var(--ease-default),
-              opacity var(--duration-fast) var(--ease-default),
-              color var(--duration-fast) var(--ease-default);
-}
-
-.btn-press:active {
-  transform: scale(0.97);
-}
-
-/* ==========================================================================
-   HAIRLINE DIVIDERS & ENTRY REVEALS
-   ========================================================================== */
-
-.hairline {
-  height: 1px;
-  width: 100%;
-  background-color: var(--color-line);
-  transform-origin: left center;
-}
-
-.hairline-animated {
-  animation: hairlineDraw var(--duration-hairline) var(--ease-default) forwards;
-}
-
-@keyframes hairlineDraw {
-  from {
-    transform: scaleX(0);
-  }
-  to {
-    transform: scaleX(1);
-  }
-}
-
-/* ==========================================================================
-   HEADER LINK UNDERLINE EFFECT
-   1px underline draws left to right in 250ms
-   ========================================================================== */
-
-.nav-link {
-  position: relative;
-  display: inline-block;
-  padding: 8px 0;
-  font-size: 15px;
-  color: var(--color-muted);
-  transition: color var(--duration-ui) var(--ease-default);
-}
-
-.nav-link:hover {
-  color: var(--color-text);
-}
-
-.nav-link.active {
-  color: var(--color-text);
-}
-
-/* ==========================================================================
-   TEXT REVEAL MASK & LINES (Item 7: Descender-safe Line Mask)
-   ========================================================================== */
-
-.mask-line {
-  overflow: hidden;
-  display: block;
-  padding-top: 0.08em;
-  padding-bottom: 0.2em;
-  margin-top: -0.08em;
-  margin-bottom: -0.2em;
-  padding-left: 0.06em;
-  padding-right: 0.06em;
-  margin-left: -0.06em;
-  margin-right: -0.06em;
-}
-
-.mask-line-inner {
-  display: block;
-  transform: translateY(120%);
-  animation: revealLine 900ms var(--ease-reveal) forwards;
-}
-
-@keyframes revealLine {
-  from {
-    transform: translateY(120%);
-  }
-  to {
-    transform: translateY(0);
-  }
-}
-
-/* ==========================================================================
-   IMAGE REVEAL WITH CLIP-PATH & INNER SCALE
-   clip-path: inset(100% 0 0 0) to inset(0) over 1000ms
-   ========================================================================== */
-
-.image-reveal-container {
-  clip-path: inset(100% 0 0 0);
-  transition: clip-path var(--duration-image) var(--ease-default);
-}
-
-.image-reveal-container.in-view {
-  clip-path: inset(0 0 0 0);
-}
-
-.image-reveal-inner {
-  transform: scale(1.08);
-  transition: transform var(--duration-image) var(--ease-default);
-}
-
-.image-reveal-container.in-view .image-reveal-inner {
-  transform: scale(1);
-}
-
-/* ==========================================================================
-   PAGE TRANSITION (400ms cross-fade with 12px upward translate)
-   ========================================================================== */
-
-@keyframes pageEnter {
-  from {
-    opacity: 0;
-    transform: translateY(12px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.page-enter {
-  animation: pageEnter var(--duration-page) var(--ease-default) both;
-}
-
-/* ==========================================================================
-   LIVE SITE SIMULATION (Simulated Live GIF / Screen Recording)
-   ========================================================================== */
-
-@keyframes liveSitePan {
-  0%, 15% {
-    transform: scale(1) translateY(0);
-  }
-  35%, 65% {
-    transform: scale(1.04) translateY(-3%);
-  }
-  85%, 100% {
-    transform: scale(1) translateY(0);
-  }
-}
-
-.live-site-scroll {
-  animation: liveSitePan 9s cubic-bezier(0.45, 0, 0.55, 1) infinite;
-  transform-origin: top center;
-  transition: transform 300ms ease;
-}
-
-.live-site-scroll-fast {
-  animation-duration: 4.5s;
-}
-
-.live-cursor-track {
-  position: absolute;
-  inset: 0;
-  overflow: hidden;
-}
-
-.live-cursor {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 24px;
-  height: 24px;
-  pointer-events: none;
-  animation: liveCursorMove 9s cubic-bezier(0.25, 1, 0.5, 1) infinite;
-}
-
-@keyframes liveCursorMove {
-  0% {
-    opacity: 0;
-    transform: translate(80%, 80%);
-  }
-  10% {
-    opacity: 1;
-    transform: translate(25%, 38%);
-  }
-  16% {
-    transform: translate(16%, 45%);
-  }
-  20% {
-    transform: translate(16%, 45%) scale(0.88);
-  }
-  25% {
-    transform: translate(16%, 45%) scale(1);
-  }
-  42% {
-    transform: translate(55%, 20%);
-  }
-  48% {
-    transform: translate(55%, 20%) scale(0.9);
-  }
-  54% {
-    transform: translate(55%, 20%) scale(1);
-  }
-  72% {
-    transform: translate(78%, 12%);
-  }
-  86% {
-    transform: translate(32%, 50%);
-  }
-  94%, 100% {
-    opacity: 0;
-    transform: translate(85%, 85%);
-  }
-}
-
-.live-cursor-ripple {
-  position: absolute;
-  top: 8px;
-  left: 8px;
-  width: 14px;
-  height: 14px;
-  border-radius: 999px;
-  border: 1.5px solid #111111;
-  pointer-events: none;
-  opacity: 0;
-  animation: liveCursorRipple 9s ease-out infinite;
-}
-
-@keyframes liveCursorRipple {
-  0%, 18% {
-    opacity: 0;
-    transform: scale(0.3);
-  }
-  21% {
-    opacity: 0.8;
-    transform: scale(1);
-  }
-  26% {
-    opacity: 0;
-    transform: scale(2.4);
-  }
-  46% {
-    opacity: 0;
-    transform: scale(0.3);
-  }
-  49% {
-    opacity: 0.8;
-    transform: scale(1);
-  }
-  54% {
-    opacity: 0;
-    transform: scale(2.4);
-  }
-  100% {
-    opacity: 0;
-    transform: scale(0.3);
-  }
-}
-
-/* ==========================================================================
-   PREFERS-REDUCED-MOTION (Accessibility standard)
+   REDUCED MOTION: keep opacity and colour, drop movement (per-component rules below)
    ========================================================================== */
 
 @media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto !important;
-  }
-
-  *,
-  *::before,
-  *::after {
-    animation-duration: 200ms !important;
-    animation-delay: 0ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 150ms !important;
-  }
-
-  .mask-line-inner {
-    transform: none !important;
-    animation: simpleFade 200ms ease forwards !important;
-  }
-
-  .image-reveal-container {
-    clip-path: inset(0) !important;
-    transition: opacity 200ms ease !important;
-  }
-
-  .image-reveal-inner {
-    transform: none !important;
-  }
-
-  .hairline {
-    transform: none !important;
-    animation: none !important;
-  }
-
-  .live-site-scroll {
-    animation: none !important;
-    transform: none !important;
-  }
-
-  .live-cursor-track {
-    display: none !important;
-  }
+  html { scroll-behavior: auto !important; }
+  *, *::before, *::after { transition-duration: 150ms !important; }
 }
 
-@keyframes simpleFade {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
 /* ==========================================================================
    REBUILD LAYER (docs/section-mapping-and-motion-spec.md)
    Hover effects are gated to fine pointers; motion respects reduced motion.
@@ -726,4 +373,112 @@ html.has-cursor textarea { cursor: text; }
   .footer-top-arrow {
     transform: none !important;
   }
+}
+
+/* ---------- Record player (hero) ---------- */
+:root {
+  --island-h: 44px;
+}
+@media (max-width: 767px) {
+  /* Bigger, width-responsive island on phones */
+  :root { --island-h: clamp(48px, 13.5vw, 58px); }
+  .seg-button { font-size: clamp(13px, 3.9vw, 15px); }
+}
+
+.turntable {
+  --deck-plinth: var(--color-inverse-bg);
+  --deck-muted: var(--color-inverse-muted);
+  --deck-metal: #c9c9c4;
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--color-inverse-text) 6%, transparent), transparent 40%),
+    var(--deck-plinth);
+  border-radius: 7% / 8.2%;
+  box-shadow:
+    0 1px 0 color-mix(in srgb, var(--color-inverse-text) 10%, transparent) inset,
+    0 24px 48px -28px rgba(0, 0, 0, 0.45);
+}
+@media (prefers-color-scheme: dark) {
+  .turntable { --deck-metal: #7d7d78; }
+}
+.turntable-platter {
+  background: #1c1c1b;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.04), 0 10px 24px -10px rgba(0, 0, 0, 0.7);
+  cursor: pointer;
+}
+.vinyl {
+  background:
+    radial-gradient(circle, transparent 0 31%, rgba(255, 255, 255, 0.05) 31.5% 32%, transparent 32.5%),
+    radial-gradient(circle, transparent 0 96%, rgba(255, 255, 255, 0.06) 96.5% 97%, transparent 97.5%),
+    repeating-radial-gradient(circle, #121212 0 1.2px, #0a0a0a 1.2px 2.6px);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .vinyl { animation: vinyl-spin 1.8s linear infinite paused; } /* 33 1/3 rpm */
+  .vinyl[data-spinning] { animation-play-state: running; }
+}
+@keyframes vinyl-spin {
+  to { transform: rotate(360deg); }
+}
+.vinyl-label {
+  background: #1F5245;
+  color: #EEEFEA;
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.35);
+}
+.vinyl-spindle { background: #d9d9d4; }
+.vinyl-sheen {
+  background: conic-gradient(
+    from 35deg,
+    transparent 0deg,
+    rgba(255, 255, 255, 0.09) 18deg,
+    transparent 42deg,
+    transparent 180deg,
+    rgba(255, 255, 255, 0.06) 200deg,
+    transparent 226deg
+  );
+  mix-blend-mode: screen;
+}
+.deck-pivot {
+  background: radial-gradient(circle at 40% 35%, #f2f2ee, var(--deck-metal) 55%, #6c6c68);
+  box-shadow: 0 4px 10px -4px rgba(0, 0, 0, 0.6);
+}
+.deck-arm-tube { stroke: var(--deck-metal); }
+.deck-arm-weight { fill: #8e8e89; }
+.deck-arm-head { fill: #e6e6e1; }
+.deck-arm { filter: drop-shadow(0 6px 6px rgba(0, 0, 0, 0.35)); }
+.deck-needle { cursor: grab; }
+.deck-needle[data-dragging] { cursor: grabbing; }
+.deck-needle:focus-visible { outline-color: var(--color-inverse-text); outline-offset: 0; }
+.deck-led { background: #3a3a38; transition: background-color 200ms ease, box-shadow 200ms ease; }
+.deck-led[data-on] {
+  background: var(--color-accent);
+  box-shadow: 0 0 6px var(--color-accent);
+}
+
+/* Floating music control */
+.music-control {
+  width: 52px;
+  height: 52px;
+  right: var(--page-gutter);
+  bottom: 20px;
+  box-shadow: 0 12px 28px -12px rgba(0, 0, 0, 0.5);
+}
+@media (max-width: 767px) {
+  /* Sits above the bottom island on phones */
+  .music-control { bottom: calc(16px + var(--island-h) + 12px); right: 16px; }
+}
+.music-control-disc { opacity: 0.9; }
+
+.seg-compact { font-size: 13px; }
+@media (max-width: 380px) {
+  .seg-compact { font-size: 12px; padding-inline: 0.4rem !important; }
+}
+
+.contact-row-title {
+  font-size: clamp(1.625rem, 4vw, 2.75rem);
+  line-height: 1.1;
+  letter-spacing: -0.035em;
+}
+
+@media (max-width: 399px) {
+  .status-extra { display: none; }
+  .seg-button { padding-inline: 0.55rem; }
 }
