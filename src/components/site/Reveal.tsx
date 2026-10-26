@@ -1,5 +1,5 @@
 import type { ElementType, ReactNode } from 'react'
-import { motion } from 'motion/react'
+import { motion, type MotionStyle } from 'motion/react'
 import { springUI } from '../../lib/motion'
 
 interface MaskLinesProps {
@@ -10,6 +10,7 @@ interface MaskLinesProps {
   play?: boolean
   stagger?: number
   delay?: number
+  lineStyle?: (index: number) => MotionStyle | undefined
 }
 
 export function MaskLines({
@@ -20,6 +21,7 @@ export function MaskLines({
   play = true,
   stagger = 0.08,
   delay = 0,
+  lineStyle,
 }: MaskLinesProps) {
   return (
     <Tag className={className} aria-label={lines.join(' ')}>
@@ -35,11 +37,11 @@ export function MaskLines({
               }
             : { initial: { y: '108%' }, animate: { y: play ? '0%' : '108%' }, transition }
         return (
-          <span key={i} aria-hidden="true" className="mask-line-box">
+          <motion.span key={i} aria-hidden="true" className="mask-line-box" style={lineStyle?.(i)}>
             <motion.span className="block" {...motionProps}>
               {line}
             </motion.span>
-          </span>
+          </motion.span>
         )
       })}
     </Tag>

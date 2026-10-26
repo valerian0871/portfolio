@@ -129,3 +129,29 @@ All checks used the production build in Chrome via Playwright.
 1. **The track is commercial music.** "Purpose Is Glorious" is from the *Loki* score. Streaming it publicly needs a licence from the rights holder; without one, the host (Vercel) can take it down on a DMCA notice. To swap tracks, change `TRACK` in `src/lib/MusicContext.tsx` and the file in `public/audio/`.
 2. **The mp3 is 7.6 MB and is committed to git.** It downloads only on play, but a ~128 kbps re-encode (about 3 MB) would start faster on mobile data. I couldn't do that here because no audio encoder is installed.
 3. **The floating button sits over content** at the bottom-right edge, which is normal for a persistent player. If it ever covers something important, it could hide while the footer is in view.
+
+---
+
+# Round 3 (2026-10-26): motion and interactive demos
+
+Owner decisions: composing-stick loader; "bold but on-brand" motion; interactive demos as the new creative content.
+
+| Area | Change |
+|---|---|
+| Loader | Letterpress concept. Crop marks and cap-height, x-height and baseline guides draw in. The 13 letters drop in out of order, mirrored like metal type, then kern in and turn readable. A mono readout counts sorts set; the progress rule fills. On exit the line "presses" and flies to the wordmark as before. `MIN_MS` 1000 to 1250, `CAP_MS` 2000 to 2200. Still skipped on repeat visits and under reduced motion. |
+| Hero | On scroll the two headline lines pull apart horizontally, scale down and fade; the record player drifts up and tilts. CTAs are magnetic on fine pointers. |
+| Practice ticker | New band under the hero: the four practice names on a running line. Scroll speed pushes it; scrolling up reverses it. Pauses offscreen; static under reduced motion. |
+| Work list | Hovering a row shows that project's first image trailing the cursor, leaning into the direction of travel, with a clip-path reveal between projects. Fine pointers only. |
+| Services demos | One per practice: drag-to-resize layout with container-query reflow (slider with keyboard support); a 4:5 post on a 6x8 grid with snap and lit guides (drag, touch or arrow keys); a three-stage edit pass (Draft, Marked up, Clean) with word count; the real Instagram pipeline run step by step, pausing at the approval gate with Approve or Reject. |
+| Footer | Wordmark letters near the cursor lift out of the baseline. Command and back-to-top buttons are magnetic. |
+| Route changes | New pages rise from behind a closing mask (0.7 s). The first page skips it. Clip and transform clear on completion so fixed children are unaffected. |
+
+## Verification
+
+Production build, Chromium via Playwright, 1440 and 375 px, light and dark, reduced motion and touch: no page errors, no horizontal overflow, touch drag snaps on the grid demo, workflow reject and approve paths complete, loader absent under reduced motion. Detector: only the existing `overused-font` finding.
+
+## Open issues
+
+1. The edit demo sentence is illustrative and labelled "example edit, not client copy". Replace it with a real before and after if you have one you are allowed to show.
+2. The loader is 250 ms longer on first visit, which delays LCP by the same amount.
+3. `ResizeDemo` animates `width` and `left` inside its own small frame. It is isolated, but it is the one place that animates layout properties.

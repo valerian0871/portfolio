@@ -457,3 +457,81 @@ html.has-cursor textarea { cursor: text; }
 @media (min-width: 1024px) {
   .hero-player { width: auto; }
 }
+
+.loader-guide { background: var(--color-loader-line); }
+.loader-guide.is-dashed {
+  background: repeating-linear-gradient(90deg, var(--color-loader-line) 0 6px, transparent 6px 12px);
+}
+
+.ticker-text {
+  font-size: clamp(2rem, 5.6vw, 4.75rem);
+  line-height: 1.05;
+  letter-spacing: -0.04em;
+}
+
+.work-preview {
+  box-shadow: 0 30px 50px -24px rgba(0, 0, 0, 0.45);
+  border-radius: 6px;
+  will-change: transform;
+}
+
+/* Clips the rising reveal at the baseline only, so letters can lift above it. */
+.footer-letter { clip-path: inset(-60% -12% 0 -12%); }
+
+/* Practice demos */
+.demo-frame { container-type: inline-size; box-shadow: 0 18px 40px -28px rgba(0, 0, 0, 0.35); }
+.demo-grip { background: var(--color-text); box-shadow: 0 0 0 4px var(--color-bg), 0 0 0 5px var(--color-line); }
+.demo-handle { cursor: ew-resize; }
+.demo-handle:focus-visible { outline: none; }
+.demo-handle:focus-visible .demo-grip { box-shadow: 0 0 0 4px var(--color-bg), 0 0 0 6px var(--color-text); }
+
+.mini-h1 { font-size: 15px; line-height: 1.1; letter-spacing: -0.03em; max-width: 14ch; }
+.mini-img { min-height: 54px; }
+.mini-card { height: 34px; }
+.mini-grid { grid-template-columns: 1fr; }
+.mini-links { display: none; }
+@container (min-width: 300px) {
+  .mini-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@container (min-width: 420px) {
+  .mini-links { display: flex; }
+  .mini-burger { display: none; }
+  .mini-hero { grid-template-columns: 1.1fr 1fr; align-items: center; }
+  .mini-h1 { font-size: 22px; }
+  .mini-img { min-height: 120px; }
+  .mini-grid { grid-template-columns: repeat(3, 1fr); }
+  .mini-card { height: 46px; }
+}
+@container (min-width: 560px) {
+  .mini-h1 { font-size: 28px; }
+}
+
+.demo-guide { background: color-mix(in srgb, var(--color-text) 7%, transparent); transition: background-color 150ms var(--ease-standard); }
+.demo-guide.is-lit { background: var(--color-accent); }
+.demo-block { border-radius: 4px; }
+.demo-block:focus-visible { outline-offset: 1px; }
+.demo-block-headline { background: color-mix(in srgb, var(--color-bg) 70%, transparent); color: var(--color-text); outline: 1px dashed color-mix(in srgb, var(--color-text) 25%, transparent); }
+.demo-block-image { background: var(--color-surface); background-image: linear-gradient(135deg, transparent 49.6%, var(--color-line) 49.6% 50.4%, transparent 50.4%), linear-gradient(45deg, transparent 49.6%, var(--color-line) 49.6% 50.4%, transparent 50.4%); }
+.demo-block-logo { display: flex; align-items: center; justify-content: flex-end; padding: 10% 6%; }
+.demo-headline { font-size: clamp(15px, 2.2vw, 20px); line-height: 1.05; letter-spacing: -0.03em; }
+.demo-text-btn { text-decoration: underline; text-underline-offset: 3px; text-decoration-color: var(--color-line); }
+
+.edit-copy { font-size: clamp(1.25rem, 2.4vw, 1.75rem); line-height: 1.35; letter-spacing: -0.025em; max-width: none; }
+.edit-word.is-del { color: var(--color-muted); }
+.edit-word.is-ins { text-decoration: underline; text-decoration-color: var(--color-accent); text-decoration-thickness: 2px; text-underline-offset: 0.18em; }
+.edit-strike { background: var(--color-text); }
+.demo-step { color: var(--color-muted); transition: color 150ms var(--ease-standard); }
+.demo-step[aria-pressed='true'] { color: var(--color-bg); }
+
+.flow-node { border-color: var(--color-line); background: var(--color-bg); transition: background-color 200ms var(--ease-standard), border-color 200ms var(--ease-standard); }
+.flow-node.is-on { border-color: var(--color-text); background: var(--color-text); }
+.flow-label { transition: color 200ms var(--ease-standard); }
+
+.demo-pill {
+  display: inline-flex; align-items: center; min-height: 36px; padding: 0 14px;
+  border-radius: 999px; border: 1px solid var(--color-line); font-size: 13px; font-weight: 500;
+  color: var(--color-text); transition: background-color 150ms var(--ease-standard), opacity 150ms;
+}
+.demo-pill.is-solid { background: var(--color-text); color: var(--color-bg); border-color: var(--color-text); }
+.demo-pill:active:not(:disabled) { transform: scale(0.97); }
+.demo-pill:disabled { opacity: 0.4; }

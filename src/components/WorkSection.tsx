@@ -1,11 +1,19 @@
-import { motion } from 'motion/react'
+import { useState } from 'react'
+import { motion, useMotionValue } from 'motion/react'
+import type { Project } from '../data/content'
+import { useFinePointer } from '../hooks/useMediaQuery'
 import { useSite } from '../lib/SiteContext'
 import { springUI } from '../lib/motion'
 import { selectedProjects } from '../lib/site'
 import { MaskLines } from './site/Reveal'
+import { WorkPreview } from './site/WorkPreview'
 
 export function WorkSection() {
   const site = useSite()
+  const finePointer = useFinePointer()
+  const [hovered, setHovered] = useState<Project | null>(null)
+  const pointerX = useMotionValue(0)
+  const pointerY = useMotionValue(0)
 
   return (
     <section id="work" className="py-28 md:py-40">
@@ -29,7 +37,15 @@ export function WorkSection() {
           </div>
         </div>
 
-        <ol className="work-list border-b border-line">
+        <ol
+          className="work-list border-b border-line"
+          onPointerMove={(e) => {
+            if (e.pointerType !== 'mouse') return
+            pointerX.set(e.clientX)
+            pointerY.set(e.clientY)
+          }}
+          onPointerLeave={() => setHovered(null)}
+        >
           {selectedProjects.map((project, i) => (
             <motion.li
               key={project.slug}
@@ -38,6 +54,12 @@ export function WorkSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: '-5% 0px' }}
               transition={{ ...springUI, delay: Math.min(i, 5) * 0.06 }}
+              onPointerEnter={(e) => {
+                if (e.pointerType !== 'mouse') return
+                pointerX.set(e.clientX)
+                pointerY.set(e.clientY)
+                setHovered(project)
+              }}
             >
               <article className="flex items-center gap-4 border-t border-line py-5 md:py-6">
                 <span className="w-8 shrink-0 font-mono text-[11px] text-muted">
@@ -69,6 +91,7 @@ export function WorkSection() {
             </motion.li>
           ))}
         </ol>
+        {finePointer && <WorkPreview project={hovered} x={pointerX} y={pointerY} />}
       </div>
     </section>
   )

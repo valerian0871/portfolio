@@ -33,7 +33,7 @@ Unlike conventional single-discipline developers who stop at markup, Prosper bri
 
 ## Capabilities and Constraints
 
-- Four practices (Frontend Development, Graphics Design, Content & Copywriting, AI Automation), switchable in the Services section.
+- Four practices (Frontend Development, Graphics Design, Content & Copywriting, AI Automation), switchable in the Services section, each with a small interactive demo (resize a layout, snap a post to a grid, run an edit pass, run the Instagram workflow).
 - Live sites load on demand in sandboxed frames for verified production URLs (`cakesnpastries.com.ng`, `smartcbt.com.ng`, `facons.edu.ng`, `topvision.ng`); the screenshot is shown first. No simulated "live" effects.
 - Lightbox asset viewer with keyboard navigation (`ArrowLeft`, `ArrowRight`, `Escape`).
 - Hero record player: visitors choose to play one track by placing the needle; a floating pause control follows them; pause/resume keeps position; lifting the needle rewinds. Audio never loads until played.
@@ -43,8 +43,8 @@ Unlike conventional single-discipline developers who stop at markup, Prosper bri
 ## Brand Commitments
 
 - Name: Prosper Kayode.
-- Aesthetic tone: Editorial, restrained, authentic, craftsman-like. Inter Tight display, Inter body, monospaced metadata (numbers, years, tools, time).
-- Signature identity: a short intro where "Prosper Kayode" sets in and flies into the top-bar wordmark; a morphing ink "island" that carries navigation, the services switcher, contact and the command palette. (Runethia is a personal-use demo font and is not used.)
+- Aesthetic tone: Editorial, authentic, craftsman-like, with confident motion (owner decision, 2026-10-26: "bold but on-brand"). Same palette, type and island; motion carries the voice. Inter Tight display, Inter body, monospaced metadata (numbers, years, tools, time).
+- Signature identity: a letterpress intro where the sorts of "Prosper Kayode" drop in mirrored, kern in and turn readable on a type grid, then fly into the top-bar wordmark; a morphing ink "island" that carries navigation, the services switcher, contact and the command palette. (Runethia is a personal-use demo font and is not used.)
 - Palette & theme: Near-white paper (`#FAFAF8` light / `#0E0E0D` dark), ink `#111111`, hairlines `#E2E1DB` / `#2A2A27`. One forest-green accent (`#7FBFA8` on the ink island / `#1F5245` on the light island) for the availability dot only. Follows the system light/dark setting.
 
 ## Evidence on Hand

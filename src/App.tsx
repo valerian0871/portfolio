@@ -1,5 +1,8 @@
 import { useCallback, useEffect, useState } from 'react'
-import { MotionConfig } from 'motion/react'
+import { MotionConfig, motion } from 'motion/react'
+import type { ReactNode } from 'react'
+import { easeOutStrong } from './lib/motion'
+import { PracticeTicker } from './components/site/PracticeTicker'
 import { Hero } from './components/Hero'
 import { WorkSection } from './components/WorkSection'
 import { ServicesSection } from './components/ServicesSection'
@@ -94,10 +97,13 @@ export default function App() {
 
 function Routes({ route, heroReady }: { route: string; heroReady: boolean }) {
   const site = useSite()
+  const showCase = Boolean(site.caseSlug) && (route === '/' || route === '/work')
 
-  if (site.caseSlug && (route === '/' || route === '/work')) {
-    return <CaseStudy key={site.caseSlug} slug={site.caseSlug} />
-  }
+  return <PageEnter key={showCase ? `case:${site.caseSlug}` : route}>{renderRoute(route, heroReady, showCase ? site.caseSlug : null)}</PageEnter>
+}
+
+function renderRoute(route: string, heroReady: boolean, caseSlug: string | null) {
+  if (caseSlug) return <CaseStudy slug={caseSlug} />
   if (route === '/work') return <WorkPage />
   if (route === '/about') return <AboutPage />
   if (route === '/contact') return <ContactPage />
@@ -105,10 +111,33 @@ function Routes({ route, heroReady }: { route: string; heroReady: boolean }) {
   return (
     <>
       <Hero ready={heroReady} />
+      <PracticeTicker />
       <WorkSection />
       <ServicesSection />
       <AboutSection />
       <ContactSection />
     </>
+  )
+}
+
+let firstPage = true
+
+// Each route change lifts the new page up from behind a closing mask. The
+// first page skips it, because the loader already owns that entrance.
+function PageEnter({ children }: { children: ReactNode }) {
+  const [skip] = useState(() => {
+    const was = firstPage
+    firstPage = false
+    return was
+  })
+
+  return (
+    <motion.div
+      initial={skip ? false : { opacity: 0, y: 48, clipPath: 'inset(10% 0% 0% 0%)' }}
+      animate={{ opacity: 1, y: 0, clipPath: 'inset(0% 0% 0% 0%)', transitionEnd: { clipPath: 'none' } }}
+      transition={{ duration: 0.7, ease: easeOutStrong }}
+    >
+      {children}
+    </motion.div>
   )
 }

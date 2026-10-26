@@ -4,6 +4,7 @@ import { easeOutStrong } from '../lib/motion'
 import { practiceTabs } from '../lib/site'
 import { MaskLines } from './site/Reveal'
 import { Segmented } from './site/Segmented'
+import { PracticeDemo } from './demos/PracticeDemo'
 
 const tabItems = practiceTabs.map((tab) => ({ id: tab.id, label: tab.label }))
 
@@ -65,7 +66,10 @@ export function ServicesSection() {
                   </motion.li>
                 ))}
               </ul>
-              <p className="mt-8 max-w-[60ch] text-[15px] leading-[1.6] text-muted">{tab.description}</p>
+              <div className="mt-10">
+                <PracticeDemo practice={tab.id} />
+              </div>
+              <p className="mt-10 max-w-[60ch] text-[15px] leading-[1.6] text-muted">{tab.description}</p>
               <div className="mt-8 flex flex-wrap items-center gap-1.5">
                 <span className="mr-2 font-mono text-[11px] text-muted">Tools in my work</span>
                 {tab.tools.map((tool) => (
